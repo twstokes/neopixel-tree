@@ -7,8 +7,8 @@ A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adaf
 * 3 ft. miniature Christmas Tree
 * [NodeMCU (ESP8266)](https://www.amazon.com/dp/B010O1G1ES/ref=cm_sw_em_r_mt_dp_U_fFc5DbDY3S39B)
 * 3 strands of [Adafruit NeoPixels 1 meter strips](https://www.adafruit.com/product/1460?length=1) - 30 LEDs a strand
-* 1 [NeoPixel ring] (https://www.adafruit.com/product/1463) for the star
-* [74AHCT125] (https://www.adafruit.com/product/1787) level shifter (to shift the 3V logic to 5V for the NeoPixels)
+* 1 [NeoPixel ring](https://www.adafruit.com/product/1463) for the star
+* [74AHCT125](https://www.adafruit.com/product/1787) level shifter (to shift the 3V logic to 5V for the NeoPixels)
 * [4700uF 10v capacitor](https://www.adafruit.com/product/1589)
 * [5V 10A power supply](https://www.adafruit.com/product/658)
 * [470 ohm resistor](https://www.adafruit.com/product/2781) for NeoPixel input
