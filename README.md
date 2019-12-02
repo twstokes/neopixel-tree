@@ -23,7 +23,7 @@ A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adaf
 * Uploaded using [PlatformIO](https://platformio.org/)
 
 ## Notes
-* I originally went with an AdaFruit HUZZAH (ESP8266) but replaced it with the NodeMCU for the built in Schottky diode when protoyping and having the USB as well as external power connected. The NodeMCU also includes a voltage divider for inputs which don't matter as much in this application, but could if something like a microphone were to be added for changing lights to music.
+* I originally went with an Adafruit HUZZAH (ESP8266) but replaced it with the NodeMCU for the built in Schottky diode when protoyping and having the USB as well as external power connected. The NodeMCU also includes a voltage divider for inputs which don't matter as much in this application, but could if something like a microphone were to be added for changing lights to music.
 * I regret using solid core wiring for this application. D'oh.
 
 ### Power distribution
