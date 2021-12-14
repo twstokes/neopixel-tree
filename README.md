@@ -13,7 +13,7 @@ A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adaf
 * [5V 10A power supply](https://www.adafruit.com/product/658)
 * [470 ohm resistor](https://www.adafruit.com/product/2781) for NeoPixel input
 * Optional terminal blocks [main power](https://www.adafruit.com/product/677)  / [for perma-proto](https://www.adafruit.com/product/724)
-* Optional [permaproto board](https://www.adafruit.com/product/1609)
+* Optional [perma-proto board](https://www.adafruit.com/product/1609)
 * Optional wrapping paper (that will have to be ripped open when servicing the box)
 
 ![Fritzing output of project](docs/fritzing.png)
