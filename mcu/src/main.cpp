@@ -1,10 +1,9 @@
-#include "Arduino.h"
-
+#include <Arduino.h>
+#include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
-#include <Adafruit_NeoPixel.h>
-
+#include "commands.h"
 #include "sequences.h"
 #include "wifi_config.h"
 
@@ -14,11 +13,13 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN, NEO_GRB + NEO_KHZ8
 
 WiFiUDP Udp;
 #define UDP_PORT 8733
+
 char packet[255];
 
 /*
   TODO:
     Brightness command
+    Ability to toggle gamma8
 
     Sequences:
       - off
@@ -30,7 +31,6 @@ char packet[255];
       - variable speeds of sequences that take a delay parameter
 
 */
-
 
 void setup() {
   strip.begin();
@@ -62,7 +62,7 @@ void loop() {
   if (packetSize) {
     int len = Udp.read(packet, 255);
     if (len > 0) {
-      
+        process_command(packet[0], NULL, &strip); 
     }
   }
 
