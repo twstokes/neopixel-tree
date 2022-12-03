@@ -78,6 +78,6 @@ void loop() {
   // theaterChase(&strip, strip.Color(0, 0, 127), 50); // Blue
 
   // rainbow(&strip, 20);
-  rainbowCycle(&strip, 20);
+  // rainbowCycle(&strip, 20);
   // theaterChaseRainbow(&strip, 50);
 }
