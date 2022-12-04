@@ -11,26 +11,16 @@
 #define PIXEL_COUNT 106
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN, NEO_GRB + NEO_KHZ800);
 
-WiFiUDP Udp;
 #define UDP_PORT 8733
+WiFiUDP Udp;
 
-char packet[255];
+// the max buffer size to read from the UDP packet should be at least
+// the size of (PIXEL_COUNT * 3) + 1 byte (for the command)
+// since we have a command that can set all pixels to unique values
+// and each pixel needs a byte per channel (RGB)
+#define UDP_BUFFER_SIZE 255
+uint8_t packet[UDP_BUFFER_SIZE];
 
-/*
-  TODO:
-    Brightness command
-        - save between restarts?
-    Ability to toggle gamma8
-
-    Sequences:
-      - off
-      - color wipe
-      - theater chase
-      - rainbow
-      - rainbow cycle
-      - theater chase rainbow
-      - variable speeds of sequences that take a delay parameter
-*/
 
 // initialize the strip and turn off all LEDs
 void start_strip() {
@@ -38,12 +28,14 @@ void start_strip() {
     strip.show();
 }
 
+// start WiFi with visual feedback
 void start_wifi() {
   uint32_t orange = strip.gamma32(strip.Color(255, 87, 51));
   uint32_t green = strip.Color(0, 255, 0);
 
   // set the strip to orange before establishing a WiFi connection
   fill_and_show(&strip, orange);
+
   WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, password);
 
@@ -52,7 +44,7 @@ void start_wifi() {
     theaterChase(&strip, orange, 50);
   }
 
-  // WiFi is good - go green
+  // set the strip to green on success
   fill_and_show(&strip, green);
   delay(1000);
 }
@@ -68,26 +60,11 @@ void setup() {
 }
 
 void loop() {
-  int packetSize = Udp.parsePacket();
-  if (packetSize) {
-    int len = Udp.read(packet, 255);
-    if (len > 0) {
-        process_command(packet[0], NULL, &strip); 
+  if (Udp.parsePacket()) {
+    uint8_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
+    if (command_packet_length) {
+        process_command(packet[0], &packet[1], command_packet_length - 1, &strip);
     }
   }
-
-
-  // Some example procedures showing how to display to the pixels:
-  // colorWipe(&strip, strip.Color(255, 0, 0), 50); // Red
-  // colorWipe(&strip, strip.Color(0, 255, 0), 50); // Green
-  // colorWipe(&strip, strip.Color(0, 0, 255), 50); // Blue
-
-  // Send a theater pixel chase in...
-  // theaterChase(&strip, strip.Color(127, 127, 127), 50); // White
-  // theaterChase(&strip, strip.Color(127, 0, 0), 50); // Red
-  // theaterChase(&strip, strip.Color(0, 0, 127), 50); // Blue
-
-  // rainbow(&strip, 20);
-  // rainbowCycle(&strip, 20);
-  // theaterChaseRainbow(&strip, 50);
 }
+

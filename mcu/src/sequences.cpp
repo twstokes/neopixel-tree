@@ -1,8 +1,10 @@
 #include "sequences.h"
 
 /* 
- * many of these sequences are examples
- * included in the Adafruit NeoPixels library
+ * Many of these sequences are from examples
+ * included in the Adafruit NeoPixels library.
+ *
+ * https://github.com/adafruit/Adafruit_NeoPixel
 */
 
 // fill the strip with the provided color and show immediately
