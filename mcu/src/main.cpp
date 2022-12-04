@@ -14,10 +14,6 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN, NEO_GRB + NEO_KHZ8
 #define UDP_PORT 8733
 WiFiUDP Udp;
 
-// the max buffer size to read from the UDP packet should be at least
-// the size of (PIXEL_COUNT * 3) + 1 byte (for the command)
-// since we have a command that can set all pixels to unique values
-// and each pixel needs a byte per channel (RGB)
 #define UDP_BUFFER_SIZE 255
 uint8_t packet[UDP_BUFFER_SIZE];
 
