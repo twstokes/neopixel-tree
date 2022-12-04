@@ -19,7 +19,7 @@ A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adaf
 ![Fritzing output of project](docs/fritzing.png)
 
 ## Firmware
-* Currently the [demo NeoPixel code](https://github.com/adafruit/Adafruit_NeoPixel/blob/master/examples/strandtest/strandtest.ino)
+* Runs a UDP server to accept commands over the network. See [MCU README](/mcu/README.md).
 * Uploaded using [PlatformIO](https://platformio.org/)
 
 ## Notes
