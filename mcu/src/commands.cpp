@@ -27,7 +27,7 @@ void process_command(uint8_t c, uint8_t *data, uint8_t len, Adafruit_NeoPixel *s
             rainbow(20, strip);
             break;
         case RAINBOW_CYCLE:
-            rainbowCycle(20, strip);
+            rainbow_cycle(20, strip);
             break;
     }
 }
@@ -51,3 +51,4 @@ void fill_color(uint8_t *data, Adafruit_NeoPixel *strip) {
     uint32_t c = strip->Color(data[0], data[1], data[2]);
     fill_and_show(strip->gamma32(c), strip);
 }
+

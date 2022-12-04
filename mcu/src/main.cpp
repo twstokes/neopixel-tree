@@ -20,8 +20,8 @@ uint8_t packet[UDP_BUFFER_SIZE];
 
 // initialize the strip and turn off all LEDs
 void start_strip() {
-    strip.begin();
-    strip.show();
+  strip.begin();
+  strip.show();
 }
 
 // start WiFi with visual feedback
@@ -37,7 +37,7 @@ void start_wifi() {
 
   while (WiFi.status() != WL_CONNECTED) {
     // give it a moment to connect by running a theater chase sequence
-    theaterChase(orange, 50, &strip);
+    theater_chase(orange, 50, &strip);
   }
 
   // set the strip to green on success
@@ -46,7 +46,7 @@ void start_wifi() {
 }
 
 void start_udp() {
-    Udp.begin(UDP_PORT);
+  Udp.begin(UDP_PORT);
 }
 
 void setup() {
