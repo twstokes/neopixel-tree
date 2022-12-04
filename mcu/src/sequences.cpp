@@ -1,7 +1,18 @@
 #include "sequences.h"
 
-// Input a value 0 to 255 to get a color value.
-// The colours are a transition r - g - b - back to r.
+/* 
+ * many of these sequences are examples
+ * included in the Adafruit NeoPixels library
+*/
+
+// fill the strip with the provided color and show immediately
+void fill_and_show(Adafruit_NeoPixel *strip, uint32_t c) {
+    strip->fill(c);
+    strip->show();
+}
+
+// input a value 0 to 255 to get a color value
+// the colors are a transition r - g - b - back to r
 uint32_t Wheel(Adafruit_NeoPixel *strip, byte WheelPos) {
   WheelPos = 255 - WheelPos;
   if(WheelPos < 85) {
@@ -15,7 +26,7 @@ uint32_t Wheel(Adafruit_NeoPixel *strip, byte WheelPos) {
   return strip->Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
 
-// Fill the dots one after the other with a color
+// fill the LEDs one after the other with a color
 void colorWipe(Adafruit_NeoPixel *strip, uint32_t c, uint8_t wait) {
   for(uint16_t i=0; i<strip->numPixels(); i++) {
     strip->setPixelColor(i, c);
@@ -36,7 +47,7 @@ void rainbow(Adafruit_NeoPixel *strip, uint8_t wait) {
   }
 }
 
-// Slightly different, this makes the rainbow equally distributed throughout
+// make rainbow equally distributed throughout
 void rainbowCycle(Adafruit_NeoPixel *strip, uint8_t wait) {
   uint16_t i, j;
 
@@ -49,7 +60,7 @@ void rainbowCycle(Adafruit_NeoPixel *strip, uint8_t wait) {
   }
 }
 
-//Theatre-style crawling lights.
+// theater-style crawling lights
 void theaterChase(Adafruit_NeoPixel *strip, uint32_t c, uint8_t wait) {
   for (int j=0; j<10; j++) {  //do 10 cycles of chasing
     for (int q=0; q < 3; q++) {
@@ -67,7 +78,7 @@ void theaterChase(Adafruit_NeoPixel *strip, uint32_t c, uint8_t wait) {
   }
 }
 
-//Theatre-style crawling lights with rainbow effect
+// theater-style crawling lights with rainbow effect
 void theaterChaseRainbow(Adafruit_NeoPixel *strip, uint8_t wait) {
   for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
     for (int q=0; q < 3; q++) {

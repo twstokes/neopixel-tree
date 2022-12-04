@@ -19,6 +19,7 @@ char packet[255];
 /*
   TODO:
     Brightness command
+        - save between restarts?
     Ability to toggle gamma8
 
     Sequences:
@@ -29,32 +30,41 @@ char packet[255];
       - rainbow cycle
       - theater chase rainbow
       - variable speeds of sequences that take a delay parameter
-
 */
 
-void setup() {
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
-  // strip.setBrightness(10);
+// initialize the strip and turn off all LEDs
+void start_strip() {
+    strip.begin();
+    strip.show();
+}
 
-  // set the strip to orange before establing a wifi connection
-  strip.fill(strip.Color(strip.gamma8(255), strip.gamma8(87), strip.gamma8(51)));
-  strip.show();
+void start_wifi() {
+  uint32_t orange = strip.gamma32(strip.Color(255, 87, 51));
+  uint32_t green = strip.Color(0, 255, 0);
 
+  // set the strip to orange before establishing a WiFi connection
+  fill_and_show(&strip, orange);
   WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
     // give it a moment to connect by running a theater chase sequence
-    theaterChase(&strip, strip.Color(strip.gamma8(255), strip.gamma8(87), strip.gamma8(51)), 50);
+    theaterChase(&strip, orange, 50);
   }
 
-  // wifi is good - go green
-  strip.fill(strip.Color(strip.gamma8(0), strip.gamma8(255), strip.gamma8(0)));
-  strip.show();
+  // WiFi is good - go green
+  fill_and_show(&strip, green);
   delay(1000);
+}
 
-  Udp.begin(UDP_PORT);
+void start_udp() {
+    Udp.begin(UDP_PORT);
+}
+
+void setup() {
+  start_strip();
+  start_wifi();
+  start_udp();
 }
 
 void loop() {
