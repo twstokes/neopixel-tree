@@ -34,18 +34,18 @@ void start_wifi() {
   uint32_t green = strip.Color(0, 255, 0);
 
   // set the strip to orange before establishing a WiFi connection
-  fill_and_show(&strip, orange);
+  fill_and_show(orange, &strip);
 
   WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
     // give it a moment to connect by running a theater chase sequence
-    theaterChase(&strip, orange, 50);
+    theaterChase(orange, 50, &strip);
   }
 
   // set the strip to green on success
-  fill_and_show(&strip, green);
+  fill_and_show(green, &strip);
   delay(1000);
 }
 

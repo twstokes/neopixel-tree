@@ -8,14 +8,14 @@
 */
 
 // fill the strip with the provided color and show immediately
-void fill_and_show(Adafruit_NeoPixel *strip, uint32_t c) {
+void fill_and_show(uint32_t c, Adafruit_NeoPixel *strip) {
     strip->fill(c);
     strip->show();
 }
 
 // input a value 0 to 255 to get a color value
 // the colors are a transition r - g - b - back to r
-uint32_t Wheel(Adafruit_NeoPixel *strip, byte WheelPos) {
+uint32_t Wheel(byte WheelPos, Adafruit_NeoPixel *strip) {
   WheelPos = 255 - WheelPos;
   if(WheelPos < 85) {
     return strip->Color(255 - WheelPos * 3, 0, WheelPos * 3);
@@ -29,7 +29,7 @@ uint32_t Wheel(Adafruit_NeoPixel *strip, byte WheelPos) {
 }
 
 // fill the LEDs one after the other with a color
-void colorWipe(Adafruit_NeoPixel *strip, uint32_t c, uint8_t wait) {
+void colorWipe(uint32_t c, uint8_t wait, Adafruit_NeoPixel *strip) {
   for(uint16_t i=0; i<strip->numPixels(); i++) {
     strip->setPixelColor(i, c);
     strip->show();
@@ -37,12 +37,12 @@ void colorWipe(Adafruit_NeoPixel *strip, uint32_t c, uint8_t wait) {
   }
 }
 
-void rainbow(Adafruit_NeoPixel *strip, uint8_t wait) {
+void rainbow(uint8_t wait, Adafruit_NeoPixel *strip) {
   uint16_t i, j;
 
   for(j=0; j<256; j++) {
     for(i=0; i<strip->numPixels(); i++) {
-      strip->setPixelColor(i, Wheel(strip, (i+j) & 255));
+      strip->setPixelColor(i, Wheel((i+j) & 255, strip));
     }
     strip->show();
     delay(wait);
@@ -50,12 +50,12 @@ void rainbow(Adafruit_NeoPixel *strip, uint8_t wait) {
 }
 
 // make rainbow equally distributed throughout
-void rainbowCycle(Adafruit_NeoPixel *strip, uint8_t wait) {
+void rainbowCycle(uint8_t wait, Adafruit_NeoPixel *strip) {
   uint16_t i, j;
 
   for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
     for(i=0; i< strip->numPixels(); i++) {
-      strip->setPixelColor(i, Wheel(strip, ((i * 256 / strip->numPixels()) + j) & 255));
+      strip->setPixelColor(i, Wheel(((i * 256 / strip->numPixels()) + j) & 255, strip));
     }
     strip->show();
     delay(wait);
@@ -63,7 +63,7 @@ void rainbowCycle(Adafruit_NeoPixel *strip, uint8_t wait) {
 }
 
 // theater-style crawling lights
-void theaterChase(Adafruit_NeoPixel *strip, uint32_t c, uint8_t wait) {
+void theaterChase(uint32_t c, uint8_t wait, Adafruit_NeoPixel *strip) {
   for (int j=0; j<10; j++) {  //do 10 cycles of chasing
     for (int q=0; q < 3; q++) {
       for (uint16_t i=0; i < strip->numPixels(); i=i+3) {
@@ -81,11 +81,11 @@ void theaterChase(Adafruit_NeoPixel *strip, uint32_t c, uint8_t wait) {
 }
 
 // theater-style crawling lights with rainbow effect
-void theaterChaseRainbow(Adafruit_NeoPixel *strip, uint8_t wait) {
+void theaterChaseRainbow(uint8_t wait, Adafruit_NeoPixel *strip) {
   for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
     for (int q=0; q < 3; q++) {
       for (uint16_t i=0; i < strip->numPixels(); i=i+3) {
-        strip->setPixelColor(i+q, Wheel(strip, (i+j) % 255));    //turn every third pixel on
+        strip->setPixelColor(i+q, Wheel((i+j) % 255, strip));    //turn every third pixel on
       }
       strip->show();
 
