@@ -1,112 +1,70 @@
-#include "Arduino.h"
+#include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
+#include <ESP8266WiFi.h>
+#include <WiFiUdp.h>
+
+#include "commands.h"
+#include "sequences.h"
+#include "wifi_config.h"
 
 #define PIN D1
+#define PIXEL_COUNT 106
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN, NEO_GRB + NEO_KHZ800);
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(106, PIN, NEO_GRB + NEO_KHZ800);
+#define UDP_PORT 8733
+WiFiUDP Udp;
 
-// Input a value 0 to 255 to get a color value.
-// The colours are a transition r - g - b - back to r.
-uint32_t Wheel(byte WheelPos) {
-  WheelPos = 255 - WheelPos;
-  if(WheelPos < 85) {
-    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
-  }
-  if(WheelPos < 170) {
-    WheelPos -= 85;
-    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
-  }
-  WheelPos -= 170;
-  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
-}
+// the max buffer size to read from the UDP packet should be at least
+// the size of (PIXEL_COUNT * 3) + 1 byte (for the command)
+// since we have a command that can set all pixels to unique values
+// and each pixel needs a byte per channel (RGB)
+#define UDP_BUFFER_SIZE 255
+uint8_t packet[UDP_BUFFER_SIZE];
 
-// Fill the dots one after the other with a color
-void colorWipe(uint32_t c, uint8_t wait) {
-  for(uint16_t i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, c);
+
+// initialize the strip and turn off all LEDs
+void start_strip() {
+    strip.begin();
     strip.show();
-    delay(wait);
-  }
 }
 
-void rainbow(uint8_t wait) {
-  uint16_t i, j;
+// start WiFi with visual feedback
+void start_wifi() {
+  uint32_t orange = strip.gamma32(strip.Color(255, 87, 51));
+  uint32_t green = strip.Color(0, 255, 0);
 
-  for(j=0; j<256; j++) {
-    for(i=0; i<strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel((i+j) & 255));
-    }
-    strip.show();
-    delay(wait);
+  // set the strip to orange before establishing a WiFi connection
+  fill_and_show(&strip, orange);
+
+  WiFi.config(ip, gateway, subnet);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    // give it a moment to connect by running a theater chase sequence
+    theaterChase(&strip, orange, 50);
   }
+
+  // set the strip to green on success
+  fill_and_show(&strip, green);
+  delay(1000);
 }
 
-// Slightly different, this makes the rainbow equally distributed throughout
-void rainbowCycle(uint8_t wait) {
-  uint16_t i, j;
-
-  for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
-    for(i=0; i< strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
-    }
-    strip.show();
-    delay(wait);
-  }
-}
-
-//Theatre-style crawling lights.
-void theaterChase(uint32_t c, uint8_t wait) {
-  for (int j=0; j<10; j++) {  //do 10 cycles of chasing
-    for (int q=0; q < 3; q++) {
-      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, c);    //turn every third pixel on
-      }
-      strip.show();
-
-      delay(wait);
-
-      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, 0);        //turn every third pixel off
-      }
-    }
-  }
-}
-
-//Theatre-style crawling lights with rainbow effect
-void theaterChaseRainbow(uint8_t wait) {
-  for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
-    for (int q=0; q < 3; q++) {
-      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, Wheel( (i+j) % 255));    //turn every third pixel on
-      }
-      strip.show();
-
-      delay(wait);
-
-      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, 0);        //turn every third pixel off
-      }
-    }
-  }
+void start_udp() {
+    Udp.begin(UDP_PORT);
 }
 
 void setup() {
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
+  start_strip();
+  start_wifi();
+  start_udp();
 }
 
 void loop() {
-  // Some example procedures showing how to display to the pixels:
-  colorWipe(strip.Color(255, 0, 0), 50); // Red
-  colorWipe(strip.Color(0, 255, 0), 50); // Green
-  colorWipe(strip.Color(0, 0, 255), 50); // Blue
-
-  // Send a theater pixel chase in...
-  theaterChase(strip.Color(127, 127, 127), 50); // White
-  theaterChase(strip.Color(127, 0, 0), 50); // Red
-  theaterChase(strip.Color(0, 0, 127), 50); // Blue
-
-  rainbow(20);
-  rainbowCycle(20);
-  theaterChaseRainbow(50);
+  if (Udp.parsePacket()) {
+    uint8_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
+    if (command_packet_length) {
+        process_command(packet[0], &packet[1], command_packet_length - 1, &strip);
+    }
+  }
 }
+
