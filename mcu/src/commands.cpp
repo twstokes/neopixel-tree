@@ -24,10 +24,10 @@ void process_command(uint8_t c, uint8_t *data, uint8_t len, Adafruit_NeoPixel *s
             fill_color(data, strip);
             break;
         case RAINBOW:
-            rainbow(strip, 20);
+            rainbow(20, strip);
             break;
         case RAINBOW_CYCLE:
-            rainbowCycle(strip, 20);
+            rainbowCycle(20, strip);
             break;
     }
 }
@@ -49,5 +49,5 @@ void pixel_color(uint8_t *data, Adafruit_NeoPixel *strip) {
 // uses gamma correction
 void fill_color(uint8_t *data, Adafruit_NeoPixel *strip) {
     uint32_t c = strip->Color(data[0], data[1], data[2]);
-    fill_and_show(strip, strip->gamma32(c));
+    fill_and_show(strip->gamma32(c), strip);
 }
