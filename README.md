@@ -17,11 +17,15 @@ A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adaf
 * Optional [perma-proto board](https://www.adafruit.com/product/1609)
 * Optional wrapping paper (that will have to be ripped open when servicing the box)
 
-![Fritzing output of project](docs/fritzing.png)
+<img src="docs/fritzing.png" width="600px" />
 
 ## Firmware
 * Runs a UDP server to accept commands over the network. See [MCU README](/mcu/README.md).
 * Uploaded using [PlatformIO](https://platformio.org/)
+
+## Client
+
+Right now there's a basic iOS app that sends UDP packets to the tree.
 
 ## Notes
 * I originally went with an Adafruit HUZZAH (ESP8266) but replaced it with the NodeMCU for the built in Schottky diode when protoyping and having the USB as well as external power connected. The NodeMCU also includes a voltage divider for inputs which don't matter as much in this application, but could if something like a microphone were to be added for changing lights to music.
