@@ -13,6 +13,16 @@ void fill_and_show(uint32_t c, Adafruit_NeoPixel *strip) {
     strip->show();
 }
 
+// fills the strip by repeating the colors provided in array c
+// len is the number of colors in array c
+// number of provided colors can't exceed number of unique pixels
+void fill_pattern(uint32_t *c, uint8_t len, Adafruit_NeoPixel *strip) {
+    for (int i=0; i<strip->numPixels(); i++) {
+        strip->setPixelColor(i, c[i % len]);
+    }
+    strip->show();
+}
+
 // input a value 0 to 255 to get a color value
 // the colors are a transition r - g - b - back to r
 uint32_t wheel(byte wheel_pos, Adafruit_NeoPixel *strip) {
