@@ -10,13 +10,14 @@ void process_command(uint8_t c, uint8_t *data, uint8_t len, Adafruit_NeoPixel *s
     switch (c) {
         case OFF:
             strip->clear();
+            strip->show();
             break;
         case BRIGHTNESS:
             if (len != 1) return;
             brightness_cmd(data[0], strip);
             break;
         case PIXEL_COLOR:
-            if (len != 2) return;
+            if (len != 4) return;
             pixel_color_cmd(data, strip);
             break;
         case FILL_COLOR:
@@ -57,20 +58,23 @@ void fill_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
 }
 
 // fills the strip by repeating the provided color(s)
-// number of provided colors can't exceed number of unique pixels
-// only supports RGB pixels
+// uses gamma correction
 void fill_pattern_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
     // rgb - 1 byte per channel
-    const uint8_t pixel_channels = 3;
+    const uint8_t num_channels = 3;
     // the first byte is the number of colors provided
+    // note: not the number of channels
     uint8_t len = data[0];
+    // numer of provided colors can't exceed number of pixels
+    if (len > strip->numPixels()) return;
     // stores all the colors provided
-    uint32_t c[len * pixel_channels];
-    // pointer to color channel
-    uint8_t *chan_ptr = data + 1;
+    uint32_t c[len * num_channels];
+    // pointer to first color channel
+    uint8_t *chan_ptr = &data[1];
     for (int i=0; i<len; i++) {
-        c[i] = strip->Color(*chan_ptr, *(chan_ptr + 1), *(chan_ptr + 2));
-        chan_ptr += pixel_channels;
+        uint32_t color = strip->Color(*chan_ptr, *(chan_ptr + 1), *(chan_ptr + 2));
+        c[i] = strip->gamma32(color);
+        chan_ptr += num_channels;
     }
     fill_pattern(c, len, strip);
 }
