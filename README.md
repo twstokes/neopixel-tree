@@ -1,7 +1,8 @@
 # NeoPixel Tree 🎄
 A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adafruit-neopixel-uberguide/the-magic-of-neopixels) and an [ESP8266](https://en.wikipedia.org/wiki/ESP8266)
 
-![GIF of tree showing colors](docs/tree.gif)
+
+<img height="450px" src="docs/tree.gif" /><img height="450px" src="docs/app.gif" />
 
 ## Hardware
 * 3 ft. miniature Christmas Tree
