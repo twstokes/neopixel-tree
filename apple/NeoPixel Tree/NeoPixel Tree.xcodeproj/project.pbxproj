@@ -1,0 +1,400 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */; };
+		C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8F293D8F790042E1F6 /* ContentView.swift */; };
+		C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C384ED91293D8F7A0042E1F6 /* Assets.xcassets */; };
+		C384ED95293D8F7A0042E1F6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C384ED94293D8F7A0042E1F6 /* Preview Assets.xcassets */; };
+		C384ED9D293D8FD50042E1F6 /* UDPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED9C293D8FD50042E1F6 /* UDPClient.swift */; };
+		C384ED9F293D90510042E1F6 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED9E293D90510042E1F6 /* Command.swift */; };
+		C384EDA1293D91220042E1F6 /* PixelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384EDA0293D91220042E1F6 /* PixelColor.swift */; };
+		C384EDA5293D94BE0042E1F6 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384EDA4293D94BE0042E1F6 /* ContentViewModel.swift */; };
+		C384EDA8293D95880042E1F6 /* Color+PixelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384EDA7293D95880042E1F6 /* Color+PixelColor.swift */; };
+		C384EDAA293D969D0042E1F6 /* UIColor+RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384EDA9293D969D0042E1F6 /* UIColor+RGB.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NeoPixel Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeoPixel_TreeApp.swift; sourceTree = "<group>"; };
+		C384ED8F293D8F790042E1F6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C384ED91293D8F7A0042E1F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C384ED94293D8F7A0042E1F6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C384ED9C293D8FD50042E1F6 /* UDPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDPClient.swift; sourceTree = "<group>"; };
+		C384ED9E293D90510042E1F6 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		C384EDA0293D91220042E1F6 /* PixelColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelColor.swift; sourceTree = "<group>"; };
+		C384EDA4293D94BE0042E1F6 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		C384EDA7293D95880042E1F6 /* Color+PixelColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+PixelColor.swift"; sourceTree = "<group>"; };
+		C384EDA9293D969D0042E1F6 /* UIColor+RGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RGB.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C384ED87293D8F790042E1F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C384ED81293D8F790042E1F6 = {
+			isa = PBXGroup;
+			children = (
+				C384ED8C293D8F790042E1F6 /* NeoPixel Tree */,
+				C384ED8B293D8F790042E1F6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C384ED8B293D8F790042E1F6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C384ED8C293D8F790042E1F6 /* NeoPixel Tree */ = {
+			isa = PBXGroup;
+			children = (
+				C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */,
+				C384EDA6293D95760042E1F6 /* Extensions */,
+				C384ED9B293D8FC70042E1F6 /* Models */,
+				C384EDA3293D94A50042E1F6 /* Views */,
+				C384EDA2293D94960042E1F6 /* View Models */,
+				C384ED91293D8F7A0042E1F6 /* Assets.xcassets */,
+				C384ED93293D8F7A0042E1F6 /* Preview Content */,
+			);
+			path = "NeoPixel Tree";
+			sourceTree = "<group>";
+		};
+		C384ED93293D8F7A0042E1F6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C384ED94293D8F7A0042E1F6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C384ED9B293D8FC70042E1F6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C384ED9C293D8FD50042E1F6 /* UDPClient.swift */,
+				C384ED9E293D90510042E1F6 /* Command.swift */,
+				C384EDA0293D91220042E1F6 /* PixelColor.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C384EDA2293D94960042E1F6 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				C384EDA4293D94BE0042E1F6 /* ContentViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		C384EDA3293D94A50042E1F6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C384ED8F293D8F790042E1F6 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C384EDA6293D95760042E1F6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C384EDA7293D95880042E1F6 /* Color+PixelColor.swift */,
+				C384EDA9293D969D0042E1F6 /* UIColor+RGB.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C384ED89293D8F790042E1F6 /* NeoPixel Tree */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C384ED98293D8F7A0042E1F6 /* Build configuration list for PBXNativeTarget "NeoPixel Tree" */;
+			buildPhases = (
+				C384ED86293D8F790042E1F6 /* Sources */,
+				C384ED87293D8F790042E1F6 /* Frameworks */,
+				C384ED88293D8F790042E1F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "NeoPixel Tree";
+			productName = "NeoPixel Tree";
+			productReference = C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C384ED82293D8F790042E1F6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1410;
+				TargetAttributes = {
+					C384ED89293D8F790042E1F6 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+				};
+			};
+			buildConfigurationList = C384ED85293D8F790042E1F6 /* Build configuration list for PBXProject "NeoPixel Tree" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C384ED81293D8F790042E1F6;
+			productRefGroup = C384ED8B293D8F790042E1F6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C384ED89293D8F790042E1F6 /* NeoPixel Tree */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C384ED88293D8F790042E1F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C384ED95293D8F7A0042E1F6 /* Preview Assets.xcassets in Resources */,
+				C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C384ED86293D8F790042E1F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C384EDA1293D91220042E1F6 /* PixelColor.swift in Sources */,
+				C384ED9D293D8FD50042E1F6 /* UDPClient.swift in Sources */,
+				C384EDA5293D94BE0042E1F6 /* ContentViewModel.swift in Sources */,
+				C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */,
+				C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */,
+				C384ED9F293D90510042E1F6 /* Command.swift in Sources */,
+				C384EDA8293D95880042E1F6 /* Color+PixelColor.swift in Sources */,
+				C384EDAA293D969D0042E1F6 /* UIColor+RGB.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C384ED96293D8F7A0042E1F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C384ED97293D8F7A0042E1F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C384ED99293D8F7A0042E1F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"NeoPixel Tree/Preview Content\"";
+				DEVELOPMENT_TEAM = AE76EV48ND;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tannr.NeoPixel-Tree";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C384ED9A293D8F7A0042E1F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"NeoPixel Tree/Preview Content\"";
+				DEVELOPMENT_TEAM = AE76EV48ND;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tannr.NeoPixel-Tree";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C384ED85293D8F790042E1F6 /* Build configuration list for PBXProject "NeoPixel Tree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C384ED96293D8F7A0042E1F6 /* Debug */,
+				C384ED97293D8F7A0042E1F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C384ED98293D8F7A0042E1F6 /* Build configuration list for PBXNativeTarget "NeoPixel Tree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C384ED99293D8F7A0042E1F6 /* Debug */,
+				C384ED9A293D8F7A0042E1F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C384ED82293D8F790042E1F6 /* Project object */;
+}
