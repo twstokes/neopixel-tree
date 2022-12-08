@@ -14,7 +14,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN, NEO_GRB + NEO_KHZ8
 #define UDP_PORT 8733
 WiFiUDP Udp;
 
-#define UDP_BUFFER_SIZE 255
+#define UDP_BUFFER_SIZE 512
 uint8_t packet[UDP_BUFFER_SIZE];
 
 
