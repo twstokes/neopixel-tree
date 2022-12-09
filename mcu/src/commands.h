@@ -16,5 +16,5 @@ void process_command(uint8_t c, uint8_t *data, uint8_t len, Adafruit_NeoPixel *s
 void brightness_cmd(uint8_t b, Adafruit_NeoPixel *strip);
 void pixel_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
 void fill_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
-void fill_pattern_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
+void fill_pattern_cmd(uint8_t *data, uint8_t len, Adafruit_NeoPixel *strip);
 

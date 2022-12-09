@@ -26,7 +26,7 @@ void process_command(uint8_t c, uint8_t *data, uint8_t len, Adafruit_NeoPixel *s
             break;
         case FILL_PATTERN:
             if (len < 4) return;
-            fill_pattern_cmd(data, strip);
+            fill_pattern_cmd(data, len, strip);
             break;
         case RAINBOW:
             rainbow(20, strip);
@@ -68,11 +68,14 @@ void unpack_colors_from_data(uint8_t *data, uint8_t num_colors, uint32_t *colors
 
 // fills the strip by repeating the provided color(s)
 // uses gamma correction
-void fill_pattern_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
+void fill_pattern_cmd(uint8_t *data, uint8_t len, Adafruit_NeoPixel *strip) {
     // the first byte is the number of colors provided
     // note: not the total number of bytes
     const uint8_t num_colors = data[0];
-    // numer of provided colors can't exceed number of pixels
+    // the remaining number of bytes in data must
+    // be equal to num_colors * 3
+    if ((len - 1) != num_colors * 3) return;
+    // number of provided colors can't exceed number of pixels
     if (num_colors > strip->numPixels()) return;
     // stores all the colors provided
     uint32_t c[num_colors * 3];
