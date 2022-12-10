@@ -55,7 +55,7 @@ void start_ota() {
   ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     if (total == 0) return;
     // fills the pixel strip based on OTA progress
-    float perc = (float)progress / float(total);
+    float perc = (float)progress / (float)total;
     uint32_t blue = strip.Color(0, 0, 255);
     fill_percent(blue, perc, &strip);
   });
