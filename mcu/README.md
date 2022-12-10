@@ -1,3 +1,9 @@
+### Important notes
+
+Local serial connection sequence:
+1. Power the tree with 5V external power
+2. Connect to the MCU via USB
+
 ### Setup
 
 - Copy `src/wifi_config.h.sample` to `src/wifi_config.h` and fill in the appropriate values.
