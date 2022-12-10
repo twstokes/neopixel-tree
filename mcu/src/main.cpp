@@ -49,15 +49,28 @@ void start_wifi() {
 
 // starts OTA updates capability and uses the
 // NeoPixel strip to show update progress
-void start_ota(Adafruit_NeoPixel *strip) {
+void start_ota() {
   ArduinoOTA.setPassword(ota_pass);
 
-  ArduinoOTA.onProgress([strip](unsigned int progress, unsigned int total) {
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     if (total == 0) return;
     // fills the pixel strip based on OTA progress
     float perc = (float)progress / float(total);
-    uint32_t blue = strip->Color(0, 0, 255);
-    fill_percent(blue, perc, strip);
+    uint32_t blue = strip.Color(0, 0, 255);
+    fill_percent(blue, perc, &strip);
+  });
+
+  ArduinoOTA.onStart([]() {
+    // stop whatever sequence is currently running
+    // so upload progress is shown
+    strip.clear();
+    strip.show();
+  });
+
+  ArduinoOTA.onEnd([]() {
+  });
+
+  ArduinoOTA.onError([](ota_error_t error) {
   });
 
   bool useMDNS = false;
@@ -72,6 +85,7 @@ void setup() {
   start_strip();
   start_wifi();
   start_udp();
+  start_ota();
 }
 
 void loop() {
