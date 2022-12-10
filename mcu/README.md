@@ -1,6 +1,7 @@
 ### Setup
 
-Copy `src/wifi_config.h.sample` to `src/wifi_config.h` and fill in the appropriate values.
+- Copy `src/wifi_config.h.sample` to `src/wifi_config.h` and fill in the appropriate values.
+- Copy `src/ota_config.h.sample` to `src/ota_config.h` and fill in the appropriate values.
 
 ### Command Protocol
 
