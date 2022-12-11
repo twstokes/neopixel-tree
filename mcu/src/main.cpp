@@ -91,7 +91,7 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
   if (Udp.parsePacket()) {
-    uint8_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
+    uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
     if (command_packet_length) {
         process_command(packet[0], &packet[1], command_packet_length - 1, &strip);
     }
