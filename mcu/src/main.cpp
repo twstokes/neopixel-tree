@@ -55,36 +55,42 @@ void start_wifi() {
 void start_ota() {
   ArduinoOTA.setPassword(ota_pass);
 
-  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-    if (total == 0) return;
-    // fills the pixel strip based on OTA progress
-    float perc = (float)progress / (float)total;
-    uint32_t blue = strip.Color(0, 0, 255);
-    fill_percent(blue, perc, &strip);
-  });
+  ArduinoOTA.onProgress(
+    [](unsigned int progress, unsigned int total) {
+      if (total == 0) return;
+      // fills the pixel strip based on OTA progress
+      float perc = (float)progress / (float)total;
+      uint32_t blue = strip.Color(0, 0, 255);
+      fill_percent(blue, perc, &strip);
+    }
+  );
 
-  ArduinoOTA.onStart([]() {
-    // stop whatever sequence is currently running
-    // so upload progress is shown
-    strip.clear();
-    strip.show();
-  });
+  ArduinoOTA.onStart(
+    []() {
+      // stop whatever sequence is currently running
+      // so upload progress is shown
+      strip.clear();
+      strip.show();
+    }
+  );
 
-  ArduinoOTA.onEnd([]() {
-  });
+  ArduinoOTA.onEnd(
+    []() {
+    }
+  );
 
-  ArduinoOTA.onError([](ota_error_t error) {
-  });
+  ArduinoOTA.onError(
+    [](ota_error_t error) {
+    }
+  );
 
-  bool useMDNS = false;
-  ArduinoOTA.begin(useMDNS);
 }
 
 void start_udp() {
   Udp.begin(UDP_PORT);
 }
 
-bool process_packet(Packet *packet) {
+bool process_packet(Packet* packet) {
   return process_command(packet->command, packet->data, packet->data_len, &strip);
 }
 
@@ -104,7 +110,7 @@ void loop() {
       repeat_packet = process_packet(&latest_packet);
     }
   } else if (repeat_packet) {
-      process_packet(&latest_packet);
+    process_packet(&latest_packet);
   }
 }
 
