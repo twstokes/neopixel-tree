@@ -84,6 +84,7 @@ void start_ota() {
     }
   );
 
+  ArduinoOTA.begin(ota_useMDNS);
 }
 
 void start_udp() {
