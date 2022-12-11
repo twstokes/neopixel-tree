@@ -58,10 +58,10 @@ void start_ota() {
   ArduinoOTA.onProgress(
     [](unsigned int progress, unsigned int total) {
       if (total == 0) return;
-      // fills the pixel strip based on OTA progress
-      float perc = (float)progress / (float)total;
-      uint32_t blue = strip.Color(0, 0, 255);
-      fill_percent(blue, perc, &strip);
+  // fills the pixel strip based on OTA progress
+  float perc = (float)progress / (float)total;
+  uint32_t blue = strip.Color(0, 0, 255);
+  fill_percent(blue, perc, &strip);
     }
   );
 
@@ -70,7 +70,7 @@ void start_ota() {
       // stop whatever sequence is currently running
       // so upload progress is shown
       strip.clear();
-      strip.show();
+  strip.show();
     }
   );
 
@@ -110,8 +110,8 @@ void loop() {
       cmd_packet_from_raw_packet(&latest_packet, packet, command_packet_length - 1);
       repeat_packet = process_packet(&latest_packet);
     }
-  } else if (repeat_packet) {
+  }
+  else if (repeat_packet) {
     process_packet(&latest_packet);
   }
 }
-
