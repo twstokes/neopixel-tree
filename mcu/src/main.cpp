@@ -16,7 +16,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN, NEO_GRB + NEO_KHZ8
 #define UDP_PORT 8733
 WiFiUDP Udp;
 
-#define UDP_BUFFER_SIZE 255
+#define UDP_BUFFER_SIZE 512
 uint8_t packet[UDP_BUFFER_SIZE];
 
 
@@ -91,7 +91,7 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
   if (Udp.parsePacket()) {
-    uint8_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
+    uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
     if (command_packet_length) {
         process_command(packet[0], &packet[1], command_packet_length - 1, &strip);
     }
