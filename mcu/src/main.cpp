@@ -32,10 +32,10 @@ void start_strip() {
 // start WiFi with visual feedback
 void start_wifi() {
   uint32_t green = strip.Color(0, 255, 0);
-  uint32_t orange = strip.gamma32(strip.Color(255, 87, 51));
+  uint32_t orange = strip.Color(255, 87, 51);
 
   // set the strip to orange before establishing a WiFi connection
-  fill_and_show(orange, &strip);
+  fill_and_show(strip.gamma32(orange), &strip);
 
   WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, wifi_pass);
