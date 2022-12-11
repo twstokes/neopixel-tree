@@ -1,6 +1,6 @@
+#include <Adafruit_NeoPixel.h>
 #include <Arduino.h>
 #include <ArduinoOTA.h>
-#include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
@@ -11,7 +11,8 @@
 
 #define PIN D1
 #define PIXEL_COUNT 106
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip =
+    Adafruit_NeoPixel(PIXEL_COUNT, PIN, NEO_GRB + NEO_KHZ800);
 
 #define UDP_PORT 8733
 WiFiUDP Udp;
@@ -55,44 +56,34 @@ void start_wifi() {
 void start_ota() {
   ArduinoOTA.setPassword(ota_pass);
 
-  ArduinoOTA.onProgress(
-    [](unsigned int progress, unsigned int total) {
-      if (total == 0) return;
-  // fills the pixel strip based on OTA progress
-  float perc = (float)progress / (float)total;
-  uint32_t blue = strip.Color(0, 0, 255);
-  fill_percent(blue, perc, &strip);
-    }
-  );
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    if (total == 0)
+      return;
+    // fills the pixel strip based on OTA progress
+    float perc = (float)progress / (float)total;
+    uint32_t blue = strip.Color(0, 0, 255);
+    fill_percent(blue, perc, &strip);
+  });
 
-  ArduinoOTA.onStart(
-    []() {
-      // stop whatever sequence is currently running
-      // so upload progress is shown
-      strip.clear();
-  strip.show();
-    }
-  );
+  ArduinoOTA.onStart([]() {
+    // stop whatever sequence is currently running
+    // so upload progress is shown
+    strip.clear();
+    strip.show();
+  });
 
-  ArduinoOTA.onEnd(
-    []() {
-    }
-  );
+  ArduinoOTA.onEnd([]() {});
 
-  ArduinoOTA.onError(
-    [](ota_error_t error) {
-    }
-  );
+  ArduinoOTA.onError([](ota_error_t error) {});
 
   ArduinoOTA.begin(ota_useMDNS);
 }
 
-void start_udp() {
-  Udp.begin(UDP_PORT);
-}
+void start_udp() { Udp.begin(UDP_PORT); }
 
-bool process_packet(Packet* packet) {
-  return process_command(packet->command, packet->data, packet->data_len, &strip);
+bool process_packet(Packet *packet) {
+  return process_command(packet->command, packet->data, packet->data_len,
+                         &strip);
 }
 
 void setup() {
@@ -107,11 +98,11 @@ void loop() {
   if (Udp.parsePacket()) {
     uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
     if (command_packet_length) {
-      cmd_packet_from_raw_packet(&latest_packet, packet, command_packet_length - 1);
+      cmd_packet_from_raw_packet(&latest_packet, packet,
+                                 command_packet_length - 1);
       repeat_packet = process_packet(&latest_packet);
     }
-  }
-  else if (repeat_packet) {
+  } else if (repeat_packet) {
     process_packet(&latest_packet);
   }
 }

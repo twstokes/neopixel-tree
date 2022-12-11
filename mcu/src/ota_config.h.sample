@@ -1,3 +1,3 @@
 
-const char* ota_pass = "xxxx";
+const char *ota_pass = "xxxx";
 bool ota_useMDNS = false;
