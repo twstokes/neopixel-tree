@@ -31,9 +31,11 @@ bool process_command(uint8_t c, uint8_t *data, uint16_t len, Adafruit_NeoPixel *
             fill_pattern_cmd(data, len, strip);
             break;
         case RAINBOW:
+            if (len != 1) break;
             rainbow(20, strip);
             return data[0];
         case RAINBOW_CYCLE:
+            if (len != 1) break;
             rainbow_cycle(20, strip);
             return data[0];
     }
