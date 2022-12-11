@@ -100,9 +100,7 @@ void loop() {
   if (Udp.parsePacket()) {
     uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
     if (command_packet_length) {
-      latest_packet.command = packet[0];
-      latest_packet.data = &packet[1];
-      latest_packet.data_len = command_packet_length - 1;
+      cmd_packet_from_raw_packet(&latest_packet, packet, command_packet_length - 1);
       repeat_packet = process_packet(&latest_packet);
     }
   } else if (repeat_packet) {

@@ -41,6 +41,12 @@ bool process_command(uint8_t c, uint8_t *data, uint16_t len, Adafruit_NeoPixel *
     return false;
 }
 
+void cmd_packet_from_raw_packet(Packet *cmd_packet, uint8_t *raw_packet, uint16_t data_len) {
+    cmd_packet->command = raw_packet[0];
+    cmd_packet->data = data_len > 0 ? &raw_packet[1] : NULL;
+    cmd_packet->data_len = data_len;
+}
+
 void brightness_cmd(uint8_t b, Adafruit_NeoPixel *strip) {
     strip->setBrightness(b);
 }
