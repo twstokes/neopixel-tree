@@ -1,9 +1,11 @@
 #include <Arduino.h>
+#include <ArduinoOTA.h>
 #include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
 #include "commands.h"
+#include "ota_config.h"
 #include "sequences.h"
 #include "wifi_config.h"
 
@@ -33,7 +35,7 @@ void start_wifi() {
   fill_and_show(orange, &strip);
 
   WiFi.config(ip, gateway, subnet);
-  WiFi.begin(ssid, password);
+  WiFi.begin(ssid, wifi_pass);
 
   while (WiFi.status() != WL_CONNECTED) {
     // give it a moment to connect by running a theater chase sequence
@@ -45,6 +47,36 @@ void start_wifi() {
   delay(1000);
 }
 
+// starts OTA updates capability and uses the
+// NeoPixel strip to show update progress
+void start_ota() {
+  ArduinoOTA.setPassword(ota_pass);
+
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    if (total == 0) return;
+    // fills the pixel strip based on OTA progress
+    float perc = (float)progress / (float)total;
+    uint32_t blue = strip.Color(0, 0, 255);
+    fill_percent(blue, perc, &strip);
+  });
+
+  ArduinoOTA.onStart([]() {
+    // stop whatever sequence is currently running
+    // so upload progress is shown
+    strip.clear();
+    strip.show();
+  });
+
+  ArduinoOTA.onEnd([]() {
+  });
+
+  ArduinoOTA.onError([](ota_error_t error) {
+  });
+
+  bool useMDNS = false;
+  ArduinoOTA.begin(useMDNS);
+}
+
 void start_udp() {
   Udp.begin(UDP_PORT);
 }
@@ -53,9 +85,11 @@ void setup() {
   start_strip();
   start_wifi();
   start_udp();
+  start_ota();
 }
 
 void loop() {
+  ArduinoOTA.handle();
   if (Udp.parsePacket()) {
     uint8_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
     if (command_packet_length) {

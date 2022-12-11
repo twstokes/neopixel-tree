@@ -23,6 +23,21 @@ void fill_pattern(uint32_t *c, uint8_t len, Adafruit_NeoPixel *strip) {
     strip->show();
 }
 
+// fills the strip from 0 to 100%
+// p is the progress from 0 to 1
+// c is the color
+void fill_percent(uint32_t c, float p, Adafruit_NeoPixel *strip) {
+    //  p must be between 0 and 1
+    if (p < 0) { p = 0; }
+    if (p > 1) { p = 1; }
+
+    int lastPixel = strip->numPixels() * p;
+    for (int i=0; i<lastPixel; i++) {
+        strip->setPixelColor(i, c);
+    }
+    strip->show();
+}
+
 // input a value 0 to 255 to get a color value
 // the colors are a transition r - g - b - back to r
 uint32_t wheel(byte wheel_pos, Adafruit_NeoPixel *strip) {

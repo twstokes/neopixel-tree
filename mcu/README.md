@@ -1,6 +1,23 @@
+### Important notes
+
+The tree should not be powered by the USB connection alone.
+
+Local serial connection sequence:
+1. Power the tree with 5V external power
+2. Connect to the MCU via USB
+
 ### Setup
 
-Copy `src/wifi_config.h.sample` to `src/wifi_config.h` and fill in the appropriate values.
+- Copy `src/wifi_config.h.sample` to `src/wifi_config.h` and fill in the appropriate values.
+- Copy `src/ota_config.h.sample` to `src/ota_config.h` and fill in the appropriate values.
+
+### Firmware upload environments
+
+`pio run -e [env name]`
+
+- `local` - for connecting locally via serial
+- `ota` - for Over The Air uploads
+  - Currently needs `upload_port` and `upload_flags` to be set in `platformio.ini`
 
 ### Command Protocol
 

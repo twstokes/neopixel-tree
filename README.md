@@ -21,7 +21,7 @@ A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adaf
 
 ## Firmware
 * Runs a UDP server to accept commands over the network. See [MCU README](/mcu/README.md).
-* Uploaded using [PlatformIO](https://platformio.org/)
+* Uploaded using [PlatformIO](https://platformio.org/) and supports local or OTA updates.
 
 ## Client
 
