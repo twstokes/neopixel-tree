@@ -1,0 +1,5 @@
+
+UDP_IP = ''
+UDP_PORT = 8733
+PIXEL_COUNT = 106
+

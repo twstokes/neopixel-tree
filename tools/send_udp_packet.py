@@ -1,9 +1,8 @@
 import socket
+from config import UDP_IP, UDP_PORT
+import commands
 
-UDP_IP = ''
-UDP_PORT = 8733
-
-command = [2]
+command = [commands.rainbow]
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.sendto(bytes(command), (UDP_IP, UDP_PORT))
