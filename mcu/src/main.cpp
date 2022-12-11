@@ -19,6 +19,9 @@ WiFiUDP Udp;
 #define UDP_BUFFER_SIZE 512
 uint8_t packet[UDP_BUFFER_SIZE];
 
+Packet latest_packet;
+// if true, the last received packet will be repeated
+bool repeat_packet = false;
 
 // initialize the strip and turn off all LEDs
 void start_strip() {
@@ -81,6 +84,10 @@ void start_udp() {
   Udp.begin(UDP_PORT);
 }
 
+bool process_packet(Packet *packet) {
+  return process_command(packet->command, packet->data, packet->data_len, &strip);
+}
+
 void setup() {
   start_strip();
   start_wifi();
@@ -93,8 +100,11 @@ void loop() {
   if (Udp.parsePacket()) {
     uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
     if (command_packet_length) {
-        process_command(packet[0], &packet[1], command_packet_length - 1, &strip);
+      cmd_packet_from_raw_packet(&latest_packet, packet, command_packet_length - 1);
+      repeat_packet = process_packet(&latest_packet);
     }
+  } else if (repeat_packet) {
+      process_packet(&latest_packet);
   }
 }
 

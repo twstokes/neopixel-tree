@@ -5,36 +5,48 @@
  * @param   data    Optional array of bytes to use for the command
  * @param   len     Length of data in bytes
  * @param   strip   Pointer to NeoPixel strip
+ *
+ * Returns bool if the command should be repeated
 */
-void process_command(uint8_t c, uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
+bool process_command(uint8_t c, uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
     switch (c) {
         case OFF:
             strip->clear();
             strip->show();
             break;
         case BRIGHTNESS:
-            if (len != 1) return;
+            if (len != 1) break;
             brightness_cmd(data[0], strip);
             break;
         case PIXEL_COLOR:
-            if (len != 4) return;
+            if (len != 4) break;
             pixel_color_cmd(data, strip);
             break;
         case FILL_COLOR:
-            if (len != 3) return;
+            if (len != 3) break;
             fill_color_cmd(data, strip);
             break;
         case FILL_PATTERN:
-            if (len < 5) return;
+            if (len < 5) break;
             fill_pattern_cmd(data, len, strip);
             break;
         case RAINBOW:
+            if (len != 1) break;
             rainbow(20, strip);
-            break;
+            return data[0];
         case RAINBOW_CYCLE:
+            if (len != 1) break;
             rainbow_cycle(20, strip);
-            break;
+            return data[0];
     }
+
+    return false;
+}
+
+void cmd_packet_from_raw_packet(Packet *cmd_packet, uint8_t *raw_packet, uint16_t data_len) {
+    cmd_packet->command = raw_packet[0];
+    cmd_packet->data = data_len > 0 ? &raw_packet[1] : NULL;
+    cmd_packet->data_len = data_len;
 }
 
 void brightness_cmd(uint8_t b, Adafruit_NeoPixel *strip) {
