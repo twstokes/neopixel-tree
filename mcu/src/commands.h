@@ -9,7 +9,8 @@ enum command {
   FILL_COLOR,
   FILL_PATTERN,
   RAINBOW,
-  RAINBOW_CYCLE
+  RAINBOW_CYCLE,
+  THEATER_CHASE
 };
 
 struct Packet {
@@ -26,3 +27,4 @@ void brightness_cmd(uint8_t b, Adafruit_NeoPixel *strip);
 void pixel_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
 void fill_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
 void fill_pattern_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
+bool theater_chase_cmd(uint8_t *data, Adafruit_NeoPixel *strip);

@@ -45,6 +45,10 @@ bool process_command(uint8_t c, uint8_t *data, uint16_t len,
       break;
     rainbow_cycle(20, strip);
     return data[0];
+  case THEATER_CHASE:
+    if (len != 4)
+      break;
+    return theater_chase_cmd(data, strip);
   }
 
   return false;
@@ -105,4 +109,11 @@ void fill_pattern_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
   uint32_t c[num_colors * 3];
   unpack_colors_from_data(&data[2], num_colors, c);
   fill_pattern(c, num_colors, strip);
+}
+
+bool theater_chase_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
+  uint8_t repeat = data[0];
+  uint32_t c = strip->Color(data[1], data[2], data[3]);
+  theater_chase(c, 20, strip);
+  return repeat;
 }
