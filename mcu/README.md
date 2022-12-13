@@ -8,6 +8,7 @@ Local serial connection sequence:
 
 ### Setup
 
+- Install `clang-format`
 - Copy `src/wifi_config.h.sample` to `src/wifi_config.h` and fill in the appropriate values.
 - Copy `src/ota_config.h.sample` to `src/ota_config.h` and fill in the appropriate values.
 
