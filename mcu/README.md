@@ -23,11 +23,6 @@
 
 `pio run -e [env name]`
 
-```
-| command | command data  |
-| 1 byte  | 1 - 254 bytes |
-```
-
 ### Uploading
 
 `pio run -e [env name] -t upload`
