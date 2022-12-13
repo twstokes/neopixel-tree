@@ -12,3 +12,9 @@ struct PixelColor {
     let g: Int
     let b: Int
 }
+
+extension PixelColor {
+    func toIntArray() -> [Int] {
+        return [r, g, b]
+    }
+}

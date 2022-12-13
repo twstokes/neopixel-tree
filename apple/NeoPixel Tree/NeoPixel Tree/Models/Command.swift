@@ -12,35 +12,55 @@ enum Command {
     case brightness(level: Int)
     case pixel_color(offset: Int, color: PixelColor)
     case fill_color(color: PixelColor)
-    case fill_pattern(colors: [PixelColor])
-    case rainbow
-    case rainbow_cycle
+    case fill_pattern(count: Int, colors: [PixelColor])
+    case rainbow(repeat: Bool)
+    case rainbow_cycle(repeat: Bool)
+    case theater_chase(color: PixelColor)
+    case readback
 
-    var commandByte: UInt8 {
+    var id: Int {
         switch self {
         case .off:
             return 0
-        case .brightness(level: _):
+        case .brightness:
             return 1
-        case .pixel_color(offset: _, color: _):
+        case .pixel_color:
             return 2
-        case .fill_color(color: _):
+        case .fill_color:
             return 3
-        case .fill_pattern(colors: _):
+        case .fill_pattern:
             return 4
         case .rainbow:
             return 5
         case .rainbow_cycle:
             return 6
+        case .theater_chase:
+            return 7
+        case .readback:
+            return 255
         }
     }
 
-    var payload: UDPPayload? {
+    var payload: [Int] {
         switch self {
+        case .off:
+            return []
+        case .brightness(let level):
+            return [level]
+        case .pixel_color(let offset, let color):
+            return [offset] + color.toIntArray()
         case .fill_color(let color):
-            return UDPPayload(command: self.commandByte, values: [color.r, color.g, color.b])
-        default:
-            return nil
+            return color.toIntArray()
+        case .fill_pattern(let count, let colors):
+            return [count] + colors.flatMap { $0.toIntArray() }
+        case .rainbow(let `repeat`):
+            return [`repeat`.toInt()]
+        case .rainbow_cycle(let `repeat`):
+            return [`repeat`.toInt()]
+        case .theater_chase(let color):
+            return color.toIntArray()
+        case .readback:
+            return []
         }
     }
 }

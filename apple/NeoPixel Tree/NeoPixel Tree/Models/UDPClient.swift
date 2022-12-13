@@ -33,9 +33,7 @@ struct UDPClient {
     }
 
     func send(_ command: Command) {
-        guard let payload = command.payload else {
-            return
-        }
+        let payload = UDPPayload(command: command)
         send(payload) { error in
             if let error = error {
                 print("Error: \(error)")
@@ -57,12 +55,17 @@ struct UDPClient {
 }
 
 struct UDPPayload {
-    let command: UInt8
+    let command: Int
     let values: [Int]
+
+    init(command: Command) {
+        self.command = command.id
+        self.values = command.payload
+    }
 
     func toData() -> Data {
         let uint8Values = values.map { UInt8($0) }
-        return Data([command] + uint8Values)
+        return Data([UInt8(command)] + uint8Values)
     }
 }
 

@@ -17,6 +17,7 @@
 		C384EDA5293D94BE0042E1F6 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384EDA4293D94BE0042E1F6 /* ContentViewModel.swift */; };
 		C384EDA8293D95880042E1F6 /* Color+PixelColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384EDA7293D95880042E1F6 /* Color+PixelColor.swift */; };
 		C384EDAA293D969D0042E1F6 /* UIColor+RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384EDA9293D969D0042E1F6 /* UIColor+RGB.swift */; };
+		C3A539652948278800D3FC3D /* Bool+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A539642948278800D3FC3D /* Bool+Int.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		C384EDA4293D94BE0042E1F6 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		C384EDA7293D95880042E1F6 /* Color+PixelColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+PixelColor.swift"; sourceTree = "<group>"; };
 		C384EDA9293D969D0042E1F6 /* UIColor+RGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RGB.swift"; sourceTree = "<group>"; };
+		C3A539642948278800D3FC3D /* Bool+Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Int.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 			children = (
 				C384EDA7293D95880042E1F6 /* Color+PixelColor.swift */,
 				C384EDA9293D969D0042E1F6 /* UIColor+RGB.swift */,
+				C3A539642948278800D3FC3D /* Bool+Int.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 				C384EDA1293D91220042E1F6 /* PixelColor.swift in Sources */,
 				C384ED9D293D8FD50042E1F6 /* UDPClient.swift in Sources */,
 				C384EDA5293D94BE0042E1F6 /* ContentViewModel.swift in Sources */,
+				C3A539652948278800D3FC3D /* Bool+Int.swift in Sources */,
 				C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */,
 				C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */,
 				C384ED9F293D90510042E1F6 /* Command.swift in Sources */,
