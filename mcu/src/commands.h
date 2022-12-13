@@ -10,7 +10,8 @@ enum command {
   FILL_PATTERN,
   RAINBOW,
   RAINBOW_CYCLE,
-  THEATER_CHASE
+  THEATER_CHASE,
+  READBACK = 255
 };
 
 struct Packet {

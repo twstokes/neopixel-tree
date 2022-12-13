@@ -73,9 +73,7 @@ void start_ota() {
   });
 
   ArduinoOTA.onEnd([]() {});
-
   ArduinoOTA.onError([](ota_error_t error) {});
-
   ArduinoOTA.begin(ota_useMDNS);
 }
 
@@ -96,11 +94,20 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
   if (Udp.parsePacket()) {
-    uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
-    if (command_packet_length) {
-      cmd_packet_from_raw_packet(&latest_packet, packet,
-                                 command_packet_length - 1);
-      repeat_packet = process_packet(&latest_packet);
+    if (Udp.peek() == READBACK) {
+      // special command to send back to the client
+      // the last packet received, i.e. the running command
+      Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+      Udp.write(packet, UDP_BUFFER_SIZE);
+      Udp.endPacket();
+      Udp.flush();
+    } else {
+      uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
+      if (command_packet_length) {
+        cmd_packet_from_raw_packet(&latest_packet, packet,
+                                   command_packet_length - 1);
+        repeat_packet = process_packet(&latest_packet);
+      }
     }
   } else if (repeat_packet) {
     process_packet(&latest_packet);
