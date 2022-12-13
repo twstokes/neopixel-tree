@@ -31,7 +31,7 @@ bool process_command(uint8_t c, uint8_t *data, uint16_t len,
     fill_color_cmd(data, strip);
     break;
   case FILL_PATTERN:
-    if (len < 5)
+    if (len < 4)
       break;
     fill_pattern_cmd(data, len, strip);
     break;
