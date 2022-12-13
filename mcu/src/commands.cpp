@@ -92,26 +92,22 @@ void unpack_colors_from_data(uint8_t *data, uint8_t num_colors,
   }
 }
 
-// TODO - there's no need to have a uint16_t
-// for the number of colors provided - we don't have more than
-// 2^8 pixels.
-//
 // fills the strip by repeating the provided color(s)
 // uses gamma correction
 void fill_pattern_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
   // the first two bytes are the number of colors provided
   // note: not the total number of bytes
-  const uint16_t num_colors = (data[0] << 8) | data[1];
+  const uint8_t num_colors = data[0];
   // the remaining number of bytes in data must
   // be equal to num_colors * 3
-  if ((len - 2) != num_colors * 3)
+  if (len - 1 != num_colors * 3)
     return;
   // number of provided colors can't exceed number of pixels
   if (num_colors > strip->numPixels())
     return;
   // stores all the colors provided
   uint32_t c[num_colors * 3];
-  unpack_colors_from_data(&data[2], num_colors, c);
+  unpack_colors_from_data(&data[1], num_colors, c);
   fill_pattern(c, num_colors, strip);
 }
 
