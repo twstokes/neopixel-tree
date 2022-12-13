@@ -49,12 +49,16 @@ Commands are received on the MCU via UDP packets. Each packet starts with a 1-by
 - For values that are larger than 1 byte, we use big-endian.
 - Parameter table rows correspond to data byte indices (row 0 is byte 0).
 
+---
+
 ### Off
 
 Turns off the LEDs.
 
 Parameters:
 - None
+
+----
 
 ### Brightness
 
@@ -64,6 +68,7 @@ Sets the brightness of the LEDs.
 | - | - |
 | Level | `0 - 255` |
 
+----
 
 ### Pixel Color
 
@@ -76,6 +81,8 @@ Sets the color of a single pixel.
 | Green | `0 - 255` |
 | Blue | `0 - 255` |
 
+---
+
 ### Fill Color
 
 Fills all LEDs with a single color.
@@ -85,6 +92,8 @@ Fills all LEDs with a single color.
 | Red | `0 - 255` |
 | Green | `0 - 255` |
 | Blue | `0 - 255` |
+
+---
 
 ### Pattern Fill
 
@@ -99,6 +108,8 @@ Fills the tree by repeating the colors provided.
 
 Red, green, and blue parameters can be repeated up to `PIXEl_COUNT` times.
 
+---
+
 ### Rainbow
 
 Animates the tree with a colorful rainbow effect. Repeatable.
@@ -107,6 +118,8 @@ Animates the tree with a colorful rainbow effect. Repeatable.
 | - | - |
 | Repeat | `0 - 1` |
 
+---
+
 ### Rainbow Cycle
 
 Like Rainbow, but colors are equally distributed. Repeatable.
@@ -114,6 +127,8 @@ Like Rainbow, but colors are equally distributed. Repeatable.
 | Parameter | Value |
 | - | - |
 | Repeat | `0 - 1` |
+
+---
 
 ### Theater Chase
 
