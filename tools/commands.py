@@ -5,3 +5,4 @@ fill_color=3
 fill_pattern=4
 rainbow=5
 rainbow_cycle=6
+readback=255
