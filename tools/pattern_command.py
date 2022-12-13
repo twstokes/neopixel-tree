@@ -12,6 +12,4 @@ for x in range(PIXEL_COUNT):
 print(len(colors))
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.sendto(bytes(command) + pack(">H", int(len(colors) / 3)) + bytes(colors), (UDP_IP, UDP_PORT))
-# this command should have no effect as the second byte doesn't equal len(colors) * 3
-#sock.sendto(bytes(command + [100] + colors), (UDP_IP, UDP_PORT))
+sock.sendto(bytes(command + [int(len(colors) / 3)] + colors), (UDP_IP, UDP_PORT))

@@ -1,9 +1,8 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "xxxx";
-const char* wifi_pass = "xxxx";
+const char *ssid = "xxxx";
+const char *wifi_pass = "xxxx";
 
 IPAddress ip(x, x, x, x);
 IPAddress gateway(x, x, x, x);
 IPAddress subnet(x, x, x, x);
-
