@@ -149,7 +149,7 @@ A special command used by clients to get the currently running sequence on the t
 
 This command takes no parameters. The data received shouldn't be larger than `UDP_BUFFER_SIZE`.
 
-Important note: Currently it's the responsibility of the reciever to know what bytes are valid, depending on the command. For instance:
+**Important note:** Currently it's the responsibility of the reciever to know what bytes are valid, depending on the command. For instance:
 
 1. The Pattern Fill command is sent with 10 colors (at least 30 bytes)
 2. The Rainbow command is sent.
@@ -157,4 +157,4 @@ Important note: Currently it's the responsibility of the reciever to know what b
 
 Because the Readback command sends the raw packet buffer and doesn't factor in the total length of the Rainbow command, it'll contain the previous values from setup 1. The client should know (based on byte 0) that the tree is running the Rainbow command and to only read the valid bytes.
 
-If the Pattern Fill command is being read, pay attention to the number of colors to know how many bytes to expect.
+If the Pattern Fill command is being read, pay attention to the byte with the number of colors to know how many subsequent bytes to expect.
