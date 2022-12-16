@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "whisper.spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ggerganov/whisper.spm",
+      "state" : {
+        "revision" : "dd58b25d84dc1a0dd5839981cdf210a29995ca28",
+        "version" : "1.0.3"
+      }
+    }
+  ],
+  "version" : 2
+}

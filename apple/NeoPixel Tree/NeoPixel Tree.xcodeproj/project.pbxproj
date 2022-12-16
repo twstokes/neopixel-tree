@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C333C0DD294C20AF003B41D1 /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = C333C0DC294C20AF003B41D1 /* whisper */; };
 		C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */; };
 		C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8F293D8F790042E1F6 /* ContentView.swift */; };
 		C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C384ED91293D8F7A0042E1F6 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C333C0DD294C20AF003B41D1 /* whisper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +138,9 @@
 			dependencies = (
 			);
 			name = "NeoPixel Tree";
+			packageProductDependencies = (
+				C333C0DC294C20AF003B41D1 /* whisper */,
+			);
 			productName = "NeoPixel Tree";
 			productReference = C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */;
 			productType = "com.apple.product-type.application";
@@ -164,6 +169,9 @@
 				Base,
 			);
 			mainGroup = C384ED81293D8F790042E1F6;
+			packageReferences = (
+				C333C0DB294C20AF003B41D1 /* XCRemoteSwiftPackageReference "whisper" */,
+			);
 			productRefGroup = C384ED8B293D8F790042E1F6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -399,6 +407,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C333C0DB294C20AF003B41D1 /* XCRemoteSwiftPackageReference "whisper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ggerganov/whisper.spm";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C333C0DC294C20AF003B41D1 /* whisper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C333C0DB294C20AF003B41D1 /* XCRemoteSwiftPackageReference "whisper" */;
+			productName = whisper;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C384ED82293D8F790042E1F6 /* Project object */;
 }
