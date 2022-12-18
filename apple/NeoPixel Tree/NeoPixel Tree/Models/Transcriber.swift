@@ -131,8 +131,13 @@ class Transcriber {
                 return
             }
 
-            let whisperStatus = whisper_full(self.ctx, WhisperConstants.params, samples, Int32(samples.count))
-            guard whisperStatus == noErr else {
+            guard whisper_full(
+                self.ctx,
+                WhisperConstants.params,
+                samples,
+                Int32(samples.count)
+            ) == noErr
+            else {
                 self.delegate?.transcriptionError(error: TranscriberError.failedToRunWhisper)
                 return
             }
