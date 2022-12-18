@@ -32,6 +32,10 @@ struct UDPClient {
         connection.cancel()
     }
 
+    func restart() {
+        connection.restart()
+    }
+
     func send(_ command: Command) {
         let payload = UDPPayload(command: command)
         send(payload) { error in

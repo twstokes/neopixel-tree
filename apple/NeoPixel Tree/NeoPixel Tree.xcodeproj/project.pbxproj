@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C32953E4294EDD3B00E3C671 /* Whisper-Models in Resources */ = {isa = PBXBuildFile; fileRef = C32953E3294EDD3B00E3C671 /* Whisper-Models */; };
 		C333C0DD294C20AF003B41D1 /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = C333C0DC294C20AF003B41D1 /* whisper */; };
 		C333C0DF294C220E003B41D1 /* Transcriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C0DE294C220E003B41D1 /* Transcriber.swift */; };
-		C333C0E1294C22E9003B41D1 /* ggml-base.en.bin in Resources */ = {isa = PBXBuildFile; fileRef = C333C0E0294C22E9003B41D1 /* ggml-base.en.bin */; };
 		C333C10B294EB55F003B41D1 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C10A294EB55F003B41D1 /* Bridge.swift */; };
 		C333C10D294EB974003B41D1 /* WhisperConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C10C294EB974003B41D1 /* WhisperConstants.swift */; };
 		C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */; };
@@ -26,8 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C32953E3294EDD3B00E3C671 /* Whisper-Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Whisper-Models"; sourceTree = "<group>"; };
 		C333C0DE294C220E003B41D1 /* Transcriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcriber.swift; sourceTree = "<group>"; };
-		C333C0E0294C22E9003B41D1 /* ggml-base.en.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-base.en.bin"; sourceTree = "<group>"; };
 		C333C10A294EB55F003B41D1 /* Bridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		C333C10C294EB974003B41D1 /* WhisperConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperConstants.swift; sourceTree = "<group>"; };
 		C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NeoPixel Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,13 +56,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C333C0E4294E30A2003B41D1 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "View Controllers";
-			sourceTree = "<group>";
-		};
 		C333C109294EB555003B41D1 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,14 +83,13 @@
 		C384ED8C293D8F790042E1F6 /* NeoPixel Tree */ = {
 			isa = PBXGroup;
 			children = (
-				C333C0E0294C22E9003B41D1 /* ggml-base.en.bin */,
+				C32953E3294EDD3B00E3C671 /* Whisper-Models */,
 				C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */,
 				C333C109294EB555003B41D1 /* Util */,
 				C384EDA6293D95760042E1F6 /* Extensions */,
 				C384ED9B293D8FC70042E1F6 /* Models */,
 				C384EDA3293D94A50042E1F6 /* Views */,
 				C384EDA2293D94960042E1F6 /* View Models */,
-				C333C0E4294E30A2003B41D1 /* View Controllers */,
 				C384ED91293D8F7A0042E1F6 /* Assets.xcassets */,
 				C384ED93293D8F7A0042E1F6 /* Preview Content */,
 			);
@@ -216,8 +208,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C384ED95293D8F7A0042E1F6 /* Preview Assets.xcassets in Resources */,
+				C32953E4294EDD3B00E3C671 /* Whisper-Models in Resources */,
 				C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */,
-				C333C0E1294C22E9003B41D1 /* ggml-base.en.bin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

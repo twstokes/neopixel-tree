@@ -89,6 +89,4 @@ fastlane/test_output
 
 iOSInjectionProject/
 
-# Whisper models
-ggml-base.en.bin
-
+Whisper-Models/
