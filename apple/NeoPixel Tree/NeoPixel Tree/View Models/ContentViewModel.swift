@@ -9,9 +9,12 @@ import Foundation
 
 struct ContentViewModel {
     let udpClient = UDPClient(host: "tree.tannerstokes.com", port: "8733")
+    private let whisper: Whisper
 
     init() {
         udpClient.start()
+        self.whisper = Whisper()
+        whisper.toggleCapture()
     }
 
     func colorChange(newColor: PixelColor) {

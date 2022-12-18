@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C333C0DD294C20AF003B41D1 /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = C333C0DC294C20AF003B41D1 /* whisper */; };
+		C333C0DF294C220E003B41D1 /* Whisper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C0DE294C220E003B41D1 /* Whisper.swift */; };
+		C333C0E1294C22E9003B41D1 /* ggml-base.en.bin in Resources */ = {isa = PBXBuildFile; fileRef = C333C0E0294C22E9003B41D1 /* ggml-base.en.bin */; };
+		C333C0E3294C2672003B41D1 /* WhisperState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C0E2294C2672003B41D1 /* WhisperState.swift */; };
 		C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */; };
 		C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8F293D8F790042E1F6 /* ContentView.swift */; };
 		C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C384ED91293D8F7A0042E1F6 /* Assets.xcassets */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C333C0DE294C220E003B41D1 /* Whisper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Whisper.swift; sourceTree = "<group>"; };
+		C333C0E0294C22E9003B41D1 /* ggml-base.en.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-base.en.bin"; sourceTree = "<group>"; };
+		C333C0E2294C2672003B41D1 /* WhisperState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperState.swift; sourceTree = "<group>"; };
 		C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NeoPixel Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeoPixel_TreeApp.swift; sourceTree = "<group>"; };
 		C384ED8F293D8F790042E1F6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -48,6 +54,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C333C0E4294E30A2003B41D1 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
 		C384ED81293D8F790042E1F6 = {
 			isa = PBXGroup;
 			children = (
@@ -67,11 +80,13 @@
 		C384ED8C293D8F790042E1F6 /* NeoPixel Tree */ = {
 			isa = PBXGroup;
 			children = (
+				C333C0E0294C22E9003B41D1 /* ggml-base.en.bin */,
 				C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */,
 				C384EDA6293D95760042E1F6 /* Extensions */,
 				C384ED9B293D8FC70042E1F6 /* Models */,
 				C384EDA3293D94A50042E1F6 /* Views */,
 				C384EDA2293D94960042E1F6 /* View Models */,
+				C333C0E4294E30A2003B41D1 /* View Controllers */,
 				C384ED91293D8F7A0042E1F6 /* Assets.xcassets */,
 				C384ED93293D8F7A0042E1F6 /* Preview Content */,
 			);
@@ -92,6 +107,8 @@
 				C384ED9C293D8FD50042E1F6 /* UDPClient.swift */,
 				C384ED9E293D90510042E1F6 /* Command.swift */,
 				C384EDA0293D91220042E1F6 /* PixelColor.swift */,
+				C333C0DE294C220E003B41D1 /* Whisper.swift */,
+				C333C0E2294C2672003B41D1 /* WhisperState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -157,6 +174,7 @@
 				TargetAttributes = {
 					C384ED89293D8F790042E1F6 = {
 						CreatedOnToolsVersion = 14.1;
+						LastSwiftMigration = 1420;
 					};
 				};
 			};
@@ -188,6 +206,7 @@
 			files = (
 				C384ED95293D8F7A0042E1F6 /* Preview Assets.xcassets in Resources */,
 				C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */,
+				C333C0E1294C22E9003B41D1 /* ggml-base.en.bin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,8 +223,10 @@
 				C3A539652948278800D3FC3D /* Bool+Int.swift in Sources */,
 				C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */,
 				C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */,
+				C333C0DF294C220E003B41D1 /* Whisper.swift in Sources */,
 				C384ED9F293D90510042E1F6 /* Command.swift in Sources */,
 				C384EDA8293D95880042E1F6 /* Color+PixelColor.swift in Sources */,
+				C333C0E3294C2672003B41D1 /* WhisperState.swift in Sources */,
 				C384EDAA293D969D0042E1F6 /* UIColor+RGB.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,6 +353,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NeoPixel Tree/Preview Content\"";
@@ -351,6 +373,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tannr.NeoPixel-Tree";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -361,6 +384,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NeoPixel Tree/Preview Content\"";
