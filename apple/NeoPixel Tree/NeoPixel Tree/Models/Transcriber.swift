@@ -136,16 +136,10 @@ class Transcriber {
             params.no_context = true
             params.single_segment = true // true == real time
 
-            //            let startTime = CACurrentMediaTime()
-
-            whisper_reset_timings(self.ctx)
             if whisper_full(self.ctx, params, self.sampleBuffer, Int32(self.sampleBuffer.count)) != 0 {
                 print("Failed to run the model")
                 return
             }
-
-            //            whisper_print_timings(self.stateInp.ctx)
-            //            let endTime = CACurrentMediaTime()
 
             let n_segments = whisper_full_n_segments(self.ctx)
 
@@ -158,7 +152,9 @@ class Transcriber {
             }
 
             DispatchQueue.main.async {
-                print(result)
+                if !result.isEmpty {
+                    print(result)
+                }
                 self.isTranscribing = false
             }
         }
@@ -169,16 +165,13 @@ class Transcriber {
             return
         }
 
-        guard samples.count + sampleBuffer.count < WhisperConstants.maxAudioSec * WhisperConstants.sampleRate else {
-            print("Too much audio - ignoring")
+        sampleBuffer += samples
 
-            DispatchQueue.main.async {
-                self.stopCapturing()
-            }
-            return
+        if sampleBuffer.count > WhisperConstants.maxSamples {
+            let diff = self.sampleBuffer.count - WhisperConstants.maxSamples
+            sampleBuffer = Array(sampleBuffer.dropFirst(diff))
         }
 
-        sampleBuffer += samples
         transcribe()
     }
 
