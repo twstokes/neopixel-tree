@@ -120,16 +120,6 @@ class Transcriber {
         isCapturing = true
     }
 
-    private static var whisperParams: whisper_full_params {
-        var params = whisper_full_default_params(WHISPER_SAMPLING_GREEDY)
-        params.print_progress = false
-        params.print_timestamps = true
-        params.n_threads = Int32(min(8, ProcessInfo.processInfo.processorCount))
-        params.no_context = true
-        params.single_segment = true // true == real time
-        return params
-    }
-
     private func transcribe(samples: [Float]) {
         guard !isTranscribing else {
             return
@@ -137,7 +127,7 @@ class Transcriber {
 
         isTranscribing = true
         DispatchQueue.global(qos: .default).async {
-            let whisperStatus = whisper_full(self.ctx, Self.whisperParams, samples, Int32(samples.count))
+            let whisperStatus = whisper_full(self.ctx, WhisperConstants.params, samples, Int32(samples.count))
 
             guard whisperStatus == noErr else {
                 self.delegate?.transcriptionError(error: TranscriberError.failedToRunWhisper)
