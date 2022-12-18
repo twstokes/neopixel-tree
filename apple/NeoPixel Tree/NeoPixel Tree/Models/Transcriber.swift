@@ -126,17 +126,20 @@ class Transcriber {
         }
 
         isTranscribing = true
-        DispatchQueue.global(qos: .default).async {
-            let whisperStatus = whisper_full(self.ctx, WhisperConstants.params, samples, Int32(samples.count))
+        DispatchQueue.global(qos: .default).async { [weak self] in
+            guard let self else {
+                return
+            }
 
+            let whisperStatus = whisper_full(self.ctx, WhisperConstants.params, samples, Int32(samples.count))
             guard whisperStatus == noErr else {
                 self.delegate?.transcriptionError(error: TranscriberError.failedToRunWhisper)
                 return
             }
 
             let result = (0..<whisper_full_n_segments(self.ctx))
-                .compactMap { i in
-                    guard let text = whisper_full_get_segment_text(self.ctx, i) else {
+                .compactMap {
+                    guard let text = whisper_full_get_segment_text(self.ctx, $0) else {
                         return nil
                     }
                     return String(cString: text)
