@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C32953E4294EDD3B00E3C671 /* Whisper-Models in Resources */ = {isa = PBXBuildFile; fileRef = C32953E3294EDD3B00E3C671 /* Whisper-Models */; };
+		C32953E4294EDD3B00E3C671 /* Whisper Models in Resources */ = {isa = PBXBuildFile; fileRef = C32953E3294EDD3B00E3C671 /* Whisper Models */; };
 		C333C0DD294C20AF003B41D1 /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = C333C0DC294C20AF003B41D1 /* whisper */; };
 		C333C0DF294C220E003B41D1 /* Transcriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C0DE294C220E003B41D1 /* Transcriber.swift */; };
 		C333C10B294EB55F003B41D1 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C10A294EB55F003B41D1 /* Bridge.swift */; };
@@ -26,7 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C32953E3294EDD3B00E3C671 /* Whisper-Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Whisper-Models"; sourceTree = "<group>"; };
+		C32953E3294EDD3B00E3C671 /* Whisper Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Whisper Models"; sourceTree = "<group>"; };
 		C333C0DE294C220E003B41D1 /* Transcriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcriber.swift; sourceTree = "<group>"; };
 		C333C10A294EB55F003B41D1 /* Bridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		C333C10C294EB974003B41D1 /* WhisperConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperConstants.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		C384ED8C293D8F790042E1F6 /* NeoPixel Tree */ = {
 			isa = PBXGroup;
 			children = (
-				C32953E3294EDD3B00E3C671 /* Whisper-Models */,
+				C32953E3294EDD3B00E3C671 /* Whisper Models */,
 				C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */,
 				C333C109294EB555003B41D1 /* Util */,
 				C384EDA6293D95760042E1F6 /* Extensions */,
@@ -208,7 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C384ED95293D8F7A0042E1F6 /* Preview Assets.xcassets in Resources */,
-				C32953E4294EDD3B00E3C671 /* Whisper-Models in Resources */,
+				C32953E4294EDD3B00E3C671 /* Whisper Models in Resources */,
 				C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

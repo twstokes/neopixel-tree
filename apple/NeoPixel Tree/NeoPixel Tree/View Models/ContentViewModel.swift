@@ -14,7 +14,7 @@ struct ContentViewModel {
     init() {
         udpClient.start()
         guard
-            let modelPath = Bundle.main.path(forResource: "Whisper-Models/ggml-medium.en", ofType: "bin"),
+            let modelPath = Bundle.main.path(forResource: "Whisper Models/ggml-tiny.en", ofType: "bin"),
             let whisper = Transcriber(modelPath: modelPath)
         else {
             fatalError("Failed to load Whisper")
