@@ -12,7 +12,7 @@ import whisper
 typealias WhisperContext = OpaquePointer
 
 class Transcriber {
-    var delegate: TranscriberDelegate?
+    weak var delegate: TranscriberDelegate?
 
     private var isCapturing = false
     private var isTranscribing = false

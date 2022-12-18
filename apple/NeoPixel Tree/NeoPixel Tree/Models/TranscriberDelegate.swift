@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol TranscriberDelegate {
+protocol TranscriberDelegate: AnyObject {
     func receiveTranscribedText(text: String)
     func transcriptionError(error: Error)
 }

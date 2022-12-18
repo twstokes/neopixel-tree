@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ContentViewModel {
+class ContentViewModel {
     let udpClient = UDPClient(host: "tree.tannerstokes.com", port: "8733")
     private let transcriber: Transcriber
 
