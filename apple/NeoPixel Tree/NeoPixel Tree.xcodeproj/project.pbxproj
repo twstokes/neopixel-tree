@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		C333C0DD294C20AF003B41D1 /* whisper in Frameworks */ = {isa = PBXBuildFile; productRef = C333C0DC294C20AF003B41D1 /* whisper */; };
-		C333C0DF294C220E003B41D1 /* Whisper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C0DE294C220E003B41D1 /* Whisper.swift */; };
+		C333C0DF294C220E003B41D1 /* Transcriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C0DE294C220E003B41D1 /* Transcriber.swift */; };
 		C333C0E1294C22E9003B41D1 /* ggml-base.en.bin in Resources */ = {isa = PBXBuildFile; fileRef = C333C0E0294C22E9003B41D1 /* ggml-base.en.bin */; };
-		C333C0E3294C2672003B41D1 /* WhisperState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C0E2294C2672003B41D1 /* WhisperState.swift */; };
+		C333C10B294EB55F003B41D1 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C10A294EB55F003B41D1 /* Bridge.swift */; };
+		C333C10D294EB974003B41D1 /* WhisperConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333C10C294EB974003B41D1 /* WhisperConstants.swift */; };
 		C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */; };
 		C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8F293D8F790042E1F6 /* ContentView.swift */; };
 		C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C384ED91293D8F7A0042E1F6 /* Assets.xcassets */; };
@@ -25,9 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C333C0DE294C220E003B41D1 /* Whisper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Whisper.swift; sourceTree = "<group>"; };
+		C333C0DE294C220E003B41D1 /* Transcriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcriber.swift; sourceTree = "<group>"; };
 		C333C0E0294C22E9003B41D1 /* ggml-base.en.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-base.en.bin"; sourceTree = "<group>"; };
-		C333C0E2294C2672003B41D1 /* WhisperState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperState.swift; sourceTree = "<group>"; };
+		C333C10A294EB55F003B41D1 /* Bridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
+		C333C10C294EB974003B41D1 /* WhisperConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperConstants.swift; sourceTree = "<group>"; };
 		C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NeoPixel Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeoPixel_TreeApp.swift; sourceTree = "<group>"; };
 		C384ED8F293D8F790042E1F6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +63,14 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
+		C333C109294EB555003B41D1 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				C333C10A294EB55F003B41D1 /* Bridge.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		C384ED81293D8F790042E1F6 = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +92,7 @@
 			children = (
 				C333C0E0294C22E9003B41D1 /* ggml-base.en.bin */,
 				C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */,
+				C333C109294EB555003B41D1 /* Util */,
 				C384EDA6293D95760042E1F6 /* Extensions */,
 				C384ED9B293D8FC70042E1F6 /* Models */,
 				C384EDA3293D94A50042E1F6 /* Views */,
@@ -107,8 +118,8 @@
 				C384ED9C293D8FD50042E1F6 /* UDPClient.swift */,
 				C384ED9E293D90510042E1F6 /* Command.swift */,
 				C384EDA0293D91220042E1F6 /* PixelColor.swift */,
-				C333C0DE294C220E003B41D1 /* Whisper.swift */,
-				C333C0E2294C2672003B41D1 /* WhisperState.swift */,
+				C333C0DE294C220E003B41D1 /* Transcriber.swift */,
+				C333C10C294EB974003B41D1 /* WhisperConstants.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -223,10 +234,11 @@
 				C3A539652948278800D3FC3D /* Bool+Int.swift in Sources */,
 				C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */,
 				C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */,
-				C333C0DF294C220E003B41D1 /* Whisper.swift in Sources */,
+				C333C0DF294C220E003B41D1 /* Transcriber.swift in Sources */,
+				C333C10D294EB974003B41D1 /* WhisperConstants.swift in Sources */,
 				C384ED9F293D90510042E1F6 /* Command.swift in Sources */,
+				C333C10B294EB55F003B41D1 /* Bridge.swift in Sources */,
 				C384EDA8293D95880042E1F6 /* Color+PixelColor.swift in Sources */,
-				C333C0E3294C2672003B41D1 /* WhisperState.swift in Sources */,
 				C384EDAA293D969D0042E1F6 /* UIColor+RGB.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
