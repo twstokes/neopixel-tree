@@ -8,8 +8,8 @@
 import Foundation
 
 struct WhisperConstants {
-    static let num_buffers = 3
-    static let max_audio_sec = 300
-    static let sample_rate = 16000
-    static let num_bytes_per_buffer = 16*1024
+    static let maxBuffers = 3
+    static let maxAudioSec = 30
+    static let sampleRate = 16000
+    static let bytesPerBuffer = 16*1024
 }

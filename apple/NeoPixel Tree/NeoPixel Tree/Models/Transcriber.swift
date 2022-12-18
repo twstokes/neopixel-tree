@@ -12,13 +12,15 @@ import whisper
 class Transcriber {
     private var isCapturing = false
     private var isTranscribing = false
+
+    private let ctx: OpaquePointer
     private var queue: AudioQueueRef?
 
     private var audioQueueBuffers: [AudioQueueBufferRef] = []
     private var sampleBuffer: [Float] = []
 
     private var dataFormat = AudioStreamBasicDescription(
-        mSampleRate: Float64(WHISPER_SAMPLE_RATE),
+        mSampleRate: Float64(WhisperConstants.sampleRate),
         mFormatID: kAudioFormatLinearPCM,
         mFormatFlags: kLinearPCMFormatFlagIsSignedInteger,
         mBytesPerPacket: 2,
@@ -28,8 +30,6 @@ class Transcriber {
         mBitsPerChannel: 16,
         mReserved: 0
     )
-
-    private let ctx: OpaquePointer
 
     init?(modelPath: String) {
         guard let ctx = whisper_init(modelPath) else {
@@ -101,9 +101,9 @@ class Transcriber {
         }
 
         if status == noErr {
-            for _ in 0..<WhisperConstants.num_buffers {
+            for _ in 0..<WhisperConstants.maxBuffers {
                 var buffer: AudioQueueBufferRef? = nil
-                AudioQueueAllocateBuffer(queue, UInt32(WhisperConstants.num_bytes_per_buffer), &buffer)
+                AudioQueueAllocateBuffer(queue, UInt32(WhisperConstants.bytesPerBuffer), &buffer)
                 AudioQueueEnqueueBuffer(queue, buffer!, 0, nil)
                 if let buffer {
                     audioQueueBuffers.append(buffer)
@@ -169,7 +169,7 @@ class Transcriber {
             return
         }
 
-        guard samples.count + sampleBuffer.count < WhisperConstants.max_audio_sec * WhisperConstants.sample_rate else {
+        guard samples.count + sampleBuffer.count < WhisperConstants.maxAudioSec * WhisperConstants.sampleRate else {
             print("Too much audio - ignoring")
 
             DispatchQueue.main.async {
