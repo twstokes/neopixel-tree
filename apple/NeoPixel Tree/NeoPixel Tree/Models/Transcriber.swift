@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 import whisper
 
+typealias WhisperContext = OpaquePointer
 
 class Transcriber {
     var delegate: TranscriberDelegate?
@@ -16,8 +17,7 @@ class Transcriber {
     private var isCapturing = false
     private var isTranscribing = false
 
-    /// `whisper_context` struct
-    private let ctx: OpaquePointer
+    private let ctx: WhisperContext
     private var queue: AudioQueueRef?
 
     private var audioQueueBuffers: [AudioQueueBufferRef] = []
@@ -57,7 +57,7 @@ class Transcriber {
             throw TranscriberError.captureInProgress
         }
 
-        stopCapturing() // ensure buffers are removed
+        stopCapturing() // ensure state is reset before starting
         let newInputStatus = AudioQueueNewInput(
             &dataFormat,
             // C callback to process buffer data
@@ -66,7 +66,7 @@ class Transcriber {
                     return
                 }
 
-                let transcriber: Transcriber = bridge(ptr: inUserData)
+                let transcriber = Transcriber.fromPtr(inUserData)
                 let samples = Transcriber.samplesFromAudioQueueBufferRef(inBuffer)
                 transcriber.processSamples(samples)
 
@@ -78,7 +78,7 @@ class Transcriber {
                     return
                 }
             },
-            bridgeMutable(obj: self),
+            toMutablePtr(),
             nil,
             nil,
             0,
@@ -175,5 +175,15 @@ class Transcriber {
         let int16Ptr = audioBuffer.mAudioData.bindMemory(to: Int16.self, capacity: numSamples)
         let audioBufferData = UnsafeBufferPointer(start: int16Ptr, count: numSamples)
         return Array(audioBufferData).map { Float($0) / 32768.0 }
+    }
+}
+
+extension Transcriber {
+    static func fromPtr(_ ptr: UnsafeRawPointer) -> Transcriber {
+        bridge(ptr: ptr)
+    }
+
+    func toMutablePtr() -> UnsafeMutableRawPointer {
+        bridgeMutable(obj: self)
     }
 }
