@@ -9,22 +9,37 @@ import Foundation
 
 struct ContentViewModel {
     let udpClient = UDPClient(host: "tree.tannerstokes.com", port: "8733")
-    private let whisper: Transcriber
+    private let transcriber: Transcriber
 
     init() {
         udpClient.start()
         guard
             let modelPath = Bundle.main.path(forResource: "Whisper Models/ggml-tiny.en", ofType: "bin"),
-            let whisper = Transcriber(modelPath: modelPath)
+            let transcriber = try? Transcriber(modelPath: modelPath)
         else {
             fatalError("Failed to load Whisper")
         }
 
-        self.whisper = whisper
-        whisper.toggleCapture()
+        self.transcriber = transcriber
+
+        do {
+            try transcriber.startCapturing()
+            transcriber.delegate = self
+        } catch {
+            print("Error starting transcriber: \(error)")
+        }
     }
 
     func colorChange(newColor: PixelColor) {
         udpClient.send(.fill_color(color: newColor))
+    }
+}
+
+extension ContentViewModel: TranscriberDelegate {
+    func receiveTranscribedText(text: String) {
+        guard !text.isEmpty else {
+            return
+        }
+        print("Received from transcriber: \(text)")
     }
 }
