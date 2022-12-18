@@ -7,9 +7,21 @@
 
 import Foundation
 
-class ContentViewModel {
+class ContentViewModel: ObservableObject {
     let udpClient = UDPClient(host: "tree.tannerstokes.com", port: "8733")
     private let transcriber: Transcriber
+
+    @Published var runningTranscriber = false {
+        didSet {
+            if runningTranscriber {
+                print("Running transcriber")
+                startTranscriber()
+            } else {
+                print("Not running transcriber")
+                stopTranscriber()
+            }
+        }
+    }
 
     init() {
         udpClient.start()
@@ -21,17 +33,23 @@ class ContentViewModel {
         }
 
         self.transcriber = transcriber
-
-        do {
-            try transcriber.startCapturing()
-            transcriber.delegate = self
-        } catch {
-            print("Error starting transcriber: \(error)")
-        }
+        transcriber.delegate = self
     }
 
     func colorChange(newColor: PixelColor) {
         udpClient.send(.fill_color(color: newColor))
+    }
+
+    func startTranscriber() {
+        do {
+            try transcriber.startCapturing()
+        } catch {
+            print("Error starting transcriber! \(error)")
+        }
+    }
+
+    func stopTranscriber() {
+        transcriber.stopCapturing()
     }
 }
 

@@ -145,6 +145,12 @@ class Transcriber {
                     return String(cString: text)
                 }.reduce("", { $0 + $1 })
 
+            guard self.isTranscribing else {
+                // it's possible that transcribing was disabled
+                // while the result was being computed
+                return
+            }
+
             DispatchQueue.main.async {
                 self.delegate?.receiveTranscribedText(text: result)
                 self.isTranscribing = false

@@ -11,7 +11,7 @@ import whisper
 
 struct WhisperConstants {
     static let maxBuffers = 3
-    static let maxAudioSec = 10
+    static let maxAudioSec = 30
     static let sampleRate = 16000
     static let bytesPerBuffer = 16*1024
     static let maxSamples = maxAudioSec * sampleRate
