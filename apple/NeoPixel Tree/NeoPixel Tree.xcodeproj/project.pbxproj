@@ -24,6 +24,7 @@
 		C384EDAA293D969D0042E1F6 /* UIColor+RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384EDA9293D969D0042E1F6 /* UIColor+RGB.swift */; };
 		C3A539652948278800D3FC3D /* Bool+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A539642948278800D3FC3D /* Bool+Int.swift */; };
 		C3BC86F2294F9E9A005D1A01 /* TranscriberDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BC86F1294F9E9A005D1A01 /* TranscriberDelegate.swift */; };
+		C3BC86F4294FB17B005D1A01 /* TranscriberError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BC86F3294FB17B005D1A01 /* TranscriberError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		C384EDA9293D969D0042E1F6 /* UIColor+RGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RGB.swift"; sourceTree = "<group>"; };
 		C3A539642948278800D3FC3D /* Bool+Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Int.swift"; sourceTree = "<group>"; };
 		C3BC86F1294F9E9A005D1A01 /* TranscriberDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriberDelegate.swift; sourceTree = "<group>"; };
+		C3BC86F3294FB17B005D1A01 /* TranscriberError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriberError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				C384EDA0293D91220042E1F6 /* PixelColor.swift */,
 				C333C0DE294C220E003B41D1 /* Transcriber.swift */,
 				C3BC86F1294F9E9A005D1A01 /* TranscriberDelegate.swift */,
+				C3BC86F3294FB17B005D1A01 /* TranscriberError.swift */,
 				C333C10C294EB974003B41D1 /* WhisperConstants.swift */,
 			);
 			path = Models;
@@ -225,6 +228,7 @@
 			files = (
 				C384EDA1293D91220042E1F6 /* PixelColor.swift in Sources */,
 				C384ED9D293D8FD50042E1F6 /* UDPClient.swift in Sources */,
+				C3BC86F4294FB17B005D1A01 /* TranscriberError.swift in Sources */,
 				C384EDA5293D94BE0042E1F6 /* ContentViewModel.swift in Sources */,
 				C3A539652948278800D3FC3D /* Bool+Int.swift in Sources */,
 				C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */,

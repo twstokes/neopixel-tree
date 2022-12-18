@@ -9,11 +9,11 @@ import Foundation
 
 protocol TranscriberDelegate {
     func receiveTranscribedText(text: String)
-    func transcriptionError(error: TranscriberError)
+    func transcriptionError(error: Error)
 }
 
 extension TranscriberDelegate {
-    func transcriptionError(error: TranscriberError) {
+    func transcriptionError(error: Error) {
         return
     }
 }

@@ -9,17 +9,10 @@ import Foundation
 import AVFoundation
 import whisper
 
-enum TranscriberError: Error {
-    case failedToInit
-    case captureInProgress
-    case audioQueueCreationFailure
-    case noAudioQueue
-    case failedToStartAudioQueue
-    case failedToRunWhisper
-    case noAudioQueueBuffers
-}
 
 class Transcriber {
+    var delegate: TranscriberDelegate?
+
     private var isCapturing = false
     private var isTranscribing = false
 
@@ -30,24 +23,13 @@ class Transcriber {
     private var audioQueueBuffers: [AudioQueueBufferRef] = []
     private var sampleBuffer: [Float] = []
 
-    var delegate: TranscriberDelegate?
-
-    private var dataFormat = AudioStreamBasicDescription(
-        mSampleRate: Float64(WhisperConstants.sampleRate),
-        mFormatID: kAudioFormatLinearPCM,
-        mFormatFlags: kLinearPCMFormatFlagIsSignedInteger,
-        mBytesPerPacket: 2,
-        mFramesPerPacket: 1,
-        mBytesPerFrame: 2,
-        mChannelsPerFrame: 1,
-        mBitsPerChannel: 16,
-        mReserved: 0
-    )
+    private var dataFormat = WhisperConstants.dataFormat
 
     init(modelPath: String) throws {
         guard let ctx = whisper_init(modelPath) else {
             throw TranscriberError.failedToInit
         }
+
         self.ctx = ctx
     }
 
@@ -59,19 +41,15 @@ class Transcriber {
         isCapturing = false
         isTranscribing = false
 
-        defer {
-            sampleBuffer.removeAll()
-            audioQueueBuffers.removeAll()
-            self.queue = nil
+        if let queue {
+            AudioQueueStop(queue, true)
+            audioQueueBuffers.forEach { AudioQueueFreeBuffer(queue, $0) }
+            AudioQueueDispose(queue, true)
         }
 
-        guard let queue else {
-            return
-        }
-
-        AudioQueueStop(queue, true)
-        audioQueueBuffers.forEach { AudioQueueFreeBuffer(queue, $0) }
-        AudioQueueDispose(queue, true)
+        self.queue = nil
+        sampleBuffer.removeAll()
+        audioQueueBuffers.removeAll()
     }
 
     func startCapturing() throws {
@@ -88,15 +66,16 @@ class Transcriber {
                     return
                 }
 
-                let whisper: Transcriber = bridge(ptr: inUserData)
+                let transcriber: Transcriber = bridge(ptr: inUserData)
                 let samples = Transcriber.samplesFromAudioQueueBufferRef(inBuffer)
+                transcriber.processSamples(samples)
 
-                if let queue = whisper.queue {
-                    AudioQueueEnqueueBuffer(queue, inBuffer, 0, nil)
-                }
-
-                DispatchQueue.main.async { [weak whisper] in
-                    whisper?.processSamples(samples)
+                guard
+                    let queue = transcriber.queue,
+                    AudioQueueEnqueueBuffer(queue, inBuffer, 0, nil) != noErr
+                else {
+                    transcriber.delegate?.transcriptionError(error: AudioQueueError.enqueueBufferFailed)
+                    return
                 }
             },
             bridgeMutable(obj: self),
@@ -108,22 +87,25 @@ class Transcriber {
 
         guard newInputStatus == noErr else {
             stopCapturing() // called to reset queue and buffers
-            throw TranscriberError.audioQueueCreationFailure
+            throw AudioQueueError.inputCreationFailed
         }
 
         guard let queue else {
             throw TranscriberError.noAudioQueue
         }
 
-        audioQueueBuffers = (0..<WhisperConstants.maxBuffers)
+        try audioQueueBuffers = (0..<WhisperConstants.maxBuffers)
             .compactMap { _ in
                 var buffer: AudioQueueBufferRef?
-                AudioQueueAllocateBuffer(queue, UInt32(WhisperConstants.bytesPerBuffer), &buffer)
-                guard let buffer else {
-                    return nil
+                guard
+                    AudioQueueAllocateBuffer(queue, UInt32(WhisperConstants.bytesPerBuffer), &buffer) == noErr,
+                    let buffer
+                else {
+                    throw AudioQueueError.allocateBufferFailed
                 }
-
-                AudioQueueEnqueueBuffer(queue, buffer, 0, nil)
+                guard AudioQueueEnqueueBuffer(queue, buffer, 0, nil) == noErr else {
+                    throw AudioQueueError.enqueueBufferFailed
+                }
                 return buffer
             }
 
@@ -132,7 +114,7 @@ class Transcriber {
         }
 
         guard AudioQueueStart(queue, nil) == noErr else {
-            throw TranscriberError.failedToStartAudioQueue
+            throw AudioQueueError.startFailed
         }
 
         isCapturing = true
@@ -148,29 +130,27 @@ class Transcriber {
         return params
     }
 
-    private func transcribe() {
+    private func transcribe(samples: [Float]) {
         guard !isTranscribing else {
             return
         }
 
         isTranscribing = true
-
         DispatchQueue.global(qos: .default).async {
-            let whisperStatus = whisper_full(self.ctx, Self.whisperParams, self.sampleBuffer, Int32(self.sampleBuffer.count))
+            let whisperStatus = whisper_full(self.ctx, Self.whisperParams, samples, Int32(samples.count))
 
             guard whisperStatus == noErr else {
-                self.delegate?.transcriptionError(error: .failedToRunWhisper)
+                self.delegate?.transcriptionError(error: TranscriberError.failedToRunWhisper)
                 return
             }
 
-            let n_segments = whisper_full_n_segments(self.ctx)
-            var result = ""
-
-            for i in 0..<n_segments {
-                if let text = whisper_full_get_segment_text(self.ctx, i) {
-                    result += String(cString: text)
-                }
-            }
+            let result = (0..<whisper_full_n_segments(self.ctx))
+                .compactMap { i in
+                    guard let text = whisper_full_get_segment_text(self.ctx, i) else {
+                        return nil
+                    }
+                    return String(cString: text)
+                }.reduce("", { $0 + $1 })
 
             DispatchQueue.main.async {
                 self.delegate?.receiveTranscribedText(text: result)
@@ -185,13 +165,12 @@ class Transcriber {
         }
 
         sampleBuffer += samples
-
         if sampleBuffer.count > WhisperConstants.maxSamples {
             let diff = self.sampleBuffer.count - WhisperConstants.maxSamples
             sampleBuffer = Array(sampleBuffer.dropFirst(diff))
         }
 
-        transcribe()
+        transcribe(samples: sampleBuffer)
     }
 
     /// Returns an array of samples from an Audio Queue buffer ref
