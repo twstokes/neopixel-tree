@@ -13,6 +13,7 @@ class Transcriber {
     private var isCapturing = false
     private var isTranscribing = false
 
+    /// `whisper_context` struct
     private let ctx: OpaquePointer
     private var queue: AudioQueueRef?
 
@@ -65,10 +66,9 @@ class Transcriber {
         }
 
         print("Starting capturing")
-
         sampleBuffer.removeAll()
 
-        let status = AudioQueueNewInput(
+        let inputCreationStatus = AudioQueueNewInput(
             &dataFormat,
             // C callback to process buffer data
             { inUserData, _, inBuffer, _, _, _ in
@@ -95,30 +95,34 @@ class Transcriber {
             &queue
         )
 
+        guard inputCreationStatus == noErr else {
+            print("Got an error status when creating audio queue input!")
+            stopCapturing()
+            return
+        }
+
         guard let queue else {
             print("No queue!")
             return
         }
 
-        if status == noErr {
-            for _ in 0..<WhisperConstants.maxBuffers {
-                var buffer: AudioQueueBufferRef? = nil
-                AudioQueueAllocateBuffer(queue, UInt32(WhisperConstants.bytesPerBuffer), &buffer)
-                AudioQueueEnqueueBuffer(queue, buffer!, 0, nil)
-                if let buffer {
-                    audioQueueBuffers.append(buffer)
-                }
+        for _ in 0..<WhisperConstants.maxBuffers {
+            var buffer: AudioQueueBufferRef? = nil
+            AudioQueueAllocateBuffer(queue, UInt32(WhisperConstants.bytesPerBuffer), &buffer)
+            AudioQueueEnqueueBuffer(queue, buffer!, 0, nil)
+            if let buffer {
+                audioQueueBuffers.append(buffer)
             }
-
-            isCapturing = true
-            let status = AudioQueueStart(queue, nil)
-            if status == 0 {
-                print("Capturing")
-            }
-        } else {
-            stopCapturing()
         }
 
+        let audioQueueStartStatus = AudioQueueStart(queue, nil)
+        guard audioQueueStartStatus == noErr else {
+            print("Failed to start audio queue!")
+            return
+        }
+
+        print("Capturing started successfully")
+        isCapturing = true
     }
 
     private func transcribe() {
@@ -126,6 +130,7 @@ class Transcriber {
             return
         }
 
+        print("I am transcribing")
         isTranscribing = true
 
         DispatchQueue.global(qos: .default).async {
@@ -156,6 +161,7 @@ class Transcriber {
                     print(result)
                 }
                 self.isTranscribing = false
+                print("I am done transcribing")
             }
         }
     }
