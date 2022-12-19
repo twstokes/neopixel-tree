@@ -15,17 +15,42 @@ struct ContentView: View {
     var body: some View {
         Group {
             VStack {
-                Button(action: {
-                    vm.runningTranscriber.toggle()
-                }, label: {
-                    Text(vm.runningTranscriber ? "Stop transcriber" : "Start transcriber")
-                })
+                HStack {
+                    ColorPicker("Tree Color", selection: $color, supportsOpacity: false)
+                        .labelsHidden()
+                        .onChange(of: color) { value in
+                            vm.colorChange(newColor: value.toPixelColor())
+                        }
+
+                    Button(action: {
+                        vm.rainbowMode()
+                    }, label: {
+                        Image(systemName: "wand.and.rays")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    })
+
+                    Button(action: {
+                        vm.sendStillRainbow()
+                    }, label: {
+                        Image(systemName: "wand.and.stars")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    })
+
+                    Button(action: {
+                        vm.runningTranscriber.toggle()
+                    }, label: {
+                        Image(systemName: "mic.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(vm.runningTranscriber ? .red : .gray)
+                    })
+                }
                 Text(vm.text)
-                ColorPicker("Tree Color", selection: $color, supportsOpacity: false)
+                    .font(.system(size: 20))
                     .padding()
-                    .onChange(of: color) { value in
-                        vm.colorChange(newColor: value.toPixelColor())
-                    }
+
             }
         }.onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
