@@ -12,10 +12,10 @@ enum Command {
     case brightness(level: Int)
     case pixel_color(offset: Int, color: PixelColor)
     case fill_color(color: PixelColor)
-    case fill_pattern(count: Int, colors: [PixelColor])
+    case fill_pattern(colors: [PixelColor])
     case rainbow(repeat: Bool)
     case rainbow_cycle(repeat: Bool)
-    case theater_chase(color: PixelColor)
+    case theater_chase(repeat: Bool, color: PixelColor)
     case readback
 
     // whether the UI will let us select the command
@@ -61,14 +61,14 @@ enum Command {
             return [offset] + color.toIntArray()
         case .fill_color(let color):
             return color.toIntArray()
-        case .fill_pattern(let count, let colors):
-            return [count] + colors.flatMap { $0.toIntArray() }
+        case .fill_pattern(let colors):
+            return [colors.count] + colors.flatMap { $0.toIntArray() }
         case .rainbow(let `repeat`):
             return [`repeat`.toInt()]
         case .rainbow_cycle(let `repeat`):
             return [`repeat`.toInt()]
-        case .theater_chase(let color):
-            return color.toIntArray()
+        case .theater_chase(let `repeat`, let color):
+            return [`repeat`.toInt()] + color.toIntArray()
         case .readback:
             return []
         }

@@ -10,7 +10,7 @@ import Network
 
 struct UDPClient {
     private let connection: NWConnection
-    private let maxPayload = 255
+    private let maxPayload = 512
 
     private let udpQueue = DispatchQueue(label: "udpQueue", attributes: [], autoreleaseFrequency: .workItem)
 
