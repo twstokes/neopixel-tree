@@ -126,10 +126,12 @@ class Transcriber {
         }
 
         isTranscribing = true
-        DispatchQueue.global(qos: .default).async { [weak self] in
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             guard let self else {
                 return
             }
+
+            whisper_reset_timings(self.ctx)
 
             guard whisper_full(
                 self.ctx,
@@ -141,6 +143,8 @@ class Transcriber {
                 self.delegate?.transcriptionError(error: TranscriberError.failedToRunWhisper)
                 return
             }
+
+            whisper_print_timings(self.ctx)
 
             let result = (0..<whisper_full_n_segments(self.ctx))
                 .compactMap {
@@ -163,6 +167,7 @@ class Transcriber {
         }
     }
 
+    /// Called every time new samples are received.
     private func processSamples(_ samples: [Float]) {
         guard isCapturing else {
             return
@@ -172,7 +177,12 @@ class Transcriber {
         if sampleBuffer.count > WhisperConstants.maxSamples {
             let diff = self.sampleBuffer.count - WhisperConstants.maxSamples
             sampleBuffer = Array(sampleBuffer.dropFirst(diff))
-        }
+//            sampleBuffer.removeAll()
+//            sampleBuffer = samples
+//            sampleBuffer = samples
+        } //else {
+//            sampleBuffer += samples
+//        }
 
         transcribe(samples: sampleBuffer)
     }

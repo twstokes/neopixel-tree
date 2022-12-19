@@ -23,6 +23,8 @@ class ContentViewModel: ObservableObject {
         }
     }
 
+    @Published var text = ""
+
     init() {
         udpClient.start()
         guard
@@ -58,6 +60,6 @@ extension ContentViewModel: TranscriberDelegate {
         guard !text.isEmpty else {
             return
         }
-        print("Received from transcriber: \(text)")
+        self.text = text
     }
 }

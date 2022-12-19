@@ -20,6 +20,7 @@ struct ContentView: View {
                 }, label: {
                     Text(vm.runningTranscriber ? "Stop transcriber" : "Start transcriber")
                 })
+                Text(vm.text)
                 ColorPicker("Tree Color", selection: $color, supportsOpacity: false)
                     .padding()
                     .onChange(of: color) { value in

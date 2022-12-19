@@ -11,7 +11,7 @@ import whisper
 
 struct WhisperConstants {
     static let maxBuffers = 3
-    static let maxAudioSec = 30
+    static let maxAudioSec = 5
     static let sampleRate = 16000
     static let bytesPerBuffer = 16*1024
     static let maxSamples = maxAudioSec * sampleRate
@@ -30,11 +30,13 @@ struct WhisperConstants {
 
     static let params: whisper_full_params = {
         var params = whisper_full_default_params(WHISPER_SAMPLING_GREEDY)
-        params.print_progress = false
+        params.print_progress = true
         params.print_timestamps = true
-        params.n_threads = Int32(min(8, ProcessInfo.processInfo.processorCount))
+        params.n_threads = Int32(min(4, ProcessInfo.processInfo.processorCount))
         params.no_context = true
         params.single_segment = true // real time
+        params.max_tokens = 32
+        params.language = UnsafePointer<CChar>("en".cString(using: .ascii))
         return params
     }()
 }
