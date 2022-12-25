@@ -72,7 +72,7 @@ class Transcriber {
 
                 guard
                     let queue = transcriber.queue,
-                    AudioQueueEnqueueBuffer(queue, inBuffer, 0, nil) != noErr
+                    AudioQueueEnqueueBuffer(queue, inBuffer, 0, nil) == noErr
                 else {
                     transcriber.delegate?.transcriptionError(error: AudioQueueError.enqueueBufferFailed)
                     return
