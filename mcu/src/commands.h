@@ -3,14 +3,14 @@
 #include <Arduino.h>
 
 enum command {
-  OFF,
-  BRIGHTNESS,
-  PIXEL_COLOR,
-  FILL_COLOR,
-  FILL_PATTERN,
-  RAINBOW,
-  RAINBOW_CYCLE,
-  THEATER_CHASE,
+  OFF = 0,
+  BRIGHTNESS = 1,
+  PIXEL_COLOR = 2,
+  FILL_COLOR = 3,
+  FILL_PATTERN = 4,
+  RAINBOW = 5,
+  RAINBOW_CYCLE = 6,
+  THEATER_CHASE = 7,
   READBACK = 255
 };
 
