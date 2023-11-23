@@ -50,8 +50,9 @@ Commands are received on the MCU via UDP packets. Each packet starts with a 1-by
 
 Turns off the LEDs.
 
-Parameters:
-- None
+| Command |
+| - |
+| `0` |
 
 ----
 
@@ -59,9 +60,9 @@ Parameters:
 
 Sets the brightness of the LEDs.
 
-| Parameter | Value |
+| Command | Level |
 | - | - |
-| Level | `0 - 255` |
+| `1` | `0 - 255` |
 
 ----
 
@@ -69,12 +70,9 @@ Sets the brightness of the LEDs.
 
 Sets the color of a single pixel.
 
-| Parameter | Value |
-| - | - |
-| Offset | `0 - (PIXEL_COUNT-1)` |
-| Red | `0 - 255` |
-| Green | `0 - 255` |
-| Blue | `0 - 255` |
+| Command | Offset | Red | Green | Blue |
+| - | - | - | - | - |
+| `2` |  `0 - (PIXEL_COUNT-1)` | `0 - 255` | `0 - 255` | `0 - 255` |
 
 ---
 
@@ -82,11 +80,9 @@ Sets the color of a single pixel.
 
 Fills all LEDs with a single color.
 
-| Parameter | Value |
-| - | - |
-| Red | `0 - 255` |
-| Green | `0 - 255` |
-| Blue | `0 - 255` |
+| Command | Red | Green | Blue |
+| - | - | - | - |
+| `3` | `0 - 255` | `0 - 255` | `0 - 255` |
 
 ---
 
@@ -94,12 +90,9 @@ Fills all LEDs with a single color.
 
 Fills the tree by repeating the colors provided.
 
-| Parameter | Value |
-| - | - |
-| Number of colors provided | `0 - 255` |
-| Red | `0 - 255` |
-| Green | `0 - 255` |
-| Blue | `0 - 255` |
+| Command | Number of colors provided | Red | Green | Blue |
+| - | - | - | - | - |
+| `4` | `0 - 255` | `0 - 255` | `0 - 255` | `0 - 255` |
 
 Red, green, and blue parameters can be repeated up to `PIXEL_COUNT` times.
 
@@ -109,9 +102,9 @@ Red, green, and blue parameters can be repeated up to `PIXEL_COUNT` times.
 
 Animates the tree with a colorful rainbow effect. Repeatable.
 
-| Parameter | Value |
+| Command | Repeat |
 | - | - |
-| Repeat | `0 - 1` |
+| `5` | `0 - 1` |
 
 ---
 
@@ -119,9 +112,9 @@ Animates the tree with a colorful rainbow effect. Repeatable.
 
 Like Rainbow, but colors are equally distributed. Repeatable.
 
-| Parameter | Value |
+| Command | Repeat |
 | - | - |
-| Repeat | `0 - 1` |
+| `6` | `0 - 1` |
 
 ---
 
@@ -129,18 +122,19 @@ Like Rainbow, but colors are equally distributed. Repeatable.
 
 Shows theater-style crawling lights with provided color. Repeatable.
 
-| Parameter | Value |
-| - | - |
-| Repeat | `0 - 1` |
-| Red | `0 - 255` |
-| Green | `0 - 255` |
-| Blue | `0 - 255` |
+| Command | Number of colors provided | Red | Green | Blue |
+| - | - | - | - | - |
+| `7` | `0 - 255` | `0 - 255` | `0 - 255` | `0 - 255` |
 
 ---
 
 ### Readback
 
 A special command used by clients to get the currently running sequence on the tree.
+
+| Command |
+| - |
+| `255` |
 
 This command takes no parameters. The data received shouldn't be larger than `UDP_BUFFER_SIZE`.
 
