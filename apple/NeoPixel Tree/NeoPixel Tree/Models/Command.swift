@@ -18,13 +18,14 @@ enum Command {
     case theater_chase(repeat: Bool, color: PixelColor)
     case readback
 
-    // whether the UI will let us select the command
-    var selectable: Bool {
+    var type: CommandType {
         switch self {
         case .readback:
-            return false
+            return .system
+        case .brightness, .off:
+            return .global
         default:
-            return true
+            return .normal
         }
     }
 

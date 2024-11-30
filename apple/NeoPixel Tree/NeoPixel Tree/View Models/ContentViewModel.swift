@@ -15,10 +15,14 @@ struct ContentViewModel {
     }
 
     func colorChange(newColor: PixelColor) {
-        udpClient.send(.fill_color(color: newColor))
+        Task {
+            await udpClient.send(.fill_color(color: newColor))
+        }
     }
 
     func theaterChase(newColor: PixelColor) {
-        udpClient.send(.theater_chase(repeat: true, color: newColor))
+        Task {
+            await udpClient.send(.theater_chase(repeat: true, color: newColor))
+        }
     }
 }
