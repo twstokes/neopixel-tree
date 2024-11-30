@@ -122,9 +122,9 @@ Like Rainbow, but colors are equally distributed. Repeatable.
 
 Shows theater-style crawling lights with provided color. Repeatable.
 
-| Command | Number of colors provided | Red | Green | Blue |
+| Command | Repeat | Red | Green | Blue |
 | - | - | - | - | - |
-| `7` | `0 - 255` | `0 - 255` | `0 - 255` | `0 - 255` |
+| `7` | `0 - 1` | `0 - 255` | `0 - 255` | `0 - 255` |
 
 ---
 
