@@ -15,7 +15,7 @@ enum Command {
     case fill_pattern(count: Int, colors: [PixelColor])
     case rainbow(repeat: Bool)
     case rainbow_cycle(repeat: Bool)
-    case theater_chase(color: PixelColor)
+    case theater_chase(repeat: Bool, color: PixelColor)
     case readback
 
     // whether the UI will let us select the command
@@ -67,8 +67,8 @@ enum Command {
             return [`repeat`.toInt()]
         case .rainbow_cycle(let `repeat`):
             return [`repeat`.toInt()]
-        case .theater_chase(let color):
-            return color.toIntArray()
+        case .theater_chase(let `repeat`, let color):
+            return [`repeat`.toInt()] + color.toIntArray()
         case .readback:
             return []
         }
