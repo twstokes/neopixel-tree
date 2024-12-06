@@ -112,6 +112,6 @@ void loop() {
   } else if (repeat_packet) {
     process_packet(&latest_packet);
   } else {
-    delay(1);
+    delay(10);
   }
 }
