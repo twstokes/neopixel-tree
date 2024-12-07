@@ -36,9 +36,14 @@ bool process_command(uint8_t c, uint8_t *data, uint16_t len,
     fill_pattern_cmd(data, len, strip);
     break;
   case RAINBOW:
-    if (len != 1)
+    if (len == 1) {
+      rainbow(20, strip);
+    } else if (len == 3) {
+      uint16_t delay = process_delay(data[1], data[2]);
+      rainbow(delay, strip);
+    } else {
       break;
-    rainbow(20, strip);
+    }
     return data[0];
   case RAINBOW_CYCLE:
     if (len != 1)
@@ -117,3 +122,9 @@ bool theater_chase_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
   theater_chase(c, 20, strip);
   return repeat;
 }
+
+// uses big endian ordering to create a 16-bit value for delay
+uint16_t process_delay(uint8_t high, uint8_t low) {
+  return ((uint16_t)high << 8) | (uint16_t)low;
+}
+

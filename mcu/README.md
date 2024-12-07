@@ -100,11 +100,13 @@ Red, green, and blue parameters can be repeated up to `PIXEL_COUNT` times.
 
 ### Rainbow
 
-Animates the tree with a colorful rainbow effect. Repeatable.
+Animates the tree with a colorful rainbow effect. Repeatable. Optionally, a delay can be provided.
 
-| Command | Repeat |
-| - | - |
-| `5` | `0 - 1` |
+| Command | Repeat | _Delay High_ | _Delay Low_ |
+| - | - | - | - |
+| `5` | `0 - 1` | `0 - 255` | `0 - 255` |
+
+Delay defaults to 20 ms. Range is 16-bit, two supplied bytes are big endian.
 
 ---
 

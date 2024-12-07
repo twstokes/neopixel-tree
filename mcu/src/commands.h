@@ -29,3 +29,4 @@ void pixel_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
 void fill_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
 void fill_pattern_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
 bool theater_chase_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
+uint16_t process_delay(uint8_t high, uint8_t low);
