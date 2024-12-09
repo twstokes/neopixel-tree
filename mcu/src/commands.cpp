@@ -37,8 +37,10 @@ bool process_command(uint8_t c, uint8_t *data, uint16_t len,
     break;
   case RAINBOW:
     if (len == 1) {
+      // only repeat byte was passed
       rainbow(20, strip);
     } else if (len == 3) {
+      // two delay bytes were passed
       uint16_t delay = process_delay(data[1], data[2]);
       rainbow(delay, strip);
     } else {
