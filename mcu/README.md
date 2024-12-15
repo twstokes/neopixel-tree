@@ -106,7 +106,7 @@ Animates the tree with a colorful rainbow effect. Repeatable. Optionally, a dela
 | - | - | - | - |
 | `5` | `0 - 1` | `0 - 255` | `0 - 255` |
 
-Delay defaults to 20 ms. Range is 16-bit, two supplied bytes are big endian.
+Delay defaults to 20 ms. Range is 16-bit, two supplied bytes are big endian. Unit is milliseconds.
 
 ---
 
