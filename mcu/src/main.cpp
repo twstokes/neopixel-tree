@@ -7,6 +7,7 @@
 #include "commands.h"
 #include "ota_config.h"
 #include "sequences.h"
+#include "utils.h"
 #include "wifi_config.h"
 
 #define PIN D1
@@ -84,6 +85,19 @@ bool process_packet(Packet *packet) {
                          &strip);
 }
 
+// return true if a packet arrived during the delay call
+bool delay_with_udp(unsigned long ms) {
+  unsigned long future = millis() + ms;
+
+  while (millis() < future) {
+    if (Udp.parsePacket())
+      return true;
+    yield();
+  }
+
+  return false;
+}
+
 void setup() {
   start_strip();
   start_wifi();
@@ -93,7 +107,9 @@ void setup() {
 
 void loop() {
   ArduinoOTA.handle();
-  if (Udp.parsePacket()) {
+  // available is supposed to be called after parsePacket, which is handled
+  // in delay_with_udp
+  if (Udp.available()) {
     if (Udp.peek() == READBACK) {
       // special command to send back to the client
       // the last packet received, i.e. the running command
@@ -101,6 +117,9 @@ void loop() {
       Udp.write(packet, UDP_BUFFER_SIZE);
       Udp.endPacket();
       Udp.flush();
+      // must make a new call to parsePacket before calling available() again
+      Udp.parsePacket();
+      yield();
     } else {
       uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
       if (command_packet_length) {
@@ -112,6 +131,6 @@ void loop() {
   } else if (repeat_packet) {
     process_packet(&latest_packet);
   } else {
-    delay(10);
+    delay_with_udp(10);
   }
 }
