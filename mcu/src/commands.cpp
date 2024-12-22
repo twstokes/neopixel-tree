@@ -16,46 +16,23 @@ bool process_command(uint8_t c, uint8_t *data, uint16_t len,
     strip->show();
     break;
   case BRIGHTNESS:
-    if (len != 1)
-      break;
-    brightness_cmd(data[0], strip);
+    brightness_cmd(data, len, strip);
     break;
   case PIXEL_COLOR:
-    if (len != 4)
-      break;
-    pixel_color_cmd(data, strip);
+    pixel_color_cmd(data, len, strip);
     break;
   case FILL_COLOR:
-    if (len != 3)
-      break;
-    fill_color_cmd(data, strip);
+    fill_color_cmd(data, len, strip);
     break;
   case FILL_PATTERN:
-    if (len < 4)
-      break;
     fill_pattern_cmd(data, len, strip);
     break;
   case RAINBOW:
-    if (len == 1) {
-      // only repeat byte was passed
-      rainbow(20, strip);
-    } else if (len == 3) {
-      // two delay bytes were passed
-      uint16_t delay = process_delay(data[1], data[2]);
-      rainbow(delay, strip);
-    } else {
-      break;
-    }
-    return data[0];
+    return rainbow_cmd(data, len, strip);
   case RAINBOW_CYCLE:
-    if (len != 1)
-      break;
-    rainbow_cycle(20, strip);
-    return data[0];
+    return rainbow_cycle_cmd(data, len, strip);
   case THEATER_CHASE:
-    if (len != 4)
-      break;
-    return theater_chase_cmd(data, strip);
+    return theater_chase_cmd(data, len, strip);
   }
 
   return false;
@@ -68,14 +45,19 @@ void cmd_packet_from_raw_packet(Packet *cmd_packet, uint8_t *raw_packet,
   cmd_packet->data_len = data_len;
 }
 
-void brightness_cmd(uint8_t b, Adafruit_NeoPixel *strip) {
-  strip->setBrightness(b);
+void brightness_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
+  if (len != 1)
+    return;
+  uint8_t level = data[0];
+  strip->setBrightness(level);
   strip->show();
 }
 
 // sets the pixel color at the pixel offset
 // uses gamma correction
-void pixel_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
+void pixel_color_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
+  if (len != 4)
+    return;
   uint8_t offset = data[0];
   uint32_t c = strip->Color(data[1], data[2], data[3]);
   strip->setPixelColor(offset, strip->gamma32(c));
@@ -84,7 +66,9 @@ void pixel_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
 
 // fills the strip with the color provided by first three bytes of data
 // uses gamma correction
-void fill_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
+void fill_color_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
+  if (len != 3)
+    return;
   uint32_t c = strip->Color(data[0], data[1], data[2]);
   fill_and_show(strip->gamma32(c), strip);
 }
@@ -103,6 +87,9 @@ void unpack_colors_from_data(uint8_t *data, uint8_t num_colors,
 // fills the strip by repeating the provided color(s)
 // uses gamma correction
 void fill_pattern_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
+  if (len < 4)
+    return;
+
   // the first byte is the number of colors provided
   // note: not the total number of bytes, which is this number * 3
   const uint8_t num_colors = data[0];
@@ -119,7 +106,36 @@ void fill_pattern_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
   fill_pattern(c, num_colors, strip);
 }
 
-bool theater_chase_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
+bool rainbow_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
+  if (len < 1)
+    return false;
+  uint8_t repeat = data[0];
+  if (len == 1) {
+    // only repeat byte was passed, send default delay
+    rainbow(100, strip);
+    return repeat;
+  }
+
+  if (len == 3) {
+    // two delay bytes were passed
+    uint16_t delay = unpack_delay(data[1], data[2]);
+    rainbow(delay, strip);
+    return repeat;
+  }
+  return false;
+}
+
+bool rainbow_cycle_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
+  if (len != 1)
+    return false;
+  uint8_t repeat = data[0];
+  rainbow_cycle(20, strip);
+  return repeat;
+}
+
+bool theater_chase_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
+  if (len != 4)
+    return false;
   uint8_t repeat = data[0];
   uint32_t c = strip->Color(data[1], data[2], data[3]);
   theater_chase(c, 200, strip);

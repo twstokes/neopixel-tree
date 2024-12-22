@@ -24,9 +24,11 @@ bool process_command(uint8_t c, uint8_t *data, uint16_t len,
                      Adafruit_NeoPixel *strip);
 void cmd_packet_from_raw_packet(Packet *cmd_packet, uint8_t *raw_packet,
                                 uint16_t data_len);
-void brightness_cmd(uint8_t b, Adafruit_NeoPixel *strip);
-void pixel_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
-void fill_color_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
+void brightness_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
+void pixel_color_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
+void fill_color_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
 void fill_pattern_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
-bool theater_chase_cmd(uint8_t *data, Adafruit_NeoPixel *strip);
 uint16_t process_delay(uint8_t high, uint8_t low);
+bool rainbow_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
+bool rainbow_cycle_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
+bool theater_chase_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
