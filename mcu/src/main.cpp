@@ -102,6 +102,15 @@ bool delay_with_udp(unsigned long ms) {
   return false;
 }
 
+// special command to send back to the client
+// the last packet received, i.e. the running command
+void send_readback_packet() {
+  Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+  Udp.write(raw_packet, UDP_BUFFER_SIZE);
+  Udp.endPacket();
+  Udp.flush();
+}
+
 void setup() {
   start_strip();
   start_wifi();
@@ -114,13 +123,7 @@ void loop() {
   // in delay_with_udp
   if (Udp.available()) {
     if (Udp.peek() == READBACK) {
-      // special command to send back to the client
-      // the last packet received, i.e. the running command
-      Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-      Udp.write(raw_packet, UDP_BUFFER_SIZE);
-      Udp.endPacket();
-      Udp.flush();
-      // required
+      send_readback_packet();
       delay_with_udp(10);
     } else {
       uint16_t command_packet_length = Udp.read(raw_packet, UDP_BUFFER_SIZE);
