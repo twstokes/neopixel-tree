@@ -67,9 +67,12 @@ void color_wipe(uint32_t c, uint8_t wait, Adafruit_NeoPixel *strip) {
 }
 
 void rainbow(uint8_t wait, Adafruit_NeoPixel *strip) {
-  uint16_t i, j;
+  static uint16_t i, j = 0;
 
-  for (j = 0; j < 256; j++) {
+  if (j == 256)
+    j = 0;
+
+  for (; j < 256; j++) {
     for (i = 0; i < strip->numPixels(); i++) {
       strip->setPixelColor(i, wheel((i + j) & 255, strip));
     }
