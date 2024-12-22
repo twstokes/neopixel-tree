@@ -4,10 +4,10 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
-#include "utils.h"
 #include "commands.h"
 #include "ota_config.h"
 #include "sequences.h"
+#include "utils.h"
 #include "wifi_config.h"
 
 #define PIN D1
@@ -89,8 +89,9 @@ bool delay_with_udp(unsigned long ms) {
   unsigned long current = millis();
   unsigned long future = current + ms;
 
-  while(millis() < future) {
-    if (Udp.parsePacket()) return true;
+  while (millis() < future) {
+    if (Udp.parsePacket())
+      return true;
     delay(1);
   }
 
@@ -106,7 +107,7 @@ void setup() {
 
 void loop() {
   ArduinoOTA.handle();
-  if (Udp.parsePacket()) {
+  if (Udp.available()) {
     if (Udp.peek() == READBACK) {
       // special command to send back to the client
       // the last packet received, i.e. the running command
@@ -125,6 +126,6 @@ void loop() {
   } else if (repeat_packet) {
     process_packet(&latest_packet);
   } else {
-    delay(10);
+    delay_with_udp(10);
   }
 }

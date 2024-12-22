@@ -1,5 +1,5 @@
-#include "utils.h"
 #include "sequences.h"
+#include "utils.h"
 
 /*
  * Many of these sequences are from examples
@@ -73,7 +73,8 @@ void rainbow(uint8_t wait, Adafruit_NeoPixel *strip) {
       strip->setPixelColor(i, wheel((i + j) & 255, strip));
     }
     strip->show();
-    if(delay_with_udp(wait)) return;
+    if (delay_with_udp(wait))
+      return;
   }
 }
 
