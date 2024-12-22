@@ -27,7 +27,7 @@
 
 `pio run -e [env name] -t upload`
 
-## Command Protocol
+## Command protocol
 
 Commands are received on the MCU via UDP packets. Each packet starts with a 1-byte identifier followed by zero or more bytes specific to that command.
 
@@ -43,6 +43,10 @@ Commands are received on the MCU via UDP packets. Each packet starts with a 1-by
 - Each parameter is a byte unless otherwise noted.
 - For values that are larger than 1 byte, we use big-endian.
 - Parameter table rows correspond to data byte indices (row 0 is byte 0).
+
+## Known issues
+
+Repeatedly driving the LEDs quickly can lead to MCU restarts. After researching the issue, this is likely due to the NeoPixel library "bit banging" the LEDs and disabling interrupts which the ESP8266 needs for the WiFi stack and other system functionality. Most likely the watchdog timer causes a restart in these instances. Setting a higher delay in looping routines can increase stability.
 
 ---
 
