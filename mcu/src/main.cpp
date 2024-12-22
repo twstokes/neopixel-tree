@@ -19,7 +19,7 @@ Adafruit_NeoPixel strip =
 WiFiUDP Udp;
 
 #define UDP_BUFFER_SIZE 512
-uint8_t packet[UDP_BUFFER_SIZE];
+uint8_t raw_packet[UDP_BUFFER_SIZE];
 
 Packet latest_packet;
 // if true, the last received packet will be repeated
@@ -90,7 +90,6 @@ bool process_packet(Packet *packet) {
 }
 
 // return true if a packet arrived during the delay call
-// should only be used after Udp and ArduinoOTA have been initialized
 bool delay_with_udp(unsigned long ms) {
   unsigned long future = millis() + ms;
 
@@ -119,15 +118,15 @@ void loop() {
       // special command to send back to the client
       // the last packet received, i.e. the running command
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-      Udp.write(packet, UDP_BUFFER_SIZE);
+      Udp.write(raw_packet, UDP_BUFFER_SIZE);
       Udp.endPacket();
       Udp.flush();
       // required
       delay_with_udp(10);
     } else {
-      uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
+      uint16_t command_packet_length = Udp.read(raw_packet, UDP_BUFFER_SIZE);
       if (command_packet_length) {
-        cmd_packet_from_raw_packet(&latest_packet, packet,
+        cmd_packet_from_raw_packet(&latest_packet, raw_packet,
                                    command_packet_length - 1);
         repeat_packet = process_packet(&latest_packet);
       }
