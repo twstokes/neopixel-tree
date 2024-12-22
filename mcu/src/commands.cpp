@@ -143,6 +143,6 @@ bool theater_chase_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
 }
 
 // uses big endian ordering to create a 16-bit value for delay
-uint16_t process_delay(uint8_t high, uint8_t low) {
+uint16_t unpack_delay(uint8_t high, uint8_t low) {
   return ((uint16_t)high << 8) | (uint16_t)low;
 }
