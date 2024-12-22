@@ -70,6 +70,7 @@ void cmd_packet_from_raw_packet(Packet *cmd_packet, uint8_t *raw_packet,
 
 void brightness_cmd(uint8_t b, Adafruit_NeoPixel *strip) {
   strip->setBrightness(b);
+  strip->show();
 }
 
 // sets the pixel color at the pixel offset
