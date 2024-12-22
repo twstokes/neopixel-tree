@@ -93,6 +93,7 @@ bool delay_with_udp(unsigned long ms) {
     if (Udp.parsePacket())
       return true;
     yield();
+    ArduinoOTA.handle();
   }
 
   return false;
@@ -106,7 +107,6 @@ void setup() {
 }
 
 void loop() {
-  ArduinoOTA.handle();
   // available is supposed to be called after parsePacket, which is handled
   // in delay_with_udp
   if (Udp.available()) {
