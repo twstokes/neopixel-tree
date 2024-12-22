@@ -150,6 +150,6 @@ This command takes no parameters. The data received shouldn't be larger than `UD
 2. The Rainbow command is sent.
 3. The Readback command is sent.
 
-Because the Readback command sends the raw packet buffer and doesn't factor in the total length of the Rainbow command, it'll contain the previous values from setup 1. The client should know (based on byte 0) that the tree is running the Rainbow command and to only read the valid bytes.
+Because the Readback command sends the raw packet buffer and doesn't factor in the total length of the Rainbow command, it'll contain the previous values from step 1. The client should know (based on byte 0) that the tree is running the Rainbow command and to only read the valid bytes.
 
 If the Pattern Fill command is being read, pay attention to the byte with the number of colors to know how many subsequent bytes to expect.
