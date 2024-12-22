@@ -1,3 +1,4 @@
+#include "utils.h"
 #include "sequences.h"
 
 /*
@@ -72,7 +73,7 @@ void rainbow(uint8_t wait, Adafruit_NeoPixel *strip) {
       strip->setPixelColor(i, wheel((i + j) & 255, strip));
     }
     strip->show();
-    delay(wait);
+    if(delay_with_udp(wait)) return;
   }
 }
 

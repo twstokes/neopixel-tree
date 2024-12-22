@@ -4,6 +4,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
+#include "utils.h"
 #include "commands.h"
 #include "ota_config.h"
 #include "sequences.h"
@@ -82,6 +83,18 @@ void start_udp() { Udp.begin(UDP_PORT); }
 bool process_packet(Packet *packet) {
   return process_command(packet->command, packet->data, packet->data_len,
                          &strip);
+}
+
+bool delay_with_udp(unsigned long ms) {
+  unsigned long current = millis();
+  unsigned long future = current + ms;
+
+  while(millis() < future) {
+    if (Udp.parsePacket()) return true;
+    delay(1);
+  }
+
+  return false;
 }
 
 void setup() {
