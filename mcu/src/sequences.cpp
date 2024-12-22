@@ -61,7 +61,8 @@ void color_wipe(uint32_t c, uint8_t wait, Adafruit_NeoPixel *strip) {
   for (uint16_t i = 0; i < strip->numPixels(); i++) {
     strip->setPixelColor(i, c);
     strip->show();
-    delay(wait);
+    if (delay_with_udp(wait))
+      return;
   }
 }
 
@@ -88,7 +89,8 @@ void rainbow_cycle(uint8_t wait, Adafruit_NeoPixel *strip) {
           i, wheel(((i * 256 / strip->numPixels()) + j) & 255, strip));
     }
     strip->show();
-    delay(wait);
+    if (delay_with_udp(wait))
+      return;
   }
 }
 
@@ -100,7 +102,8 @@ void theater_chase(uint32_t c, uint8_t wait, Adafruit_NeoPixel *strip) {
         strip->setPixelColor(i + q, c); // turn every third pixel on
       }
       strip->show();
-      delay(wait);
+      if (delay_with_udp(wait))
+        return;
 
       for (uint16_t i = 0; i < strip->numPixels(); i = i + 3) {
         strip->setPixelColor(i + q, 0); // turn every third pixel off
@@ -118,8 +121,8 @@ void theater_chase_rainbow(uint8_t wait, Adafruit_NeoPixel *strip) {
             i + q, wheel((i + j) % 255, strip)); // turn every third pixel on
       }
       strip->show();
-
-      delay(wait);
+      if (delay_with_udp(wait))
+        return;
 
       for (uint16_t i = 0; i < strip->numPixels(); i = i + 3) {
         strip->setPixelColor(i + q, 0); // turn every third pixel off
