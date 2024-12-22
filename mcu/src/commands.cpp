@@ -129,4 +129,3 @@ bool theater_chase_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
 uint16_t process_delay(uint8_t high, uint8_t low) {
   return ((uint16_t)high << 8) | (uint16_t)low;
 }
-

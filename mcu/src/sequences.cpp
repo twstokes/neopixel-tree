@@ -98,7 +98,6 @@ void theater_chase(uint32_t c, uint8_t wait, Adafruit_NeoPixel *strip) {
         strip->setPixelColor(i + q, c); // turn every third pixel on
       }
       strip->show();
-
       delay(wait);
 
       for (uint16_t i = 0; i < strip->numPixels(); i = i + 3) {
