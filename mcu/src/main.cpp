@@ -117,6 +117,8 @@ void loop() {
       Udp.write(packet, UDP_BUFFER_SIZE);
       Udp.endPacket();
       Udp.flush();
+      // must make a new call to parsePacket
+      delay_with_udp(10);
     } else {
       uint16_t command_packet_length = Udp.read(packet, UDP_BUFFER_SIZE);
       if (command_packet_length) {
