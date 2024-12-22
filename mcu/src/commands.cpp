@@ -121,7 +121,7 @@ void fill_pattern_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
 bool theater_chase_cmd(uint8_t *data, Adafruit_NeoPixel *strip) {
   uint8_t repeat = data[0];
   uint32_t c = strip->Color(data[1], data[2], data[3]);
-  theater_chase(c, 20, strip);
+  theater_chase(c, 200, strip);
   return repeat;
 }
 
