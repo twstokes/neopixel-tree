@@ -85,6 +85,7 @@ bool process_packet(Packet *packet) {
                          &strip);
 }
 
+// return true if a packet arrived during the delay call
 bool delay_with_udp(unsigned long ms) {
   unsigned long current = millis();
   unsigned long future = current + ms;
@@ -107,6 +108,8 @@ void setup() {
 
 void loop() {
   ArduinoOTA.handle();
+  // available is supposed to be called after parsePacket, which is handled
+  // in delay_with_udp
   if (Udp.available()) {
     if (Udp.peek() == READBACK) {
       // special command to send back to the client
