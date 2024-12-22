@@ -92,7 +92,7 @@ bool delay_with_udp(unsigned long ms) {
   while (millis() < future) {
     if (Udp.parsePacket())
       return true;
-    delay(1);
+    yield();
   }
 
   return false;
