@@ -33,18 +33,22 @@ void start_strip() {
 
 // start WiFi with visual feedback
 void start_wifi() {
-  uint32_t green = strip.Color(0, 255, 0);
-  uint32_t orange = strip.Color(255, 87, 51);
+  uint32_t green = strip.gamma32(strip.Color(0, 255, 0));
+  uint32_t orange = strip.gamma32(strip.Color(255, 87, 51));
+  uint32_t black = strip.Color(0, 0, 0);
 
   // set the strip to orange before establishing a WiFi connection
-  fill_and_show(strip.gamma32(orange), &strip);
+  fill_and_show(orange, &strip);
 
   WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, wifi_pass);
 
   while (WiFi.status() != WL_CONNECTED) {
-    // give it a moment to connect by running a theater chase sequence
-    theater_chase(orange, 50, &strip);
+    // show that we're trying to establish a connection
+    fill_and_show(orange, &strip);
+    delay(1000);
+    fill_and_show(black, &strip);
+    delay(1000);
   }
 
   // set the strip to green on success
@@ -86,6 +90,7 @@ bool process_packet(Packet *packet) {
 }
 
 // return true if a packet arrived during the delay call
+// should only be used after Udp and ArduinoOTA have been initialized
 bool delay_with_udp(unsigned long ms) {
   unsigned long future = millis() + ms;
 
