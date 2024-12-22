@@ -21,9 +21,7 @@ WiFiUDP Udp;
 #define UDP_BUFFER_SIZE 512
 uint8_t raw_packet[UDP_BUFFER_SIZE];
 
-Packet latest_packet;
-// if true, the last received packet will be repeated
-bool repeat_packet = false;
+Packet latest_packet = {0, NULL, 0, false};
 
 // initialize the strip and turn off all LEDs
 void start_strip() {
@@ -84,9 +82,10 @@ void start_ota() {
 
 void start_udp() { Udp.begin(UDP_PORT); }
 
-bool process_packet(Packet *packet) {
-  return process_command(packet->command, packet->data, packet->data_len,
-                         &strip);
+void process_packet(Packet *packet) {
+  bool repeat =
+      process_command(packet->command, packet->data, packet->data_len, &strip);
+  packet->repeat = repeat;
 }
 
 // return true if a packet arrived during the delay call
@@ -128,10 +127,10 @@ void loop() {
       if (command_packet_length) {
         cmd_packet_from_raw_packet(&latest_packet, raw_packet,
                                    command_packet_length - 1);
-        repeat_packet = process_packet(&latest_packet);
+        process_packet(&latest_packet);
       }
     }
-  } else if (repeat_packet) {
+  } else if (latest_packet.repeat) {
     process_packet(&latest_packet);
   } else {
     delay_with_udp(10);

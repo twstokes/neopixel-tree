@@ -18,6 +18,7 @@ struct Packet {
   uint8_t command;
   uint8_t *data;
   uint16_t data_len;
+  bool repeat;
 };
 
 bool process_command(uint8_t c, uint8_t *data, uint16_t len,
