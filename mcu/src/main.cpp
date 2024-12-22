@@ -87,8 +87,7 @@ bool process_packet(Packet *packet) {
 
 // return true if a packet arrived during the delay call
 bool delay_with_udp(unsigned long ms) {
-  unsigned long current = millis();
-  unsigned long future = current + ms;
+  unsigned long future = millis() + ms;
 
   while (millis() < future) {
     if (Udp.parsePacket())
