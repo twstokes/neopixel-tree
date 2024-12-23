@@ -20,7 +20,6 @@ struct UDPClient {
         guard let nwPort = NWEndpoint.Port(port) else {
             fatalError("Invalid port defined.")
         }
-
         connection = NWConnection(host: nwHost, port: nwPort, using: .udp)
     }
 
@@ -49,7 +48,6 @@ struct UDPClient {
             completion(UDPError.maxPayloadExceeded)
             return
         }
-
         connection.send(content: data, completion: .contentProcessed(completion))
     }
 }

@@ -22,7 +22,7 @@ struct ContentViewModel {
 
     func theaterChase(newColor: PixelColor) {
         Task {
-            await udpClient.send(.theater_chase(repeat: true, color: newColor))
+            await udpClient.send(.theater_chase(repeating: true, color: newColor))
         }
     }
 }

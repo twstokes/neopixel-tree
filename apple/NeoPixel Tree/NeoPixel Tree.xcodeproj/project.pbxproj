@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,16 @@
 		C3D42C962CFB6BBF00397A66 /* CommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D42C952CFB6BBF00397A66 /* CommandType.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C3E6125A2D18E71600E03B7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C384ED82293D8F790042E1F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C384ED89293D8F790042E1F6;
+			remoteInfo = "NeoPixel Tree";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NeoPixel Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeoPixel_TreeApp.swift; sourceTree = "<group>"; };
@@ -35,10 +45,22 @@
 		C384EDA9293D969D0042E1F6 /* UIColor+RGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RGB.swift"; sourceTree = "<group>"; };
 		C3A539642948278800D3FC3D /* Bool+Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Int.swift"; sourceTree = "<group>"; };
 		C3D42C952CFB6BBF00397A66 /* CommandType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandType.swift; sourceTree = "<group>"; };
+		C3E612562D18E71600E03B7A /* NeoPixel TreeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoPixel TreeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C3E612572D18E71600E03B7A /* NeoPixel TreeTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "NeoPixel TreeTests"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C384ED87293D8F790042E1F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3E612532D18E71600E03B7A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -52,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				C384ED8C293D8F790042E1F6 /* NeoPixel Tree */,
+				C3E612572D18E71600E03B7A /* NeoPixel TreeTests */,
 				C384ED8B293D8F790042E1F6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */,
+				C3E612562D18E71600E03B7A /* NeoPixel TreeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,6 +167,29 @@
 			productReference = C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C3E612552D18E71600E03B7A /* NeoPixel TreeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3E6125E2D18E71600E03B7A /* Build configuration list for PBXNativeTarget "NeoPixel TreeTests" */;
+			buildPhases = (
+				C3E612522D18E71600E03B7A /* Sources */,
+				C3E612532D18E71600E03B7A /* Frameworks */,
+				C3E612542D18E71600E03B7A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C3E6125B2D18E71600E03B7A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C3E612572D18E71600E03B7A /* NeoPixel TreeTests */,
+			);
+			name = "NeoPixel TreeTests";
+			packageProductDependencies = (
+			);
+			productName = "NeoPixel TreeTests";
+			productReference = C3E612562D18E71600E03B7A /* NeoPixel TreeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -150,11 +197,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1410;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					C384ED89293D8F790042E1F6 = {
 						CreatedOnToolsVersion = 14.1;
+					};
+					C3E612552D18E71600E03B7A = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = C384ED89293D8F790042E1F6;
 					};
 				};
 			};
@@ -172,6 +223,7 @@
 			projectRoot = "";
 			targets = (
 				C384ED89293D8F790042E1F6 /* NeoPixel Tree */,
+				C3E612552D18E71600E03B7A /* NeoPixel TreeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -183,6 +235,13 @@
 			files = (
 				C384ED95293D8F7A0042E1F6 /* Preview Assets.xcassets in Resources */,
 				C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3E612542D18E71600E03B7A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +265,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C3E612522D18E71600E03B7A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C3E6125B2D18E71600E03B7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C384ED89293D8F790042E1F6 /* NeoPixel Tree */;
+			targetProxy = C3E6125A2D18E71600E03B7A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C384ED96293D8F7A0042E1F6 /* Debug */ = {
@@ -381,6 +455,51 @@
 			};
 			name = Release;
 		};
+		C3E6125C2D18E71600E03B7A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tannr.NeoPixel-TreeTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NeoPixel Tree.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NeoPixel Tree";
+			};
+			name = Debug;
+		};
+		C3E6125D2D18E71600E03B7A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tannr.NeoPixel-TreeTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NeoPixel Tree.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NeoPixel Tree";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -398,6 +517,15 @@
 			buildConfigurations = (
 				C384ED99293D8F7A0042E1F6 /* Debug */,
 				C384ED9A293D8F7A0042E1F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3E6125E2D18E71600E03B7A /* Build configuration list for PBXNativeTarget "NeoPixel TreeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3E6125C2D18E71600E03B7A /* Debug */,
+				C3E6125D2D18E71600E03B7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
