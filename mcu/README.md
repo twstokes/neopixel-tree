@@ -40,7 +40,7 @@ Commands are received on the MCU via UDP packets. Each packet starts with a 1-by
 
 ## Command list
 
-- Each parameter is required.
+- Parameters are required unless noted as optional.
 - Each parameter is a byte unless otherwise noted.
 - For values that are larger than 1 byte, we use big-endian.
 - Parameter table rows correspond to data byte indices (row 0 is byte 0).
