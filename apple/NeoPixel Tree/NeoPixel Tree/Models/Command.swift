@@ -12,10 +12,10 @@ enum Command {
     case brightness(level: Int)
     case pixel_color(offset: Int, color: PixelColor)
     case fill_color(color: PixelColor)
-    case fill_pattern(count: Int, colors: [PixelColor])
-    case rainbow(repeat: Bool)
-    case rainbow_cycle(repeat: Bool)
-    case theater_chase(repeat: Bool, color: PixelColor)
+    case fill_pattern(colors: [PixelColor])
+    case rainbow(repeating: Bool, delay: Delay?)
+    case rainbow_cycle(repeating: Bool)
+    case theater_chase(repeating: Bool, color: PixelColor)
     case readback
 
     var type: CommandType {
@@ -29,6 +29,7 @@ enum Command {
         }
     }
 
+    // ID as defined by commands.h on the MCU
     var id: Int {
         switch self {
         case .off:
@@ -62,16 +63,28 @@ enum Command {
             return [offset] + color.toIntArray()
         case .fill_color(let color):
             return color.toIntArray()
-        case .fill_pattern(let count, let colors):
-            return [count] + colors.flatMap { $0.toIntArray() }
-        case .rainbow(let `repeat`):
-            return [`repeat`.toInt()]
-        case .rainbow_cycle(let `repeat`):
-            return [`repeat`.toInt()]
-        case .theater_chase(let `repeat`, let color):
-            return [`repeat`.toInt()] + color.toIntArray()
+        case .fill_pattern(let colors):
+            return [colors.count] + colors.flatMap { $0.toIntArray() }
+        case .rainbow(let repeating, let delay):
+            return [repeating.toInt()] + (delay?.toIntArray() ?? [])
+        case .rainbow_cycle(let repeating):
+            return [repeating.toInt()]
+        case .theater_chase(let repeating, let color):
+            return [repeating.toInt()] + color.toIntArray()
         case .readback:
             return []
         }
+    }
+}
+
+struct Delay {
+    // should not exceed UInt16
+    let milliseconds: Int
+
+    // return two UInt8 elements, big endian
+    func toIntArray() -> [Int] {
+        // truncate to 16 bits
+        let milliseconds = UInt16(milliseconds)
+        return [Int(milliseconds >> 8), Int(milliseconds & 0xFF)]
     }
 }
