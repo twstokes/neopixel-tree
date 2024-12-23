@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C37E3F892D19D3DC005B2192 /* Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37E3F882D19D3DC005B2192 /* Delay.swift */; };
 		C384ED8E293D8F790042E1F6 /* NeoPixel_TreeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */; };
 		C384ED90293D8F790042E1F6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C384ED8F293D8F790042E1F6 /* ContentView.swift */; };
 		C384ED92293D8F7A0042E1F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C384ED91293D8F7A0042E1F6 /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C37E3F882D19D3DC005B2192 /* Delay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delay.swift; sourceTree = "<group>"; };
 		C384ED8A293D8F790042E1F6 /* NeoPixel Tree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NeoPixel Tree.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C384ED8D293D8F790042E1F6 /* NeoPixel_TreeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeoPixel_TreeApp.swift; sourceTree = "<group>"; };
 		C384ED8F293D8F790042E1F6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			children = (
 				C384ED9C293D8FD50042E1F6 /* UDPClient.swift */,
 				C384ED9E293D90510042E1F6 /* Command.swift */,
+				C37E3F882D19D3DC005B2192 /* Delay.swift */,
 				C3D42C952CFB6BBF00397A66 /* CommandType.swift */,
 				C384EDA0293D91220042E1F6 /* PixelColor.swift */,
 			);
@@ -252,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C37E3F892D19D3DC005B2192 /* Delay.swift in Sources */,
 				C384EDA1293D91220042E1F6 /* PixelColor.swift in Sources */,
 				C384ED9D293D8FD50042E1F6 /* UDPClient.swift in Sources */,
 				C384EDA5293D94BE0042E1F6 /* ContentViewModel.swift in Sources */,
