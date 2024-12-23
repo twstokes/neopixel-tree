@@ -4,3 +4,4 @@
 .vscode
 src/wifi_config.h
 src/ota_config.h
+secrets.ini

@@ -12,6 +12,7 @@
 - Install [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
 - Copy `src/wifi_config.h.sample` to `src/wifi_config.h` and fill in the appropriate values.
 - Copy `src/ota_config.h.sample` to `src/ota_config.h` and fill in the appropriate values.
+- Copy `secrets.ini.sample` to `secrets.ini` and fill in the appropriate values.
 
 ## Build environments
 
