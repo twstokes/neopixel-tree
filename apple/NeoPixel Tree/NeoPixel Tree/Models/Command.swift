@@ -7,6 +7,9 @@
 
 import Foundation
 
+// potential protocols:
+// repeatable, delayable, colorable, multicolorable
+
 enum Command {
     case off
     case brightness(level: Int)
