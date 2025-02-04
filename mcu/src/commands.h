@@ -1,6 +1,4 @@
-#include "sequences.h"
 #include <Adafruit_NeoPixel.h>
-#include <Arduino.h>
 
 enum command {
   OFF = 0,
