@@ -1,5 +1,4 @@
 #include <Adafruit_NeoPixel.h>
-#include <Arduino.h>
 #include <ArduinoOTA.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
@@ -90,9 +89,9 @@ void process_packet(Packet *packet) {
 
 // return true if a packet arrived during the delay call
 bool delay_with_udp(unsigned long ms) {
-  unsigned long future = millis() + ms;
+  unsigned long start = millis();
 
-  while (millis() < future) {
+  while (millis() - start < ms) {
     if (Udp.parsePacket())
       return true;
     yield();

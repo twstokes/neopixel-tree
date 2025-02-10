@@ -1,5 +1,4 @@
 #include <Adafruit_NeoPixel.h>
-#include <Arduino.h>
 
 void fill_and_show(uint32_t c, Adafruit_NeoPixel *strip);
 void fill_pattern(uint32_t *c, uint16_t len, Adafruit_NeoPixel *strip);
