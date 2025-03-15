@@ -1,4 +1,5 @@
 #include "commands.h"
+#include "sequences.h"
 
 /*
  * @param   c       Command
