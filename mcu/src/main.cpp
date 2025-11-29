@@ -39,6 +39,7 @@ void start_wifi() {
 
   WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, wifi_pass);
+  WiFi.setSleep(false);
 
   while (WiFi.status() != WL_CONNECTED) {
     // show that we're trying to establish a connection
@@ -135,6 +136,6 @@ void loop() {
   } else if (latest_packet.repeat) {
     process_packet(&latest_packet);
   } else {
-    delay_with_udp(10);
+    delay_with_udp(5);
   }
 }
