@@ -57,6 +57,15 @@ void start_wifi() {
   delay(1000);
 }
 
+void restart_wifi() {
+  WiFi.disconnect();
+
+  while (WiFi.begin(ssid, wifi_pass) != WL_CONNECTED) {
+    Serial.println("Connecting to WiFi...");
+    delay(100);
+  }
+}
+
 // starts OTA updates capability and uses the
 // NeoPixel strip to show update progress
 void start_ota() {
@@ -149,6 +158,10 @@ void setup() {
 }
 
 void loop() {
+  if (WiFi.status() != WL_CONNECTED) {
+    restart_wifi();
+  }
+
   // available is supposed to be called after parsePacket, which is handled
   // in delay_with_udp
   if (Udp.available()) {
