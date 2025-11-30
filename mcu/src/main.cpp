@@ -1,6 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <ArduinoOTA.h>
 #include <ESP8266WiFi.h>
+#include <Esp.h>
 #include <WiFiUdp.h>
 
 #include "commands.h"
@@ -21,6 +22,8 @@ WiFiUDP Udp;
 uint8_t raw_packet[UDP_BUFFER_SIZE];
 
 Packet latest_packet = {0, NULL, 0, false};
+
+#define DEFAULT_DELAY_MS 5
 
 // initialize the strip and turn off all LEDs
 void start_strip() {
@@ -111,6 +114,33 @@ void send_readback_packet() {
   Udp.flush();
 }
 
+// responds with the last reset reason to the current UDP peer
+void send_reset_info() {
+  String reason = ESP.getResetInfo();
+  size_t len = reason.length();
+
+  Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+  // cap length to UDP_BUFFER_SIZE to avoid overruns
+  if (len > UDP_BUFFER_SIZE)
+    len = UDP_BUFFER_SIZE;
+  Udp.write(reinterpret_cast<const uint8_t *>(reason.c_str()), len);
+  Udp.endPacket();
+  Udp.flush();
+}
+
+// responds with uptime in milliseconds since boot
+void send_uptime() {
+  String uptime_ms = String(millis());
+  size_t len = uptime_ms.length();
+
+  Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+  if (len > UDP_BUFFER_SIZE)
+    len = UDP_BUFFER_SIZE;
+  Udp.write(reinterpret_cast<const uint8_t *>(uptime_ms.c_str()), len);
+  Udp.endPacket();
+  Udp.flush();
+}
+
 void setup() {
   start_strip();
   start_wifi();
@@ -122,9 +152,16 @@ void loop() {
   // available is supposed to be called after parsePacket, which is handled
   // in delay_with_udp
   if (Udp.available()) {
-    if (Udp.peek() == READBACK) {
+    uint8_t peeked_command = Udp.peek();
+    if (peeked_command == READBACK) {
       send_readback_packet();
-      delay_with_udp(10);
+      delay_with_udp(DEFAULT_DELAY_MS);
+    } else if (peeked_command == RESET_INFO) {
+      send_reset_info();
+      delay_with_udp(DEFAULT_DELAY_MS);
+    } else if (peeked_command == UPTIME) {
+      send_uptime();
+      delay_with_udp(DEFAULT_DELAY_MS);
     } else {
       uint16_t command_packet_length = Udp.read(raw_packet, UDP_BUFFER_SIZE);
       if (command_packet_length) {
@@ -136,6 +173,6 @@ void loop() {
   } else if (latest_packet.repeat) {
     process_packet(&latest_packet);
   } else {
-    delay_with_udp(5);
+    delay_with_udp(DEFAULT_DELAY_MS);
   }
 }

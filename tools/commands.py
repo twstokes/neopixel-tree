@@ -6,4 +6,6 @@ fill_pattern=4
 rainbow=5
 rainbow_cycle=6
 theater_chase=7
+reset_info=253
+uptime=254
 readback=255

@@ -9,6 +9,11 @@ enum command {
   RAINBOW = 5,
   RAINBOW_CYCLE = 6,
   THEATER_CHASE = 7,
+  // Information on what reset the MCU
+  RESET_INFO = 253,
+  // Runtime in milliseconds
+  UPTIME = 254,
+  // The last command that was sent
   READBACK = 255
 };
 
