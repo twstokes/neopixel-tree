@@ -135,9 +135,39 @@ Shows theater-style crawling lights with provided color. Repeatable.
 
 ---
 
+### Reset Info
+
+A special command used by clients to get information on why the MCU reset.
+
+**Returns:** `[uint8_t]` [ESP Reset Reason](https://github.com/esp8266/Arduino/blob/7b0ac416942ee7203cd66e233721c53fe5a23a01/cores/esp8266/Esp.cpp#L484)
+
+| Command |
+| - |
+| `253` |
+
+This command takes no parameters. The data received shouldn't be larger than `UDP_BUFFER_SIZE`.
+
+---
+
+### Uptime
+
+A special command used by clients to get the number of milliseconds since the MCU started.
+
+**Returns:** `[uint8_t]` Number of milliseconds since the MCU started
+
+| Command |
+| - |
+| `254` |
+
+This command takes no parameters. The data received shouldn't be larger than `UDP_BUFFER_SIZE`.
+
+---
+
 ### Readback
 
 A special command used by clients to get the currently running sequence on the tree.
+
+**Returns:** `[uint8_t]` Raw packet stored in the MCU
 
 | Command |
 | - |
