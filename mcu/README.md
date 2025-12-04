@@ -45,9 +45,15 @@ Commands are received on the MCU via UDP packets. Each packet starts with a 1-by
 - For values that are larger than 1 byte, we use big-endian.
 - Parameter table rows correspond to data byte indices (row 0 is byte 0).
 
-## Known issues
+## Past issues
 
-Repeatedly driving the LEDs quickly can lead to MCU restarts. After researching the issue, this is likely due to the NeoPixel library "bit banging" the LEDs and disabling interrupts which the ESP8266 needs for the WiFi stack and other system functionality. Most likely the watchdog timer causes a restart in these instances. Setting a higher delay in looping routines can increase stability.
+When using an ESP8266 we'd often experience random crashes due to watchdog timer resets. This was likely due to a single core + bit banging all the pixels in a tight loop + trying to run WiFi at the same time. The simple solution was to upgrade to an ESP32 with dual cores.
+
+This is why the "Reset Info" command was introduced, where we got:
+
+```
+Fatal exception:4 flag:1 (Hardware Watchdog) epc1:0x40103341 epc2:0x00000000 epc3:0x00000000 excvaddr:0x00000000 depc:0x00000000
+```
 
 ---
 
@@ -139,7 +145,7 @@ Shows theater-style crawling lights with provided color. Repeatable.
 
 A special command used by clients to get information on why the MCU reset.
 
-**Returns:** `[uint8_t]` [ESP Reset Reason](https://github.com/esp8266/Arduino/blob/7b0ac416942ee7203cd66e233721c53fe5a23a01/cores/esp8266/Esp.cpp#L484)
+**Returns:** `[uint8_t]` [ESP32 reset reason](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/misc_system_api.html#_CPPv418esp_reset_reason_t)
 
 | Command |
 | - |
