@@ -1,8 +1,10 @@
 #include <Adafruit_NeoPixel.h>
 #include <ArduinoOTA.h>
-#include <ESP8266WiFi.h>
-#include <Esp.h>
+#include <ESPmDNS.h>
+#include <WiFi.h>
 #include <WiFiUdp.h>
+#include <cstring>
+#include <esp_system.h>
 
 #include "commands.h"
 #include "ota_config.h"
@@ -10,7 +12,7 @@
 #include "utils.h"
 #include "wifi_config.h"
 
-#define PIN D1
+#define PIN 18
 #define PIXEL_COUNT 106
 Adafruit_NeoPixel strip =
     Adafruit_NeoPixel(PIXEL_COUNT, PIN, NEO_GRB + NEO_KHZ800);
@@ -24,6 +26,35 @@ uint8_t raw_packet[UDP_BUFFER_SIZE];
 Packet latest_packet = {0, NULL, 0, false};
 
 #define DEFAULT_DELAY_MS 5
+
+const char *reset_reason_to_string(esp_reset_reason_t reason) {
+  switch (reason) {
+  case ESP_RST_UNKNOWN:
+    return "ESP_RST_UNKNOWN";
+  case ESP_RST_POWERON:
+    return "ESP_RST_POWERON";
+  case ESP_RST_EXT:
+    return "ESP_RST_EXT";
+  case ESP_RST_SW:
+    return "ESP_RST_SW";
+  case ESP_RST_PANIC:
+    return "ESP_RST_PANIC";
+  case ESP_RST_INT_WDT:
+    return "ESP_RST_INT_WDT";
+  case ESP_RST_TASK_WDT:
+    return "ESP_RST_TASK_WDT";
+  case ESP_RST_WDT:
+    return "ESP_RST_WDT";
+  case ESP_RST_DEEPSLEEP:
+    return "ESP_RST_DEEPSLEEP";
+  case ESP_RST_BROWNOUT:
+    return "ESP_RST_BROWNOUT";
+  case ESP_RST_SDIO:
+    return "ESP_RST_SDIO";
+  default:
+    return "ESP_RST_UNKNOWN";
+  }
+}
 
 // initialize the strip and turn off all LEDs
 void start_strip() {
@@ -40,6 +71,7 @@ void start_wifi() {
   // set the strip to orange before establishing a WiFi connection
   fill_and_show(orange, &strip);
 
+  WiFi.mode(WIFI_STA);
   WiFi.config(ip, gateway, subnet);
   WiFi.begin(ssid, wifi_pass);
   WiFi.setSleep(false);
@@ -70,6 +102,7 @@ void restart_wifi() {
 // NeoPixel strip to show update progress
 void start_ota() {
   ArduinoOTA.setPassword(ota_pass);
+  ArduinoOTA.setMdnsEnabled(ota_useMDNS);
 
   ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     if (total == 0)
@@ -89,7 +122,7 @@ void start_ota() {
 
   ArduinoOTA.onEnd([]() {});
   ArduinoOTA.onError([](ota_error_t error) {});
-  ArduinoOTA.begin(ota_useMDNS);
+  ArduinoOTA.begin();
 }
 
 void start_udp() { Udp.begin(UDP_PORT); }
@@ -125,14 +158,14 @@ void send_readback_packet() {
 
 // responds with the last reset reason to the current UDP peer
 void send_reset_info() {
-  String reason = ESP.getResetInfo();
-  size_t len = reason.length();
+  const char *reason = reset_reason_to_string(esp_reset_reason());
+  size_t len = strlen(reason);
 
   Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
   // cap length to UDP_BUFFER_SIZE to avoid overruns
   if (len > UDP_BUFFER_SIZE)
     len = UDP_BUFFER_SIZE;
-  Udp.write(reinterpret_cast<const uint8_t *>(reason.c_str()), len);
+  Udp.write(reinterpret_cast<const uint8_t *>(reason), len);
   Udp.endPacket();
   Udp.flush();
 }
