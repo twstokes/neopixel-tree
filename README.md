@@ -1,12 +1,12 @@
 # NeoPixel Tree 🎄
-A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adafruit-neopixel-uberguide/the-magic-of-neopixels) and an [ESP8266](https://en.wikipedia.org/wiki/ESP8266)
+A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adafruit-neopixel-uberguide/the-magic-of-neopixels) and an [ESP32](https://en.wikipedia.org/wiki/ESP32). It can also run on an ESP8266, but [stability is a factor](https://github.com/twstokes/neopixel-tree/pull/14).
 
 
 <img height="450px" src="docs/tree.gif" /><img height="450px" src="docs/app.gif" />
 
 ## Hardware
 * 3 ft. miniature Christmas Tree
-* [NodeMCU (ESP8266)](https://www.amazon.com/dp/B010O1G1ES/ref=cm_sw_em_r_mt_dp_U_fFc5DbDY3S39B)
+* ESP32
 * 3 strands of [Adafruit NeoPixels 1 meter strips](https://www.adafruit.com/product/1460?length=1) - 30 LEDs a strand
 * 1 [NeoPixel ring](https://www.adafruit.com/product/1463) for the star
 * [74AHCT125](https://www.adafruit.com/product/1787) level shifter (to shift the 3V logic to 5V for the NeoPixels)
@@ -28,7 +28,7 @@ A Christmas Tree powered by [Adafruit NeoPixels](https://learn.adafruit.com/adaf
 Right now there's a basic iOS app that sends UDP packets to the tree.
 
 ## Notes
-* I originally went with an Adafruit HUZZAH (ESP8266) but replaced it with the NodeMCU for the built in Schottky diode when protoyping and having the USB as well as external power connected. The NodeMCU also includes a voltage divider for inputs which don't matter as much in this application, but could if something like a microphone were to be added for changing lights to music.
+* I originally went with an Adafruit HUZZAH (ESP8266) but replaced it with the NodeMCU for the built in Schottky diode when protoyping and having the USB as well as external power connected. The NodeMCU also includes a voltage divider for inputs which don't matter as much in this application, but could if something like a microphone were to be added for changing lights to music. Later [this project was upgraded to an ESP32](https://github.com/twstokes/neopixel-tree/pull/14).
 * I regret using solid core wiring for this application. D'oh.
 
 ### Power distribution
