@@ -1,0 +1,10 @@
+{
+  "name": "neopixel-tree-viz",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js"
+  }
+}

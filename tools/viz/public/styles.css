@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap");
+
+:root {
+  --bg: radial-gradient(circle at 20% 20%, #0a1d12 0%, #03070c 45%, #010308 100%);
+  --panel: rgba(255, 255, 255, 0.06);
+  --text: #f4f8f2;
+  --accent: #9ce9a9;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", "Inter", "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+#ui {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  background: var(--panel);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  max-width: 320px;
+  z-index: 10;
+}
+
+#ui h1 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+}
+
+#ui p {
+  margin: 0 0 8px;
+  line-height: 1.5;
+  color: rgba(244, 248, 242, 0.82);
+}
+
+#status,
+#command {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(156, 233, 169, 0.12);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+#command {
+  margin-left: 6px;
+}
+
+#scene canvas {
+  display: block;
+}

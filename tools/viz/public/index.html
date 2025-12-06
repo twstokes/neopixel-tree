@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeoPixel Tree Visualizer</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js",
+        "three/examples/jsm/controls/OrbitControls": "https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/controls/OrbitControls.js"
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="ui">
+    <h1>NeoPixel Tree</h1>
+    <p>90 spiral pixels plus a 16-light star ring. UDP server listening on port 8733 with the same command protocol as the MCU.</p>
+    <div>
+      <span id="status">Waiting for packets…</span>
+      <span id="command">Idle</span>
+    </div>
+  </div>
+  <div id="scene"></div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
