@@ -7,7 +7,7 @@ function buildPositions() {
   const positions = [];
   const treePixels = 90;
   const height = 2.4 * 0.85;
-  const baseRadius = 0.85;
+  const baseRadius = 0.9; // keep pixels outside the cone surface
   const turns = 5.5;
   const verticalShift = -0.0; // drop lights so top ring sits at star base
 

@@ -52,7 +52,8 @@ scene.add(tree);
 
 const pixelMeshes = lightPositions.map((pos, idx) => {
   const isStarRing = idx >= 90;
-  const geo = new THREE.CircleGeometry(isStarRing ? 0.05 : 0.045, 20);
+  const size = isStarRing ? 0.09 : 0.08;
+  const geo = new THREE.PlaneGeometry(size, size);
   const mat = new THREE.MeshStandardMaterial({
     color: 0x111111,
     emissive: 0x000000,
@@ -124,7 +125,7 @@ function updatePixels(pixels) {
 function createTree() {
   const group = new THREE.Group();
   const height = 2.4;
-  const radius = 0.95 * 0.95; // base 5% smaller
+  const radius = 0.8; // pull cone inward so pixels sit outside the surface
 
   const coneGeo = new THREE.ConeGeometry(radius, height, 48, 1, true);
   const coneMat = new THREE.MeshStandardMaterial({
