@@ -5,6 +5,7 @@ import { lightPositions, PIXEL_COUNT } from "./positions.js";
 const container = document.getElementById("scene");
 const statusEl = document.getElementById("status");
 const commandEl = document.getElementById("command");
+let starMesh = null;
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -35,7 +36,7 @@ rimLight.position.set(-2, 2, -1);
 scene.add(rimLight);
 
 const ground = new THREE.Mesh(
-  new THREE.CircleGeometry(3, 64),
+  new THREE.CircleGeometry(0.75, 64),
   new THREE.MeshStandardMaterial({
     color: 0x082418,
     roughness: 0.9,
@@ -50,16 +51,28 @@ const tree = createTree();
 scene.add(tree);
 
 const pixelMeshes = lightPositions.map((pos, idx) => {
-  const geo = new THREE.SphereGeometry(0.04, 16, 16);
+  const isStarRing = idx >= 90;
+  const geo = new THREE.CircleGeometry(isStarRing ? 0.05 : 0.045, 20);
   const mat = new THREE.MeshStandardMaterial({
     color: 0x111111,
     emissive: 0x000000,
     emissiveIntensity: 1,
-    roughness: 0.4,
-    metalness: 0.1,
+    roughness: 0.35,
+    metalness: 0.2,
+    side: THREE.DoubleSide,
   });
   const mesh = new THREE.Mesh(geo, mat);
   mesh.position.set(pos.x, pos.y, pos.z);
+
+  if (isStarRing) {
+    mesh.rotation.x = -Math.PI / 2; // point upward
+  } else {
+    const outward = new THREE.Vector3(pos.x, 0, pos.z).normalize();
+    if (outward.lengthSq() < 1e-6) outward.set(0, 0, 1);
+    const target = outward.clone().add(mesh.position);
+    mesh.lookAt(target); // orient normal outward from the tree
+  }
+
   mesh.userData.index = idx;
   scene.add(mesh);
   return mesh;
@@ -83,6 +96,7 @@ animate();
 
 function animate() {
   requestAnimationFrame(animate);
+  updateGlitter();
   controls.update();
   renderer.render(scene, camera);
 }
@@ -110,7 +124,7 @@ function updatePixels(pixels) {
 function createTree() {
   const group = new THREE.Group();
   const height = 2.4;
-  const radius = 0.95;
+  const radius = 0.95 * 0.95; // base 5% smaller
 
   const coneGeo = new THREE.ConeGeometry(radius, height, 48, 1, true);
   const coneMat = new THREE.MeshStandardMaterial({
@@ -132,11 +146,11 @@ function createTree() {
   trunk.position.y = 0.2;
   group.add(trunk);
 
-  const starOffset = 0.3;
-  const star = createStarMesh();
-  star.position.y = height + starOffset * 1.5; // raise star 50% higher
-  star.rotation.z = Math.PI;
-  group.add(star);
+  const starOffset = 0.2;
+  starMesh = createStarMesh();
+  starMesh.position.y = height + starOffset;
+  starMesh.rotation.z = Math.PI;
+  group.add(starMesh);
 
   const starStem = new THREE.Mesh(
     new THREE.CylinderGeometry(0.05, 0.07, 0.2, 8),
@@ -146,7 +160,7 @@ function createTree() {
       metalness: 0.5,
     }),
   );
-  starStem.position.y = height + 0.2;
+  starStem.position.y = height + 0;
   group.add(starStem);
 
   return group;
@@ -172,12 +186,21 @@ function createStarMesh() {
     bevelEnabled: false,
   });
   const mat = new THREE.MeshStandardMaterial({
-    color: 0xd8dde6,
-    emissive: 0x1e222a,
-    roughness: 0.12,
-    metalness: 0.65,
+    color: 0xdfe5ef,
+    emissive: 0x2a303a,
+    roughness: 0.05, // smoother surface for sharper reflections
+    metalness: 0.95, // highly metallic for strong reflections
+    envMapIntensity: 1.25,
+    emissiveIntensity: 1.2,
   });
   return new THREE.Mesh(geo, mat);
+}
+
+function updateGlitter() {
+  if (!starMesh) return;
+  const t = performance.now() * 0.002;
+  const sparkle = 0.7 + 0.25 * Math.sin(t * 1.3) + 0.15 * Math.random();
+  starMesh.material.emissiveIntensity = 1.1 + sparkle * 0.6;
 }
 
 function describeCommand(command, repeat) {
