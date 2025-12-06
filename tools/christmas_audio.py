@@ -30,9 +30,6 @@ CHRISTMAS_COLORS = {
 AMPLITUDE_SCALE = 5000
 NOISE_FLOOR = 100
 DEFAULT_LATENCY_OFFSET = 0.01
-LATENCY_STEP = 0.005  # 5ms step when adjusting
-MIN_LATENCY = 0.0
-MAX_LATENCY = 0.5
 ANALYSIS_CHUNK_SIZE = 2048
 
 # Effect thresholds (0-1 normalized amplitude)
@@ -108,72 +105,6 @@ def calculate_frequency_bands(audio_data, sample_rate):
     treble_norm = normalize_amplitude(treble_amp)
 
     return bass_norm, mid_norm, treble_norm
-
-def clamp_latency(value):
-    """Clamp latency to configured min/max bounds."""
-    return max(MIN_LATENCY, min(MAX_LATENCY, value))
-
-def update_latency(latency_config, *, delta=None, absolute=None):
-    """Update shared latency config and print the new value."""
-    current = latency_config.get('offset', DEFAULT_LATENCY_OFFSET)
-    if absolute is not None:
-        new_value = absolute
-    elif delta is not None:
-        new_value = current + delta
-    else:
-        return current
-
-    new_value = clamp_latency(new_value)
-    latency_config['offset'] = new_value
-    print(f"\n[latency] Using {new_value * 1000:.1f} ms (min {MIN_LATENCY*1000:.0f}, max {MAX_LATENCY*1000:.0f})")
-    print("[latency] Controls: '+' increase, '-' decrease, 'set <ms>', 'reset'")
-    return new_value
-
-def latency_controller(stop_event, latency_config, input_pause_event=None):
-    """
-    Allow live tuning of latency offset while the program runs.
-    Commands:
-      '+' / '=' : increase by LATENCY_STEP (5ms)
-      '-'       : decrease by LATENCY_STEP
-      'set <ms>': set explicit latency in milliseconds
-      'reset'   : return to DEFAULT_LATENCY_OFFSET
-    """
-    print("[latency] Controls ready: '+' / '-' / 'set <ms>' / 'reset'")
-
-    while not stop_event.is_set():
-        try:
-            if input_pause_event:
-                input_pause_event.set()  # pause the visualizer while waiting for input
-            print("\n[latency] Enter command (+/-/set/reset): ", end='', flush=True)
-            user_input = input()
-        except EOFError:
-            break
-        finally:
-            if input_pause_event:
-                input_pause_event.clear()
-
-        command = user_input.strip().lower()
-        if not command:
-            continue
-
-        if command in ['+', '=']:
-            update_latency(latency_config, delta=LATENCY_STEP)
-        elif command == '-':
-            update_latency(latency_config, delta=-LATENCY_STEP)
-        elif command.startswith('set'):
-            parts = command.split()
-            if len(parts) == 2:
-                try:
-                    value_ms = float(parts[1])
-                    update_latency(latency_config, absolute=value_ms / 1000.0)
-                except ValueError:
-                    print("[latency] Invalid value. Example: set 25  (for 25ms)")
-            else:
-                print("[latency] Usage: set <milliseconds>")
-        elif command == 'reset':
-            update_latency(latency_config, absolute=DEFAULT_LATENCY_OFFSET)
-        else:
-            print("[latency] Unknown command. Use '+', '-', 'set <ms>', or 'reset'.")
 
 def detect_beats(audio_path):
     """
@@ -394,7 +325,7 @@ def create_vu_meter_pattern(bass_amp, mid_amp, treble_amp):
 
     return pattern
 
-def christmas_effect_sender(timeline, start_time, stop_event, visualizer_data, mode, latency_config):
+def christmas_effect_sender(timeline, start_time, stop_event, visualizer_data, mode, latency_offset):
     """Thread function to send Christmas effects based on audio."""
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -426,8 +357,7 @@ def christmas_effect_sender(timeline, start_time, stop_event, visualizer_data, m
             visualizer_data['beat_number'] = idx + 1
 
             # Calculate when to send (accounting for latency)
-            current_latency = latency_config.get('offset', DEFAULT_LATENCY_OFFSET)
-            send_time = start_time + beat_time - current_latency
+            send_time = start_time + beat_time - latency_offset
             wait_time = send_time - time.time()
             if wait_time > 0:
                 time.sleep(wait_time)
@@ -450,8 +380,7 @@ def christmas_effect_sender(timeline, start_time, stop_event, visualizer_data, m
             visualizer_data['treble_amp'] = treble_amp
 
             # Calculate when to send (accounting for latency)
-            current_latency = latency_config.get('offset', DEFAULT_LATENCY_OFFSET)
-            send_time = start_time + timestamp - current_latency
+            send_time = start_time + timestamp - latency_offset
             wait_time = send_time - time.time()
             if wait_time > 0:
                 time.sleep(wait_time)
@@ -470,8 +399,7 @@ def christmas_effect_sender(timeline, start_time, stop_event, visualizer_data, m
             visualizer_data['current_time'] = timestamp
 
             # Calculate when to send (accounting for latency)
-            current_latency = latency_config.get('offset', DEFAULT_LATENCY_OFFSET)
-            send_time = start_time + timestamp - current_latency
+            send_time = start_time + timestamp - latency_offset
             wait_time = send_time - time.time()
             if wait_time > 0:
                 time.sleep(wait_time)
@@ -513,17 +441,12 @@ def christmas_effect_sender(timeline, start_time, stop_event, visualizer_data, m
 
     sock.close()
 
-def visualizer_thread(timeline, stop_event, visualizer_data, mode, tempo=None, latency_config=None, input_pause_event=None):
+def visualizer_thread(timeline, stop_event, visualizer_data, mode, tempo=None, latency_offset=DEFAULT_LATENCY_OFFSET):
     """Thread to display real-time visualizer."""
     RESET = '\033[0m'
-    CLEAR_LINE = '\033[K'
     LOOKAHEAD_COUNT = 30  # Show next 30 points
 
     while not stop_event.is_set():
-        # Skip refresh while user is typing latency commands to avoid clearing their input
-        if input_pause_event and input_pause_event.is_set():
-            time.sleep(0.05)
-            continue
         current_idx = visualizer_data.get('current_index', 0)
         current_time = visualizer_data.get('current_time', 0.0)
 
@@ -543,8 +466,7 @@ def visualizer_thread(timeline, stop_event, visualizer_data, mode, tempo=None, l
         print("🎄 " + "="*70 + " 🎄\n")
 
         # Latency info
-        current_latency = DEFAULT_LATENCY_OFFSET if latency_config is None else latency_config.get('offset', DEFAULT_LATENCY_OFFSET)
-        print(f"Latency Offset: {current_latency * 1000:.1f} ms   (Adjust with '+' / '-' / 'set <ms>' / 'reset')\n")
+        print(f"Latency Offset: {latency_offset * 1000:.1f} ms\n")
 
         # Current effect info
         if mode == MODE_BEAT:
@@ -561,8 +483,7 @@ def visualizer_thread(timeline, stop_event, visualizer_data, mode, tempo=None, l
             beats_to_show = 16
             beat_bar = ""
             for i in range(beats_to_show):
-                beat_idx = (beat_number - 1) % beats_to_show
-                if i == beat_idx:
+                if beat_number > 0 and i == (beat_number - 1) % beats_to_show:
                     beat_bar += "🔴"
                 else:
                     beat_bar += "⚪"
@@ -722,31 +643,22 @@ def play_audio_with_christmas_effects(audio_path, mode=MODE_EFFECTS):
         'beat_number': 0,
         'current_effect': 'none'
     }
-    latency_config = {'offset': DEFAULT_LATENCY_OFFSET}
-    input_pause_event = threading.Event()
+    latency_offset = DEFAULT_LATENCY_OFFSET
 
     # Start effect sender thread
     start_time = time.time()
     effect_thread = threading.Thread(
         target=christmas_effect_sender,
-        args=(timeline, start_time, stop_event, visualizer_data, mode, latency_config)
+        args=(timeline, start_time, stop_event, visualizer_data, mode, latency_offset)
     )
     effect_thread.start()
 
     # Start visualizer thread
     viz_thread = threading.Thread(
         target=visualizer_thread,
-        args=(timeline, stop_event, visualizer_data, mode, tempo, latency_config, input_pause_event)
+        args=(timeline, stop_event, visualizer_data, mode, tempo, latency_offset)
     )
     viz_thread.start()
-
-    # Start latency controller (daemon so it won't block shutdown)
-    latency_thread = threading.Thread(
-        target=latency_controller,
-        args=(stop_event, latency_config, input_pause_event),
-        daemon=True
-    )
-    latency_thread.start()
 
     # Brief delay to let visualizer start
     time.sleep(0.2)
@@ -791,12 +703,8 @@ def main():
         print("\nSupported formats: WAV, MP3, FLAC, OGG, and more")
         print("\nConfiguration:")
         print(f"  Tree: {UDP_IP}:{UDP_PORT}")
-        print(f"  Latency offset: {DEFAULT_LATENCY_OFFSET * 1000:.0f}ms (tunable at runtime)")
+        print(f"  Latency offset: {DEFAULT_LATENCY_OFFSET * 1000:.0f}ms")
         print(f"  Pixels: {PIXEL_COUNT}")
-        print("\nLatency tuning (while running):")
-        print("  '+' / '-' : nudge by 5ms")
-        print("  set <ms>  : set explicit latency (e.g., set 20)")
-        print("  reset     : return to default")
         print("\nVU Meter Mode:")
         print("  - Bottom 1/3 (Green):  Bass (20-250 Hz)")
         print("  - Middle 1/3 (Gold):   Mid (250-2000 Hz)")
