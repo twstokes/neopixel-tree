@@ -166,6 +166,8 @@ void loop() {
       send_uptime();
       delay_with_udp(DEFAULT_DELAY_MS);
     } else {
+      // zero out before use
+      memset(raw_packet, 0, sizeof(raw_packet));
       uint16_t command_packet_length = Udp.read(raw_packet, UDP_BUFFER_SIZE);
       if (command_packet_length) {
         cmd_packet_from_raw_packet(&latest_packet, raw_packet,
