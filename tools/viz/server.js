@@ -71,6 +71,8 @@ udp.on("message", (msg, rinfo) => {
     return;
   }
 
+  // Clear buffer so readback mirrors device behavior (no stale bytes)
+  rawPacket.fill(0);
   msg.copy(rawPacket, 0, 0, Math.min(msg.length, rawPacket.length));
 
   latestPacket = {
