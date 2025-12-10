@@ -1,0 +1,83 @@
+substitutions:
+  name: neopixel-tree
+  friendly_name: "NeoPixel Tree"
+  num_leds: "106"
+  data_pin: "18"
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  project:
+    name: twstokes.neopixel_tree
+    version: "2.0.0-esphome"
+  comment: "ESPHome rewrite of the NeoPixel Tree firmware"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  power_save_mode: none
+  manual_ip:
+    static_ip: !secret static_ip
+    gateway: !secret gateway
+    subnet: !secret subnet
+  ap:
+    ssid: "${friendly_name} Fallback"
+    password: !secret fallback_ap_password
+
+mdns:
+  disabled: false
+
+light:
+  - platform: neopixelbus
+    id: tree_light
+    name: "${friendly_name}"
+    pin: GPIO${data_pin}
+    type: GRB
+    variant: WS2812
+    num_leds: ${num_leds}
+    gamma_correct: 2.8
+    default_transition_length: 0.3s
+    effects:
+      - addressable_rainbow:
+          name: "Rainbow Flow"
+          speed: 8
+          width: 30
+      - addressable_random_twinkle:
+          name: "Random Sparkle"
+          twinkle_probability: 3%
+          progress_interval: 6ms
+
+sensor:
+  - platform: uptime
+    name: "${friendly_name} Uptime"
+  - platform: wifi_signal
+    name: "${friendly_name} WiFi RSSI"
+    update_interval: 60s
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "${friendly_name} IP"
+    ssid:
+      name: "${friendly_name} SSID"
+  - platform: version
+    name: "${friendly_name} ESPHome Version"
+
+button:
+  - platform: restart
+    name: "${friendly_name} Restart"
