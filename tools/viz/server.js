@@ -12,6 +12,8 @@ const DEFAULT_DELAY_MS = 5;
 const RAINBOW_DEFAULT_DELAY = 100;
 const RAINBOW_CYCLE_DELAY = 20;
 const THEATER_CHASE_DELAY = 200;
+const HOLIDAY_SEGMENT_MS = 10000;
+const HOLIDAY_RAINBOW_DELAY = 100;
 
 const COMMANDS = {
   OFF: 0,
@@ -22,6 +24,7 @@ const COMMANDS = {
   RAINBOW: 5,
   RAINBOW_CYCLE: 6,
   THEATER_CHASE: 7,
+  HOLIDAY_ROTATION: 8,
   RESET_INFO: 253,
   UPTIME: 254,
   READBACK: 255,
@@ -231,6 +234,8 @@ function processCommand(command, data) {
     return rainbowCycleCmd(data);
   case COMMANDS.THEATER_CHASE:
     return theaterChaseCmd(data);
+  case COMMANDS.HOLIDAY_ROTATION:
+    return holidayRotationCmd(data);
   default:
     break;
   }
@@ -323,6 +328,21 @@ function theaterChaseCmd(data) {
   return repeat;
 }
 
+function holidayRotationCmd(data) {
+  if (!data || data.length !== 1) return false;
+  const repeat = Boolean(data[0]);
+  activeAnimation = {
+    name: "holiday_rotation",
+    repeat,
+    segment: 0,
+    segmentStart: 0,
+    nextFrame: 0,
+    rainbowJ: 0,
+  };
+  startHolidaySegment(activeAnimation, 0);
+  return repeat;
+}
+
 function runAnimationFrame() {
   if (!activeAnimation) return;
   const now = Date.now();
@@ -334,6 +354,8 @@ function runAnimationFrame() {
     doRainbowCycleFrame(activeAnimation);
   } else if (activeAnimation.name === "theater_chase") {
     doTheaterChaseFrame(activeAnimation);
+  } else if (activeAnimation.name === "holiday_rotation") {
+    doHolidayRotationFrame(activeAnimation);
   }
 }
 
@@ -386,6 +408,75 @@ function doTheaterChaseFrame(state) {
   broadcastState();
 }
 
+function startHolidaySegment(state, segment) {
+  state.segment = segment;
+  state.segmentStart = Date.now();
+  if (segment === 0) {
+    const c = randomPrimaryColor();
+    fillStrip(c.r, c.g, c.b);
+    state.nextFrame = state.segmentStart + HOLIDAY_SEGMENT_MS;
+    broadcastState(true);
+  } else if (segment === 1) {
+    fillPatternColors([
+      { r: 255, g: 0, b: 0 },
+      { r: 0, g: 180, b: 0 },
+      { r: 255, g: 180, b: 40 },
+    ]);
+    state.nextFrame = state.segmentStart + HOLIDAY_SEGMENT_MS;
+    broadcastState(true);
+  } else if (segment === 2) {
+    state.rainbowJ = 0;
+    state.nextFrame = 0;
+  }
+}
+
+function advanceHolidaySegment(state) {
+  const lastSegment = state.segment === 2;
+  if (lastSegment && !state.repeat) {
+    stopAnimation();
+    return;
+  }
+  const next = lastSegment ? 0 : state.segment + 1;
+  startHolidaySegment(state, next);
+}
+
+function doHolidayRotationFrame(state) {
+  const now = Date.now();
+  const elapsed = now - state.segmentStart;
+  if (state.segment === 0 || state.segment === 1) {
+    if (elapsed >= HOLIDAY_SEGMENT_MS) {
+      advanceHolidaySegment(state);
+    } else {
+      state.nextFrame = state.segmentStart + HOLIDAY_SEGMENT_MS;
+    }
+    return;
+  }
+
+  if (elapsed >= HOLIDAY_SEGMENT_MS) {
+    advanceHolidaySegment(state);
+    return;
+  }
+
+  const limit = 256 * 5;
+  for (let i = 0; i < PIXEL_COUNT; i++) {
+    const c = wheel(((i * 256) / PIXEL_COUNT + state.rainbowJ) & 255);
+    setPixelColor(i, c.r, c.g, c.b);
+  }
+  state.rainbowJ = (state.rainbowJ + 1) % limit;
+  state.nextFrame = now + HOLIDAY_RAINBOW_DELAY;
+  broadcastState();
+}
+
+function randomPrimaryColor() {
+  const colors = [
+    { r: 255, g: 0, b: 0 },
+    { r: 0, g: 255, b: 0 },
+    { r: 0, g: 0, b: 255 },
+  ];
+  const idx = Math.floor(Math.random() * colors.length);
+  return colors[idx];
+}
+
 function setPixelColor(offset, r, g, b) {
   if (offset < 0 || offset >= PIXEL_COUNT) return;
   pixels[offset] = {
@@ -398,6 +489,14 @@ function setPixelColor(offset, r, g, b) {
 function fillStrip(r, g, b) {
   for (let i = 0; i < PIXEL_COUNT; i++) {
     setPixelColor(i, r, g, b);
+  }
+}
+
+function fillPatternColors(colors) {
+  if (!colors || !colors.length) return;
+  for (let i = 0; i < PIXEL_COUNT; i++) {
+    const c = colors[i % colors.length];
+    setPixelColor(i, c.r, c.g, c.b);
   }
 }
 

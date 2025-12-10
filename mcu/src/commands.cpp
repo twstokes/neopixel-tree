@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include "commands.h"
 #include "sequences.h"
 
@@ -34,6 +36,8 @@ bool process_command(uint8_t c, uint8_t *data, uint16_t len,
     return rainbow_cycle_cmd(data, len, strip);
   case THEATER_CHASE:
     return theater_chase_cmd(data, len, strip);
+  case HOLIDAY_ROTATION:
+    return holiday_rotation_cmd(data, len, strip);
   }
 
   return false;
@@ -140,6 +144,52 @@ bool theater_chase_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip) {
   uint8_t repeat = data[0];
   uint32_t c = strip->Color(data[1], data[2], data[3]);
   theater_chase(c, 200, strip);
+  return repeat;
+}
+
+uint32_t random_primary_color(Adafruit_NeoPixel *strip) {
+  const uint32_t primaries[] = {
+      strip->Color(255, 0, 0),
+      strip->Color(0, 255, 0),
+      strip->Color(0, 0, 255),
+  };
+  uint8_t index = random(0, 3);
+  return primaries[index];
+}
+
+bool solid_random_segment(unsigned long duration_ms, Adafruit_NeoPixel *strip) {
+  uint32_t color = strip->gamma32(random_primary_color(strip));
+  fill_and_show(color, strip);
+  return run_for_duration(duration_ms, 100);
+}
+
+bool christmas_pattern_segment(unsigned long duration_ms,
+                               Adafruit_NeoPixel *strip) {
+  uint32_t colors[] = {
+      strip->gamma32(strip->Color(255, 0, 0)),
+      strip->gamma32(strip->Color(0, 180, 0)),
+      strip->gamma32(strip->Color(255, 180, 40)),
+  };
+  fill_pattern(colors, 3, strip);
+  return run_for_duration(duration_ms, 100);
+}
+
+bool holiday_rotation_cmd(uint8_t *data, uint16_t len,
+                          Adafruit_NeoPixel *strip) {
+  if (len != 1)
+    return false;
+  const unsigned long duration_ms = 10000;
+  bool repeat = data[0];
+
+  if (solid_random_segment(duration_ms, strip))
+    return repeat;
+
+  if (christmas_pattern_segment(duration_ms, strip))
+    return repeat;
+
+  if (rainbow_cycle_for(100, duration_ms, strip))
+    return repeat;
+
   return repeat;
 }
 

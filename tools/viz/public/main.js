@@ -214,6 +214,7 @@ function describeCommand(command, repeat) {
     5: "Rainbow",
     6: "Rainbow Cycle",
     7: "Theater Chase",
+    8: "Holiday Rotation",
     253: "Reset Info",
     254: "Uptime",
     255: "Readback",

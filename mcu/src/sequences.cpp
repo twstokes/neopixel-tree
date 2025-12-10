@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include "sequences.h"
 #include "utils.h"
 
@@ -132,4 +134,31 @@ void theater_chase_rainbow(uint8_t wait, Adafruit_NeoPixel *strip) {
       }
     }
   }
+}
+
+bool run_for_duration(unsigned long duration_ms, uint16_t wait_ms) {
+  unsigned long start = millis();
+  while (millis() - start < duration_ms) {
+    if (delay_with_udp(wait_ms))
+      return true;
+  }
+  return false;
+}
+
+bool rainbow_cycle_for(uint8_t wait, unsigned long duration_ms,
+                       Adafruit_NeoPixel *strip) {
+  uint16_t i, j = 0;
+  unsigned long start = millis();
+
+  while (millis() - start < duration_ms) {
+    for (i = 0; i < strip->numPixels(); i++) {
+      strip->setPixelColor(
+          i, wheel(((i * 256 / strip->numPixels()) + j) & 255, strip));
+    }
+    strip->show();
+    j = (j + 1) % (256 * 5);
+    if (delay_with_udp(wait))
+      return true;
+  }
+  return false;
 }

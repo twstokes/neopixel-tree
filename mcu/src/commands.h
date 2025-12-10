@@ -9,6 +9,7 @@ enum command {
   RAINBOW = 5,
   RAINBOW_CYCLE = 6,
   THEATER_CHASE = 7,
+  HOLIDAY_ROTATION = 8,
   // Information on what reset the MCU
   RESET_INFO = 253,
   // Runtime in milliseconds
@@ -35,4 +36,6 @@ void fill_pattern_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
 bool rainbow_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
 bool rainbow_cycle_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
 bool theater_chase_cmd(uint8_t *data, uint16_t len, Adafruit_NeoPixel *strip);
+bool holiday_rotation_cmd(uint8_t *data, uint16_t len,
+                          Adafruit_NeoPixel *strip);
 uint16_t unpack_delay(uint8_t high, uint8_t low);

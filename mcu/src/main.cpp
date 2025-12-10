@@ -24,6 +24,7 @@ WiFiUDP Udp;
 uint8_t raw_packet[UDP_BUFFER_SIZE];
 
 Packet latest_packet = {0, NULL, 0, false};
+uint8_t startup_holiday_data[1] = {1};
 
 #define DEFAULT_DELAY_MS 5
 
@@ -55,9 +56,12 @@ void start_wifi() {
     delay(1000);
   }
 
-  // set the strip to green on success
-  fill_and_show(green, &strip);
-  delay(1000);
+  // set the strip to holiday rotation on success
+  latest_packet.command = HOLIDAY_ROTATION;
+  latest_packet.data = startup_holiday_data;
+  latest_packet.data_len = 1;
+  latest_packet.repeat = true;
+  process_command(latest_packet.command, latest_packet.data, latest_packet.data_len, &strip);
 }
 
 void restart_wifi() {

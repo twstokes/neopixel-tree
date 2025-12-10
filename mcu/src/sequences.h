@@ -8,3 +8,6 @@ void theater_chase_rainbow(uint8_t wait, Adafruit_NeoPixel *strip);
 void color_wipe(uint32_t c, uint8_t wait, Adafruit_NeoPixel *strip);
 void rainbow(uint8_t wait, Adafruit_NeoPixel *strip);
 void rainbow_cycle(uint8_t wait, Adafruit_NeoPixel *strip);
+bool run_for_duration(unsigned long duration_ms, uint16_t wait_ms);
+bool rainbow_cycle_for(uint8_t wait, unsigned long duration_ms,
+                       Adafruit_NeoPixel *strip);
