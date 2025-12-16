@@ -19,6 +19,10 @@ The device will expose a fallback AP named `NeoPixel Tree Fallback` if it cannot
 
 You will get a single light entity named `NeoPixel Tree`. Use the standard brightness and color controls, and pick routines from the effect list:
 - Rainbow Flow
+- Rainbow Cycle
+- Theater Chase
+- Candy Cane
+- Firefly Sparkle
 - Random Sparkle
 
 Additional telemetry entities are provided for Wi-Fi RSSI, uptime, IP address, and firmware version, plus a restart button.

@@ -57,6 +57,50 @@ light:
           name: "Rainbow Flow"
           speed: 8
           width: 30
+      - addressable_lambda:
+          name: "Rainbow Cycle"
+          update_interval: 20ms
+          lambda: |-
+            static uint8_t offset = 0;
+            offset += 4;  // speed
+            const float stride = 255.0f / it.size();
+            for (int i = 0; i < it.size(); i++) {
+              uint8_t hue = uint8_t(offset + (stride * i));
+              it[i] = ESPHSVColor(hue, 255, 255);
+            }
+      - addressable_lambda:
+          name: "Theater Chase"
+          update_interval: 50ms
+          lambda: |-
+            static uint8_t offset = 0;
+            offset = (offset + 1) % 3;
+            for (int i = 0; i < it.size(); i++) {
+              if ((i + offset) % 3 == 0) {
+                it[i] = current_color;
+              } else {
+                it[i] = Color::BLACK;
+              }
+            }
+      - addressable_lambda:
+          name: "Candy Cane"
+          update_interval: 30ms
+          lambda: |-
+            static uint16_t start = 0;
+            start++;
+            for (int i = 0; i < it.size(); i++) {
+              bool white = ((i + (start / 3)) % 8) < 4;
+              if (white) {
+                it[i] = Color(255, 255, 255);
+              } else {
+                it[i] = Color(255, 32, 32);
+              }
+            }
+      - addressable_fireworks:
+          name: "Firefly Sparkle"
+          update_interval: 20ms
+          spark_probability: 10%
+          use_random_color: true
+          fade_out_rate: 120
       - addressable_random_twinkle:
           name: "Random Sparkle"
           twinkle_probability: 3%
